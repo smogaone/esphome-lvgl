@@ -8,25 +8,24 @@ time:
      - 0.pool.ntp.org
      - 1.pool.ntp.org
      - 2.pool.ntp.org
-    on_time_sync: # SEHR WICHTIG für die Diagnose! Wird einmalig ausgelöst, wenn die Zeit synchronisiert wurde.
-      - logger.log: "SNTP: Zeit erfolgreich initial synchronisiert!"
+    # Der on_time_sync Trigger ist optional, kann aber nützlich sein,
+    # um einmalig Aktionen nach erfolgreicher Zeitsynchronisation auszuführen.
+    # Für die reine Anzeige wird er nicht zwingend benötigt.
+    # on_time_sync:
+    #   - # Hier könnten Aktionen stehen, z.B. ein Logeintrag oder das Setzen eines globalen Flags
+
     on_time:
+      # Aktualisiere die Uhrzeit auf dem Display jede Minute, zur Sekunde 0
       - minutes: '*'
         seconds: 0
         then:
-          - logger.log: "DEBUG (time.yaml): 'on_time' Trigger für Uhrzeit-Label-Update ausgelöst."
           - lvgl.label.update:
-              id: display_time
+              id: display_time # Stellt sicher, dass diese ID mit deinem Label in lvgl.yaml übereinstimmt [1]
               text: !lambda |-
-                // ESP_LOGD("time_lambda", "Lambda für display_time wird ausgeführt."); // Für noch detaillierteres Logging ggf. einkommentieren
-                static char time_buf[6];
+                static char time_buf[6]; // Puffer für "HH:MM" und Nullterminator
                 auto now = id(sntp_time).now();
-                if (now.is_valid()) {
-                  // ESP_LOGD("time_lambda", "SNTP Zeit ist gültig: %02d:%02d", now.hour, now.minute); // Für Debugging einkommentieren
+                if (now.is_valid()) { // Prüfe, ob eine gültige Zeit vom SNTP-Server vorliegt
                   snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
                   return std::string(time_buf);
-                } else {
-                  // ESP_LOGW("time_lambda", "SNTP Zeit ist NICHT gültig. Fallback '--:--' wird verwendet."); // Für Debugging einkommentieren
-                  return std::string("--:--");
                 }
-
+                return std::string("--:--"); // Fallback, falls keine gültige Zeit verfügbar ist
