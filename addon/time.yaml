@@ -1,28 +1,44 @@
 # Snmp Time
+# time.yaml
+
 time:
   - platform: sntp
     id: sntp_time
-    timezone: Europe/Berlin
+    timezone: "Europe/Berlin" # Deine Zeitzone
     servers:
      - 0.pool.ntp.org
      - 1.pool.ntp.org
      - 2.pool.ntp.org
-    on_time_sync:
-      - script.execute: time_update
+    # on_time_sync wird nur einmal beim ersten Sync ausgelöst.
+    # Für kontinuierliche Updates ist on_time besser.
+    # on_time_sync:
+    #   - script.execute: time_update # Nicht mehr nötig für die reine Anzeige
+
     on_time:
-      - minutes: '*'
+      # Jede Minute, zur Sekunde 0
+      - minutes: '*' # Alternativ: /1 für jede Minute
         seconds: 0
         then:
-          - script.execute: time_update
+          - lvgl.label.update:
+              id: display_time # ID des Labels aus lvgl.yaml
+              text: !lambda |-
+                static char time_buf[6]; // Für "HH:MM" + Nullterminator
+                auto now = id(sntp_time).now();
+                if (now.is_valid()) {
+                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                  return std::string(time_buf);
+                }
+                return std::string("--:--"); // Fallback
 
-# Clock
-script:
-  - id: time_update
-    then:
-      - lvgl.label.update:
-          id: display_time
-          text: !lambda |-
-            static char time_buf[17];
-            auto now = id(sntp_time).now();
-            snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
-            return time_buf;
+# Das separate Skript 'time_update' wird für die reine Anzeige im Header nicht mehr benötigt,
+# es sei denn, es wird für andere Zwecke verwendet. Du kannst es entfernen oder auskommentieren.
+# script:
+#   - id: time_update
+#     then:
+#       - lvgl.label.update:
+#           id: display_time
+#           text: !lambda |-
+#             static char time_buf[17]; // 17 ist unnötig groß für HH:MM
+#             auto now = id(sntp_time).now();
+#             snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+#             return time_buf;
