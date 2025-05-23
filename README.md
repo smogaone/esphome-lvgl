@@ -3,9 +3,9 @@ Add this code to esphome to install
 ```
 # ESP32-S3-Touch-LCD-7
 substitutions:
-  name: "office-panel"
-  friendly_name: "Office Panel"
-  room: "Office"
+  name: "wz-display"
+  friendly_name: "WZ Display"
+  room: "Wohnzimmer"
 
 # Wifi Setup
 wifi:
@@ -15,7 +15,7 @@ wifi:
 # Packages
 packages:
   setup:
-    url: https://github.com/jtenniswood/esphome-lvgl/
+    url: https://github.com/smogaone/esphome-lvgl/
     files: [device/esp32-s3-touch-lcd-7.yaml,
             addon/time.yaml,
             addon/backlight.yaml,
