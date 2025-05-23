@@ -1,26 +1,31 @@
-sensor:
+globals:
+  - id: innen_temp_wert
+    type: float
+    initial_value: '0.0'
+  - id: aussen_temp_wert
+    type: float
+    initial_value: '0.0'
 
-  # Header Outdoor Temperate
+sensor:
+  # Innentemperatur (Wohnzimmer)
   - platform: homeassistant
     entity_id: sensor.environment_sensor_temperature_sensor
     id: wz_temperature
     on_value:
-      - lvgl.label.update:
-          id: temperatures
-          text:
-            format: "%d° / %d°"
-            args: [ '(int)round(id(outdoor_temperature).state)', '(int)round(x)' ]
+      then:
+        - lambda: |-
+            id(innen_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
 
+  # Außentemperatur
   - platform: homeassistant
     entity_id: sensor.aussentemperatur
     id: outdoor_temperature
     on_value:
-      - lvgl.label.update:
-          id: temperatures
-          text:
-            format: "%d° / %d°"
-            args: [ '(int)round(x)', '(int)round(id(wz_temperature).state)' ]
-
+      then:
+        - lambda: |-
+            id(aussen_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
 
 
 binary_sensor:
