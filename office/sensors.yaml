@@ -104,8 +104,3 @@ script:
             args:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
-
-          text_fmt: "%d° / %d°"
-          args:
-            - '(int)round(id(innen_temp_wert))'
-            - '(int)round(id(aussen_temp_wert))'
