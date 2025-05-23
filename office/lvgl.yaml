@@ -153,21 +153,21 @@ lvgl:
         - button: 
             height: $button_height_single
             checkable: true
-            id: office_aircon_button
+            id: wz_button
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $aircon
+                  text: $lightbulb
               - label:
                   align: bottom_left
-                  text: "Aircon"
+                  text: "Wohnzimmer"
             on_click:
               - homeassistant.service:
                   service: switch.toggle
                   data:
-                    entity_id: switch.office_air_conditioner
+                    entity_id: light.wz_lichtschalter
 
         # Office Blind Open
         - button: 
@@ -187,8 +187,8 @@ lvgl:
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
-                    entity_id: cover.office_blind
-                    position: "100"
+                    entity_id: cover.wohnzimmer_rechts
+                    position: "78"
 
         # Office Blind Close
         - button: 
@@ -208,7 +208,7 @@ lvgl:
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
-                    entity_id: cover.office_blind
+                    entity_id: cover.wohnzimmer_rechts
                     position: "0"
 
         # Webhook Mail
