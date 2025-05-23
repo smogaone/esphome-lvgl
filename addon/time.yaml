@@ -1,44 +1,32 @@
-# Snmp Time
 # time.yaml
 
 time:
   - platform: sntp
     id: sntp_time
-    timezone: "Europe/Berlin" # Deine Zeitzone
+    timezone: "Europe/Berlin"
     servers:
      - 0.pool.ntp.org
      - 1.pool.ntp.org
      - 2.pool.ntp.org
-    # on_time_sync wird nur einmal beim ersten Sync ausgelöst.
-    # Für kontinuierliche Updates ist on_time besser.
-    # on_time_sync:
-    #   - script.execute: time_update # Nicht mehr nötig für die reine Anzeige
-
+    on_time_sync: # SEHR WICHTIG für die Diagnose! Wird einmalig ausgelöst, wenn die Zeit synchronisiert wurde.
+      - logger.log: "SNTP: Zeit erfolgreich initial synchronisiert!"
     on_time:
-      # Jede Minute, zur Sekunde 0
-      - minutes: '*' # Alternativ: /1 für jede Minute
+      - minutes: '*'
         seconds: 0
         then:
+          - logger.log: "DEBUG (time.yaml): 'on_time' Trigger für Uhrzeit-Label-Update ausgelöst."
           - lvgl.label.update:
-              id: display_time # ID des Labels aus lvgl.yaml
+              id: display_time
               text: !lambda |-
-                static char time_buf[6]; // Für "HH:MM" + Nullterminator
+                // ESP_LOGD("time_lambda", "Lambda für display_time wird ausgeführt."); // Für noch detaillierteres Logging ggf. einkommentieren
+                static char time_buf[6];
                 auto now = id(sntp_time).now();
                 if (now.is_valid()) {
+                  // ESP_LOGD("time_lambda", "SNTP Zeit ist gültig: %02d:%02d", now.hour, now.minute); // Für Debugging einkommentieren
                   snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
                   return std::string(time_buf);
+                } else {
+                  // ESP_LOGW("time_lambda", "SNTP Zeit ist NICHT gültig. Fallback '--:--' wird verwendet."); // Für Debugging einkommentieren
+                  return std::string("--:--");
                 }
-                return std::string("--:--"); // Fallback
 
-# Das separate Skript 'time_update' wird für die reine Anzeige im Header nicht mehr benötigt,
-# es sei denn, es wird für andere Zwecke verwendet. Du kannst es entfernen oder auskommentieren.
-# script:
-#   - id: time_update
-#     then:
-#       - lvgl.label.update:
-#           id: display_time
-#           text: !lambda |-
-#             static char time_buf[17]; // 17 ist unnötig groß für HH:MM
-#             auto now = id(sntp_time).now();
-#             snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
-#             return time_buf;
