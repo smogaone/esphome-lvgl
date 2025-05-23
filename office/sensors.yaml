@@ -2,24 +2,24 @@ sensor:
 
   # Header Outdoor Temperate
   - platform: homeassistant
-    entity_id: sensor.office_temperature
-    id: office_temperature
+    entity_id: sensor.environment_sensor_temperature_sensor
+    id: wz_temperature
     on_value:
       - lvgl.label.update:
           id: temperatures
           text:
             format: "%d° / %d°"
-            args: [ '(int)round(id(outdoor_temperature).state)', '(int)round(x)' ]
+            args: [ '(int)round(id(wz_temperature).state)', '(int)round(x)' ]
 
   - platform: homeassistant
-    entity_id: sensor.outdoor_temperature
+    entity_id: sensor.aussentemperatur
     id: outdoor_temperature
     on_value:
       - lvgl.label.update:
           id: temperatures
           text:
             format: "%d° / %d°"
-            args: [ '(int)round(x)', '(int)round(id(office_temperature).state)' ]
+            args: [ '(int)round(x)', '(int)round(id(outdoor_temperature).state)' ]
 
 
 
@@ -87,12 +87,12 @@ binary_sensor:
 
   # Office Aircon
   - platform: homeassistant
-    id: office_air_conditioner
-    entity_id: switch.air_conditioner
+    id: wz_conditioner
+    entity_id: light.wz_lichtschalter
     publish_initial_state: true
     on_state:
       then:
         lvgl.widget.update:
-          id: office_aircon_button
+          id: wz_button
           state:
             checked: !lambda return x;
