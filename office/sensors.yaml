@@ -9,7 +9,7 @@ sensor:
           id: temperatures
           text:
             format: "%d° / %d°"
-            args: [ '(int)round(id(wz_temperature).state)', '(int)round(x)' ]
+            args: [ '(int)round(id(outdoor_temperature).state)', '(int)round(x)' ]
 
   - platform: homeassistant
     entity_id: sensor.aussentemperatur
@@ -19,7 +19,7 @@ sensor:
           id: temperatures
           text:
             format: "%d° / %d°"
-            args: [ '(int)round(x)', '(int)round(id(outdoor_temperature).state)' ]
+            args: [ '(int)round(x)', '(int)round(id(wz_temperature).state)' ]
 
 
 
@@ -87,7 +87,7 @@ binary_sensor:
 
   # Office Aircon
   - platform: homeassistant
-    id: wz_conditioner
+    id: wz_lichtschalter
     entity_id: light.wz_lichtschalter
     publish_initial_state: true
     on_state:
