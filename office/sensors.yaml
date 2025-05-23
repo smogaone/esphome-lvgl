@@ -1,3 +1,5 @@
+# sensor.yaml
+
 globals:
   - id: innen_temp_wert
     type: float
@@ -7,7 +9,6 @@ globals:
     initial_value: '0.0'
 
 sensor:
-  # Innentemperatur (Wohnzimmer)
   - platform: homeassistant
     entity_id: sensor.environment_sensor_temperature_sensor
     id: wz_temperature
@@ -17,7 +18,6 @@ sensor:
             id(innen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
 
-  # Außentemperatur
   - platform: homeassistant
     entity_id: sensor.aussentemperatur
     id: outdoor_temperature
@@ -27,10 +27,7 @@ sensor:
             id(aussen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
 
-
 binary_sensor:
-
-  # Office Evening Scene
   - platform: homeassistant
     id: office_scene_evening
     entity_id: binary_sensor.office_scene_evening
@@ -42,7 +39,6 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
-  # Office Dimmed Scene
   - platform: homeassistant
     id: office_scene_dimmed
     entity_id: binary_sensor.office_scene_dimmed
@@ -54,7 +50,6 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
-  # Office Calls Scene
   - platform: homeassistant
     id: office_scene_desk_call
     entity_id: binary_sensor.office_scene_desk_call
@@ -66,7 +61,6 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
-  # Office Features Scene
   - platform: homeassistant
     id: office_scene_features
     entity_id: binary_sensor.office_scene_features
@@ -78,7 +72,6 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
-  # 3d Printer
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
@@ -90,7 +83,6 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
-  # Office Aircon
   - platform: homeassistant
     id: wz_lichtschalter
     entity_id: light.wz_lichtschalter
@@ -101,12 +93,18 @@ binary_sensor:
           id: wz_button
           state:
             checked: !lambda return x;
-            
+
 script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures # ID des Labels aus lvgl.yaml
+          id: temperatures
+          text:
+            format: "%d° / %d°"
+            args:
+              - '(int)round(id(innen_temp_wert))'
+              - '(int)round(id(aussen_temp_wert))'
+
           text_fmt: "%d° / %d°"
           args:
             - '(int)round(id(innen_temp_wert))'
