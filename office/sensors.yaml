@@ -101,3 +101,13 @@ binary_sensor:
           id: wz_button
           state:
             checked: !lambda return x;
+            
+script:
+  - id: update_temperatur_anzeige
+    then:
+      - lvgl.label.update:
+          id: temperatures # ID des Labels aus lvgl.yaml
+          text_fmt: "%d° / %d°"
+          args:
+            - '(int)round(id(innen_temp_wert))'
+            - '(int)round(id(aussen_temp_wert))'
