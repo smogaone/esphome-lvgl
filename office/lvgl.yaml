@@ -60,7 +60,7 @@ lvgl:
                 widgets:
                   - label:
                       text_font: $icon_font_footer
-                      text: $home_icon
+                      text: $home
                       align: center
                 on_click:
                   - lvgl.page.show: main_page
