@@ -101,7 +101,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   id: scene_features_icon                
                   text: $ledstrip
@@ -121,7 +121,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   id: office_scene_calls_icon                
                   text: $videocall
@@ -141,7 +141,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   id: office_scene_evening_icon                
                   text: $nightlight
@@ -161,7 +161,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   id: office_scene_dimmed_icon                
                   text: $nightlight
@@ -181,7 +181,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   id: printer_power_icon
                   text: $printer
@@ -201,7 +201,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $lightbulb
               - label:
@@ -219,7 +219,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $blinds_open
               - label:
@@ -238,7 +238,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $blinds_closed
               - label:
@@ -257,7 +257,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $gmail
               - label:
@@ -275,7 +275,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $slack
               - label:
@@ -327,7 +327,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $forklift
               - label:
@@ -345,7 +345,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font_main
+                  text_font: $icon_font
                   align: top_left
                   text: $command
               - label:
