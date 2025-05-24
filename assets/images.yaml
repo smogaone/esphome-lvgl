@@ -30,7 +30,7 @@ image:
     transparency: alpha_channel
 
 - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/home.svg
-    id: arrow_left
+    id: home
     resize: 32x32
     type: RGB565
     transparency: alpha_channel
