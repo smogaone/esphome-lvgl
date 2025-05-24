@@ -52,8 +52,6 @@ font:
       "\U000F0F9B",  # mdi-home-export-outline
       "\U000F0510",  # mdi-thermometer-lines
       "\U000F1402",  # mdi-pump
-      "\U000F073A",  # mdi:arrow-left-bold
-      "\U000F073B",  # mdi-arrow-right-bold
       
     ]
 
