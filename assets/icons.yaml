@@ -57,6 +57,16 @@ font:
       
     ]
 
+   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font_footer
+    size: 24
+    bpp: 4
+    glyphs: [
+      "\U000F073A",  # mdi:arrow-left-bold
+      "\U000F073B",  # mdi-arrow-right-bold
+      "\U000F02DC",  # mdi-home
+      ]
+
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
     id: icons_100
     size: 100
