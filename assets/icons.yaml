@@ -52,18 +52,20 @@ font:
       "\U000F0F9B",  # mdi-home-export-outline
       "\U000F0510",  # mdi-thermometer-lines
       "\U000F1402",  # mdi-pump
+      "\U000F0731",  # mdi:arrow-left-bold
+      "\U000F0734",  # mdi-arrow-right-bold
       
     ]
 
-   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
-    id: icon_font_footer
-    size: 18
-    bpp: 4
-    glyphs: [
-      "\U000F0731",  # mdi:arrow-left-bold
-      "\U000F0734",  # mdi-arrow-right-bold
-      "\U000F02DC",  # mdi-home
-      ]
+   #- file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
+   # id: icon_font_footer
+   # size: 18
+   # bpp: 4
+   # glyphs: [
+   #   "\U000F0731",  # mdi:arrow-left-bold
+   #   "\U000F0734",  # mdi-arrow-right-bold
+   #   "\U000F02DC",  # mdi-home
+   #   ]
 
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
     id: icons_100
