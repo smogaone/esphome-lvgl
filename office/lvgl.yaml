@@ -1,6 +1,8 @@
 lvgl:
   top_layer:
     widgets:
+    
+      # Temperature
       - label:
           text: "-° / -°"
           id: temperatures
@@ -9,6 +11,8 @@ lvgl:
           x: 8
           y: 4
           text_color: 0xFFFFFF
+
+      # Clock
       - label:
           text: "--:--"
           id: display_time
@@ -18,76 +22,23 @@ lvgl:
           y: 4
           text_align: center
           text_color: 0xFFFFFF
-      - obj:
-          id: page_footer
-          align: bottom_mid
-          width: 100%
-          height: 30px
-          bg_color: $button_webhook_color
-          bg_opa: cover
-          pad_all: 3px
-          layout:
-            type: flex
-            flex_flow: row
-            flex_align_main: space_between
-            flex_align_cross: center
-          widgets:
-            - button:
-                id: footer_prev_button
-                styles: footer_button_style
-                width: 70px
-                height: 24px
-                radius: $radius
-                bg_color: $button_control_color
-                widgets:
-                  - image:
-                      src: arrow_left
-                      align: center
-                on_click:
-                  - lvgl.page.previous:
-                      animation: MOVE_RIGHT
-                      time: 300ms
-            - button:
-                id: footer_home_button
-                styles: footer_button_style
-                width: 70px
-                height: 24px
-                radius: $radius
-                bg_color: $button_control_color
-                widgets:
-                  - image:
-                      src: home
-                      align: center
-                on_click:
-                  - lvgl.page.show: main_page
-            - button:
-                id: footer_next_button
-                styles: footer_button_style
-                width: 70px
-                height: 24px
-                radius: $radius
-                bg_color: $button_control_color
-                widgets:
-                  - image:
-                      src: arrow_right
-                      align: center
-                on_click:
-                  - lvgl.page.next:
-                      animation: MOVE_LEFT
-                      time: 300ms
+          
   pages:
     - id: main_page
       layout: 
         type: flex
         flex_flow: column_wrap
       width: 100%
-      bg_color: 0x000000
+      bg_color: Black
       bg_opa: cover
       pad_top: 30
-      pad_bottom: 35px
+      pad_bottom: 5
       pad_left: 5
       pad_right: 5
+      
       widgets:
+      
+        # Office Features Scene
         - button: 
             height: $button_height_single
             checkable: false
@@ -108,6 +59,8 @@ lvgl:
                   service: scene.turn_on
                   data:
                     entity_id: scene.office_features
+
+        # Office Calls Scene
         - button: 
             height: $button_height_single
             checkable: false
@@ -128,6 +81,8 @@ lvgl:
                   service: scene.turn_on
                   data:
                     entity_id: scene.office_desk_call
+
+        # Office Evening Scene
         - button: 
             height: $button_height_single
             checkable: false
@@ -148,6 +103,9 @@ lvgl:
                   service: scene.turn_on
                   data:
                     entity_id: scene.office_evening
+
+
+        # Office Dimmed Scene
         - button: 
             height: $button_height_single
             checkable: false
@@ -168,6 +126,8 @@ lvgl:
                   service: scene.turn_on
                   data:
                     entity_id: scene.office_dimmed
+
+        # 3d Printer
         - button: 
             height: $button_height_single
             checkable: true
@@ -188,6 +148,8 @@ lvgl:
                   service: switch.toggle
                   data:
                     entity_id: switch.office_3d_printer_power
+
+        # Office Aircon
         - button: 
             height: $button_height_single
             checkable: true
@@ -206,6 +168,8 @@ lvgl:
                   service: switch.toggle
                   data:
                     entity_id: light.wz_lichtschalter
+
+        # Office Blind Open
         - button: 
             height: $button_height_single
             checkable: true
@@ -225,6 +189,8 @@ lvgl:
                   data:
                     entity_id: cover.wohnzimmer_rechts
                     position: "78"
+
+        # Office Blind Close
         - button: 
             height: $button_height_single
             checkable: true
@@ -244,6 +210,8 @@ lvgl:
                   data:
                     entity_id: cover.wohnzimmer_rechts
                     position: "0"
+
+        # Webhook Mail
         - button: 
             height: $button_height_single
             checkable: false
@@ -262,6 +230,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mail
+
+        # Webhook Slack
         - button: 
             height: $button_height_single
             checkable: false
@@ -280,6 +250,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_slack
+
+        # Webhook Meet
         - button: 
             height: $button_height_single
             checkable: false
@@ -297,6 +269,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_meet
+
+        # Webhook Figma
         - button: 
             height: $button_height_single
             checkable: false
@@ -314,6 +288,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_figma
+
+        # Webhook Forklift
         - button: 
             height: $button_height_single
             checkable: false
@@ -332,6 +308,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_forklift
+
+        # Webhook Ia Writer
         - button: 
             height: $button_height_single
             checkable: false
@@ -350,6 +328,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_iawriter
+
+        # Webhook Mainsail
         - button: 
             height: $button_height_single
             checkable: false
