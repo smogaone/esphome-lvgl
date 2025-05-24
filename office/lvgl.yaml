@@ -34,43 +34,43 @@ lvgl:
           widgets:
             - button:
                 id: footer_prev_button
+                styles: footer_button_style
                 width: 70px
                 height: 24px
                 radius: $radius
                 bg_color: $button_control_color
-                text_color: $button_text_color
                 widgets:
-                  - label:
-                      text_font: $icon_font
-                      text: $arrow_left_icon
+                  - image:
+                      src: arrow_left
+                      align: center
                 on_click:
                   - lvgl.page.previous:
                       animation: MOVE_RIGHT
                       time: 300ms
             - button:
                 id: footer_home_button
+                styles: footer_button_style
                 width: 70px
                 height: 24px
                 radius: $radius
                 bg_color: $button_control_color
-                text_color: $button_text_color
                 widgets:
-                  - label:
-                      text_font: $icon_font
-                      text: $home_icon
+                  - image:
+                      src: home
+                      align: center
                 on_click:
                   - lvgl.page.show: main_page
             - button:
                 id: footer_next_button
+                styles: footer_button_style
                 width: 70px
                 height: 24px
                 radius: $radius
                 bg_color: $button_control_color
-                text_color: $button_text_color
                 widgets:
-                  - label:
-                      text_font: $icon_font
-                      text: $arrow_right_icon
+                  - image:
+                      src: arrow_right
+                      align: center
                 on_click:
                   - lvgl.page.next:
                       animation: MOVE_LEFT
