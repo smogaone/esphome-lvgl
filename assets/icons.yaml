@@ -60,8 +60,8 @@ font:
     size: 18
     bpp: 4
     glyphs: [
-      "\U000F073A",  # mdi:arrow-left-bold
-      "\U000F073B",  # mdi-arrow-right-bold
+      "\U000F0731",  # mdi:arrow-left-bold
+      "\U000F0734",  # mdi-arrow-right-bold
       "\U000F02DC",  # mdi-home
       ]
 
