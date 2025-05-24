@@ -1,5 +1,5 @@
 substitutions:
-  icon_font: icon_font_main
+  icon_font: icon_font
   icon_font_footer: icon_font_footer
   text_font: roboto17_font
   button_on_color: "0xFF8C00"
