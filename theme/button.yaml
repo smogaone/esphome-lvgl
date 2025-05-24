@@ -1,5 +1,6 @@
 substitutions:
-  icon_font: icon_font
+  icon_font: icon_font_main
+  icon_font_footer: icon_font_footer
   text_font: roboto17_font
   button_on_color: "0xFF8C00"
   button_text_color: "0xFFFFFF"
@@ -13,9 +14,7 @@ substitutions:
   slider_background_color: "0x505050"
   slider_active_color: "0x2D2D2D"
   slider_knob_color: "0xE5E5E5"
-  arrow_left_icon:  "\U000F073A"
-  home_icon:        "\U000F02DC"
-  arrow_right_icon: "\U000F073B"
+  footer_button_padding: 2px
 
 lvgl:
   style_definitions:
@@ -23,6 +22,8 @@ lvgl:
       bg_color: $button_webhook_color
     - id: control
       bg_color: $button_control_color
+    - id: footer_button_style
+      pad_all: $footer_button_padding
 
   theme:
     button:
