@@ -44,6 +44,7 @@ lvgl:
                   - label:
                       text_font: $icon_font_footer
                       text: $arrow_left_icon
+                      align: center # Hinzugefügt für explizite Zentrierung
                 on_click:
                   - lvgl.page.previous:
                       animation: MOVE_RIGHT
@@ -60,6 +61,7 @@ lvgl:
                   - label:
                       text_font: $icon_font_footer
                       text: $home_icon
+                      align: center # Hinzugefügt für explizite Zentrierung
                 on_click:
                   - lvgl.page.show: main_page
             - button:
@@ -74,6 +76,7 @@ lvgl:
                   - label:
                       text_font: $icon_font_footer
                       text: $arrow_right_icon
+                      align: center # Hinzugefügt für explizite Zentrierung
                 on_click:
                   - lvgl.page.next:
                       animation: MOVE_LEFT
@@ -370,4 +373,3 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mainsail
-
