@@ -29,8 +29,8 @@ lvgl:
           layout:
             type: flex
             flex_flow: row
-            flex_main_place: space_between
-            flex_cross_place: center
+            flex_align_main: space_between
+            flex_align_cross: center
           widgets:
             - button:
                 id: footer_prev_button
@@ -46,7 +46,7 @@ lvgl:
                 on_click:
                   - lvgl.page.previous:
                       animation: MOVE_RIGHT
-                      time: 300
+                      time: 300ms
             - button:
                 id: footer_home_button
                 width: 70px
@@ -74,7 +74,7 @@ lvgl:
                 on_click:
                   - lvgl.page.next:
                       animation: MOVE_LEFT
-                      time: 300
+                      time: 300ms
   pages:
     - id: main_page
       layout: 
