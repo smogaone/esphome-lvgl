@@ -136,5 +136,5 @@ substitutions:
   home_export_outline: "\U000F0F9B"
   thermometer_lines:   "\U000F0510"
   pump:                "\U000F1402"
-  arrow_left_icon:     "\U000F073A"
-  arrow_right_icon:    "\U000F073B"
+  arrow_left_icon:     "\U000F0731"
+  arrow_right_icon:    "\U000F0734"
