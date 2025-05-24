@@ -13,15 +13,17 @@ substitutions:
   slider_background_color: "0x505050"
   slider_active_color: "0x2D2D2D"
   slider_knob_color: "0xE5E5E5"
+  arrow_left_icon:  "\U000F004D"
+  home_icon:        "\U000F02DC"
+  arrow_right_icon: "\U000F0054"
 
 lvgl:
   style_definitions:
     - id: webhook
       bg_color: $button_webhook_color
-
     - id: control
       bg_color: $button_control_color
-      
+
   theme:
     button:
       text_font: $text_font
@@ -32,6 +34,8 @@ lvgl:
       pad_all: $padding
       shadow_width: 0
       text_color: $button_text_color
+      bg_color: $button_control_color
       checked:
         bg_color: $button_on_color
         text_color: $button_text_color
+
