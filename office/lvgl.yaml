@@ -18,63 +18,6 @@ lvgl:
           y: 4
           text_align: center
           text_color: 0xFFFFFF
-      - obj:
-          id: page_footer
-          align: bottom_mid
-          width: 100%
-          height: 30px
-          bg_color: $button_webhook_color
-          bg_opa: cover
-          pad_all: 3px
-          layout:
-            type: flex
-            flex_flow: row
-            flex_align_main: space_between
-            flex_align_cross: center
-          widgets:
-            - button:
-                id: footer_prev_button
-                styles: footer_button_style
-                width: 70px
-                height: 24px
-                radius: $radius
-                bg_color: $button_control_color
-                widgets:
-                  - image:
-                      src: arrow_left
-                      align: center
-                on_click:
-                  - lvgl.page.previous:
-                      animation: MOVE_RIGHT
-                      time: 300ms
-            - button:
-                id: footer_home_button
-                styles: footer_button_style
-                width: 70px
-                height: 24px
-                radius: $radius
-                bg_color: $button_control_color
-                widgets:
-                  - image:
-                      src: home
-                      align: center
-                on_click:
-                  - lvgl.page.show: main_page
-            - button:
-                id: footer_next_button
-                styles: footer_button_style
-                width: 70px
-                height: 24px
-                radius: $radius
-                bg_color: $button_control_color
-                widgets:
-                  - image:
-                      src: arrow_right
-                      align: center
-                on_click:
-                  - lvgl.page.next:
-                      animation: MOVE_LEFT
-                      time: 300ms
   pages:
     - id: main_page
       layout: 
@@ -84,7 +27,7 @@ lvgl:
       bg_color: 0x000000
       bg_opa: cover
       pad_top: 30
-      pad_bottom: 35px
+      pad_bottom: 5px
       pad_left: 5
       pad_right: 5
       widgets:
@@ -367,4 +310,3 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mainsail
-                    
