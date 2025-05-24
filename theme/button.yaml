@@ -13,9 +13,6 @@ substitutions:
   slider_background_color: "0x505050"
   slider_active_color: "0x2D2D2D"
   slider_knob_color: "0xE5E5E5"
-  arrow_left_icon:  "\U000F073A"  # Geändert zu mdi-arrow-left-bold
-  home_icon:        "\U000F02DC"  # Bleibt mdi-home
-  arrow_right_icon: "\U000F073B" # Geändert zu mdi-arrow-right-bold
 
 lvgl:
   style_definitions:
