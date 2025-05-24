@@ -17,20 +17,20 @@ image:
     type: RGB565
     transparency: alpha_channel
 
-- file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/arrow_left.svg
+  - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/arrow_left.svg
     id: arrow_left
-    resize: 32x32
+    resize: 20x20
     type: RGB565
     transparency: alpha_channel
 
-- file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/arrow_right.svg
+  - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/arrow_right.svg
     id: arrow_right
-    resize: 32x32
+    resize: 20x20
     type: RGB565
     transparency: alpha_channel
 
-- file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/home.svg
+  - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/home.svg
     id: home
-    resize: 32x32
+    resize: 20x20
     type: RGB565
     transparency: alpha_channel
