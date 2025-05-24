@@ -39,15 +39,13 @@ lvgl:
                 height: 24px
                 radius: $radius
                 bg_color: $button_control_color
-                text_color: $button_text_color
                 widgets:
-                  - label:
-                      text_font: $icon_font
-                      text: $arrow_left_icon
+                  - image:
+                      src: arrow_left
                       align: center
                 on_click:
                   - lvgl.page.previous:
-                      animation: MOVE_LEFT
+                      animation: MOVE_RIGHT
                       time: 300ms
             - button:
                 id: footer_home_button
@@ -56,11 +54,9 @@ lvgl:
                 height: 24px
                 radius: $radius
                 bg_color: $button_control_color
-                text_color: $button_text_color
                 widgets:
-                  - label:
-                      text_font: $icon_font
-                      text: $home
+                  - image:
+                      src: home
                       align: center
                 on_click:
                   - lvgl.page.show: main_page
@@ -71,15 +67,13 @@ lvgl:
                 height: 24px
                 radius: $radius
                 bg_color: $button_control_color
-                text_color: $button_text_color
                 widgets:
-                  - label:
-                      text_font: $icon_font
-                      text: $arrow_right_icon
+                  - image:
+                      src: arrow_right
                       align: center
                 on_click:
                   - lvgl.page.next:
-                      animation: MOVE_RIGHT
+                      animation: MOVE_LEFT
                       time: 300ms
   pages:
     - id: main_page
@@ -373,3 +367,4 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mainsail
+                    
