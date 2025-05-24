@@ -34,6 +34,7 @@ lvgl:
           widgets:
             - button:
                 id: footer_prev_button
+                styles: footer_button_style
                 width: 70px
                 height: 24px
                 radius: $radius
@@ -49,6 +50,7 @@ lvgl:
                       time: 300ms
             - button:
                 id: footer_home_button
+                styles: footer_button_style
                 width: 70px
                 height: 24px
                 radius: $radius
@@ -62,6 +64,7 @@ lvgl:
                   - lvgl.page.show: main_page
             - button:
                 id: footer_next_button
+                styles: footer_button_style
                 width: 70px
                 height: 24px
                 radius: $radius
@@ -95,7 +98,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   id: scene_features_icon                
                   text: $ledstrip
@@ -115,7 +118,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   id: office_scene_calls_icon                
                   text: $videocall
@@ -135,7 +138,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   id: office_scene_evening_icon                
                   text: $nightlight
@@ -155,7 +158,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   id: office_scene_dimmed_icon                
                   text: $nightlight
@@ -175,7 +178,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   id: printer_power_icon
                   text: $printer
@@ -195,7 +198,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $lightbulb
               - label:
@@ -213,7 +216,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $blinds_open
               - label:
@@ -232,7 +235,7 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $blinds_closed
               - label:
@@ -251,7 +254,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $gmail
               - label:
@@ -269,7 +272,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $slack
               - label:
@@ -321,7 +324,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $forklift
               - label:
@@ -339,7 +342,7 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: $icon_font_main
                   align: top_left
                   text: $command
               - label:
@@ -367,3 +370,4 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mainsail
+
