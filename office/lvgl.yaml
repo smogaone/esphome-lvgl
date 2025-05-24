@@ -42,12 +42,12 @@ lvgl:
                 text_color: $button_text_color
                 widgets:
                   - label:
-                      text_font: $icon_font_footer
+                      text_font: $icon_font
                       text: $arrow_left_icon
                       align: center
                 on_click:
                   - lvgl.page.previous:
-                      animation: MOVE_RIGHT
+                      animation: MOVE_LEFT
                       time: 300ms
             - button:
                 id: footer_home_button
@@ -59,7 +59,7 @@ lvgl:
                 text_color: $button_text_color
                 widgets:
                   - label:
-                      text_font: $icon_font_footer
+                      text_font: $icon_font
                       text: $home
                       align: center
                 on_click:
@@ -74,12 +74,12 @@ lvgl:
                 text_color: $button_text_color
                 widgets:
                   - label:
-                      text_font: $icon_font_footer
+                      text_font: $icon_font
                       text: $arrow_right_icon
                       align: center
                 on_click:
                   - lvgl.page.next:
-                      animation: MOVE_LEFT
+                      animation: MOVE_RIGHT
                       time: 300ms
   pages:
     - id: main_page
