@@ -19,7 +19,7 @@ lvgl:
           text_align: center
           text_color: 0xFFFFFF
       - label:
-          text: "\U000F05AA"
+          text: "\U000F092E"
           id: wifi_icon_label
           text_font: $icon_font_header
           align: top_right
