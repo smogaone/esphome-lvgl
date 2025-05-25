@@ -6,9 +6,9 @@ lvgl:
           id: temperatures
           styles: roboto15_style
           align: top_left
-          x: 8 # Reine Zahl für x/y Koordinaten ist üblich
+          x: 8
           y: 4
-          text_color: 0xFFFFFF # Geändert von Dezimal zu Hex
+          text_color: 0xFFFFFF
       - label:
           text: "--:--"
           id: display_time
@@ -17,7 +17,7 @@ lvgl:
           x: 0
           y: 4
           text_align: center
-          text_color: 0xFFFFFF # Geändert von Dezimal zu Hex
+          text_color: 0xFFFFFF
       - label:
           text: "\U000F05AA"
           id: wifi_icon_label
@@ -26,15 +26,15 @@ lvgl:
           align: top_right
           x: -8
           y: 4
-          text_color: 0xFFFFFF # Geändert von Dezimal zu Hex
+          text_color: 0xFFFFFF
       - obj:
           id: page_footer
           align: bottom_mid
           width: 100%
-          height: 20px # "px" beibehalten
-          bg_opa: 0 # Geändert von transparent
+          height: 24px
+          bg_opa: 0
           border_width: 0
-          pad_all: 2px # "px" beibehalten
+          pad_all: 2px
           layout:
             type: flex
             flex_flow: row
@@ -44,10 +44,10 @@ lvgl:
             - button:
                 id: footer_prev_button
                 styles: footer_button_style
-                width: 60px # "px" beibehalten
-                height: 18px # "px" beibehalten
-                radius: $radius # Annahme: $radius ist "12px" oder ähnlich
-                bg_opa: 0 # Geändert von transparent
+                width: 60px
+                height: 20px
+                radius: $radius
+                bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
@@ -62,10 +62,10 @@ lvgl:
             - button:
                 id: footer_home_button
                 styles: footer_button_style
-                width: 60px # "px" beibehalten
-                height: 18px # "px" beibehalten
-                radius: $radius # Annahme: $radius ist "12px" oder ähnlich
-                bg_opa: 0 # Geändert von transparent
+                width: 60px
+                height: 20px
+                radius: $radius
+                bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
@@ -78,10 +78,10 @@ lvgl:
             - button:
                 id: footer_next_button
                 styles: footer_button_style
-                width: 60px # "px" beibehalten
-                height: 18px # "px" beibehalten
-                radius: $radius # Annahme: $radius ist "12px" oder ähnlich
-                bg_opa: 0 # Geändert von transparent
+                width: 60px
+                height: 20px
+                radius: $radius
+                bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
@@ -95,19 +95,22 @@ lvgl:
                       time: 300ms
   pages:
     - id: main_page
-      layout: 
-        type: flex
-        flex_flow: column_wrap
       width: 100%
-      bg_color: 0x000000 # Geändert von 0 für Klarheit (Schwarz)
+      bg_color: 0x000000
       bg_opa: cover
-      pad_top: 30 # Reine Zahl für Padding ist oft ok, aber "px" ist konsistenter, falls verwendet
-      pad_bottom: 26px # "px" beibehalten
-      pad_left: 5
-      pad_right: 5
+      pad_top: 30px
+      pad_bottom: 26px
+      pad_left: 5px
+      pad_right: 5px
+      layout:
+        type: grid
+        grid_template_columns: [1fr, 1fr, 1fr, 1fr, 1fr]
+        grid_template_rows: [auto, auto, auto, auto]
+        grid_column_gap: 5px
+        grid_row_gap: 5px
       widgets:
         - button: 
-            height: $button_height_single # Annahme: $button_height_single ist "102px"
+            height: $button_height_single
             checkable: false
             id: office_scene_features_button
             styles: control
