@@ -1,16 +1,16 @@
 lvgl:
-  style_definitions: # Diese wurden aus paste-2.txt [Search Result 2] übernommen, stelle sicher, dass sie hier hingehören oder in button.yaml
+  style_definitions:
     - id: roboto15_style
-      text_font: roboto15_font # Stellt sicher, dass fonts.yaml roboto15_font definiert
+      text_font: roboto15_font
     - id: webhook
       bg_color: 0x212121
     - id: control
       bg_color: 0x313131
     - id: footer_button_style
       pad_all: 2px
-  theme: # Dieses wurde aus paste-2.txt [Search Result 2] übernommen, stelle sicher, dass es hier hingehört oder in button.yaml
-    button: 
-      text_font: roboto17_font # Stellt sicher, dass fonts.yaml roboto17_font definiert
+  theme:
+    button:
+      text_font: roboto17_font
       scroll_on_focus: False
       radius: 12px
       width: 149px
@@ -19,7 +19,7 @@ lvgl:
       shadow_width: 0
       text_color: 0xFFFFFF
       bg_color: 0x313131
-      checked: 
+      checked:
         bg_color: 0xFF8C00
         text_color: 0xFFFFFF
   top_layer:
@@ -28,34 +28,32 @@ lvgl:
           id: wifi_icon_label
           text: "\U000F092E" # Direktes Unicode für mdi-wifi-strength-off-outline
           styles: roboto15_style
-          text_font: icon_font_header # Direkte ID aus icons.yaml
+          text_font: icon_font_header # Direkte ID
           align: top_right
           x: -8
           y: 4
-          text_color: 0xFFFFFF # War 16777215
+          text_color: 0xFFFFFF
 
       - label:
           id: header_temperatures
           text: "-°/-°"
           styles: roboto15_style
-          text_font: roboto15_font # Explizite Font-ID
+          text_font: roboto15_font # Direkte ID
           align: top_left
           x: 8
           y: 4
-          text_color: 0xFFFFFF # War 16777215
-          # hidden: ... entfernt, da immer sichtbar
+          text_color: 0xFFFFFF
 
       - label:
           id: header_display_time
           text: "--:--"
           styles: roboto15_style
-          text_font: roboto15_font # Explizite Font-ID
+          text_font: roboto15_font # Direkte ID
           align: top_mid
           x: 0
           y: 4
           text_align: center
-          text_color: 0xFFFFFF # War 16777215
-          # hidden: ... entfernt, da immer sichtbar
+          text_color: 0xFFFFFF
 
       - obj:
           id: page_footer
@@ -68,22 +66,22 @@ lvgl:
           layout:
             type: flex
             flex_flow: row
-            flex_align_main: space_between # Korrigiert
-            flex_align_cross: center     # Korrigiert
+            flex_align_main: space_between
+            flex_align_cross: center
           widgets:
             - button:
                 id: footer_prev_button
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 12px # Direkter Wert, wie in paste-2.txt
+                radius: 12px
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
                       text_font: icon_font_header # Direkte ID
-                      text_color: 0xFFFFFF # War 16777215
-                      text: "\U000F0731" # Unicode für arrow-left (󰜱)
+                      text_color: 0xFFFFFF
+                      text: "\U000F0731" # Unicode für arrow-left
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -94,14 +92,14 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 12px # Direkter Wert
+                radius: 12px
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
                       text_font: icon_font_header # Direkte ID
-                      text_color: 0xFFFFFF # War 16777215
-                      text: "\U000F02DC" # Unicode für home (󰋜)
+                      text_color: 0xFFFFFF
+                      text: "\U000F02DC" # Unicode für home
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -110,14 +108,14 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 12px # Direkter Wert
+                radius: 12px
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
                       text_font: icon_font_header # Direkte ID
-                      text_color: 0xFFFFFF # War 16777215
-                      text: "\U000F0734" # Unicode für arrow-right (󰜴)
+                      text_color: 0xFFFFFF
+                      text: "\U000F0734" # Unicode für arrow-right
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -136,8 +134,8 @@ lvgl:
         - label:
             id: time_date_label
             text: "Lade Zeit..."
-            text_font: font_roboto_56 # Direkte ID aus fonts.yaml
-            text_color: 0xFFFFFF # War 16777215
+            text_font: font_roboto_56 # Direkte ID
+            text_color: 0xFFFFFF # Korrigiert von 16777215
             text_align: center
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
@@ -146,9 +144,9 @@ lvgl:
 
         - label:
             id: weather_main_icon
-            text: "\U000F0599" # Direktes Unicode für Sunny (󰖙)
-            text_font: icon_100 # Direkte ID aus weather_icons.yaml
-            text_color: 0xFFFFFF # War 16777215
+            text: "\U000F0599" # Unicode für 󰖙 (Sunny)
+            text_font: icon_100 # Direkte ID
+            text_color: 0xFFFFFF # Korrigiert
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
             grid_cell_x_align: center
@@ -157,8 +155,8 @@ lvgl:
         - label:
             id: weather_condition_label
             text: "Wetter lädt..."
-            text_font: font_roboto_28 # Direkte ID aus fonts.yaml
-            text_color: 0xFFFFFF # War 16777215
+            text_font: font_roboto_28 # Direkte ID
+            text_color: 0xFFFFFF # Korrigiert
             text_align: left
             long_mode: LV_LABEL_LONG_WRAP
             grid_cell_column_pos: 1
@@ -167,63 +165,63 @@ lvgl:
             grid_cell_y_align: center
             pad_left: 10px
 
-        - obj: # Container für die Temperaturanzeigen
+        - obj: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             grid_cell_column_span: 2
             width: 100%
-            height: "SIZE_CONTENT" # Korrigiert
+            height: "SIZE_CONTENT" # Korrigiert: In Anführungszeichen
             bg_opa: transparent
-            layout:
+            layout: 
               type: flex
               flex_flow: row
-              flex_align_main: space_around # Korrigiert
-              flex_align_cross: center     # Korrigiert
-            widgets:
-              - obj:
+              flex_align_main: space_around # Korrekt
+              flex_align_cross: center     # Korrekt
+            widgets: 
+              - obj: 
                   width: "SIZE_CONTENT" # Korrigiert
                   height: "SIZE_CONTENT" # Korrigiert
                   bg_opa: transparent
                   layout: 
                     type: flex
                     flex_flow: row
-                    flex_align_cross: center # Korrigiert
-                  widgets:
-                    - label:
+                    flex_align_cross: center # Korrekt
+                  widgets: 
+                    - label: 
                         id: indoor_temp_icon_label
-                        text: "\U000F0F54" # Unicode für mdi-home-thermometer (󰽔)
+                        text: "\U000F0F54" # Unicode für 󰽔 (mdi-home-thermometer)
                         text_font: icon_font_header # Direkte ID
-                        text_color: 0xFFFFFF # War 16777215
+                        text_color: 0xFFFFFF # Korrigiert
                         pad_right: 8px
-                    - label:
+                    - label: 
                         id: indoor_temp_value_label
                         text: "--.-°C"
                         text_font: font_roboto_28 # Direkte ID
-                        text_color: 0xFFFFFF # War 16777215
-              - obj:
+                        text_color: 0xFFFFFF # Korrigiert
+              - obj: 
                   width: "SIZE_CONTENT" # Korrigiert
                   height: "SIZE_CONTENT" # Korrigiert
                   bg_opa: transparent
-                  layout:
+                  layout: 
                     type: flex
                     flex_flow: row
-                    flex_align_cross: center # Korrigiert
-                  widgets:
-                    - label:
+                    flex_align_cross: center # Korrekt
+                  widgets: 
+                    - label: 
                         id: outdoor_temp_icon_label
-                        text: "\U000F18D6" # Unicode für mdi-sun-thermometer (󱣖)
+                        text: "\U000F18D6" # Unicode für 󱣖 (mdi-sun-thermometer)
                         text_font: icon_font_header # Direkte ID
-                        text_color: 0xFFFFFF # War 16777215
+                        text_color: 0xFFFFFF # Korrigiert
                         pad_right: 8px
-                    - label:
+                    - label: 
                         id: outdoor_temp_value_label
                         text: "--.-°C"
                         text_font: font_roboto_28 # Direkte ID
-                        text_color: 0xFFFFFF # War 16777215
+                        text_color: 0xFFFFFF # Korrigiert
 
     - id: main_buttons_page
       width: 100%
-      bg_color: 0x000000 # War 0
+      bg_color: 0x000000
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
@@ -233,170 +231,170 @@ lvgl:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
         grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
-      widgets: # HIER DEINE 16 BUTTONS EINFÜGEN, wie im Log paste-2.txt/paste-3.txt
+      widgets:
         - button: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
             height: 100px
-            checkable: false # Korrigiert von False
+            checkable: false
             id: office_scene_features_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, id: scene_features_icon, text: "\U000F1051"} # 󱁑 (ledstrip)
+              - label: {text_font: icon_font, align: top_left, id: scene_features_icon, text: "\U000F1051"}
               - label: {align: bottom_left, id: scene_features_label, text: "Features", text_font: roboto17_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_features}}}]
         - button: 
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: office_scene_calls_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, id: office_scene_calls_icon, text: "\U000F036B"} # 󰍫 (videocall)
+              - label: {text_font: icon_font, align: top_left, id: office_scene_calls_icon, text: "\U000F036B"}
               - label: {align: bottom_left, id: office_scene_calls_label, text: "Calls", text_font: roboto17_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_desk_call}}}]
         - button: 
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: office_scene_evening_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, id: office_scene_evening_icon, text: "\U000F1A4C"} # 󱩌 (nightlight)
+              - label: {text_font: icon_font, align: top_left, id: office_scene_evening_icon, text: "\U000F1A4C"}
               - label: {align: bottom_left, id: office_scene_evening_label, text: "Evening", text_font: roboto17_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_evening}}}]
         - button: 
             grid_cell_column_pos: 3
             grid_cell_row_pos: 0
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: office_scene_dimmed_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, id: office_scene_dimmed_icon, text: "\U000F1A4C"} # 󱩌 (nightlight)
+              - label: {text_font: icon_font, align: top_left, id: office_scene_dimmed_icon, text: "\U000F1A4C"}
               - label: {align: bottom_left, id: office_scene_dimmed_label, text: "Dimmed", text_font: roboto17_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_dimmed}}}]
         - button: 
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
             height: 100px
-            checkable: true # Korrigiert von True
+            checkable: true
             id: printer_power_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, id: printer_power_icon, text: "\U000F042B"} # 󰐫 (printer)
+              - label: {text_font: icon_font, align: top_left, id: printer_power_icon, text: "\U000F042B"}
               - label: {align: bottom_left, id: printer_power_label, text: "Printer", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: switch.toggle, data: {entity_id: switch.office_3d_printer_power}}}]
         - button: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
             height: 100px
-            checkable: true # Korrigiert
+            checkable: true
             id: wz_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F0335"} # 󰌵 (lightbulb)
+              - label: {text_font: icon_font, align: top_left, text: "\U000F0335"}
               - label: {align: bottom_left, text: "Wohnzimmer", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: switch.toggle, data: {entity_id: light.wz_lichtschalter}}}]
         - button: 
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
             height: 100px
-            checkable: true # Korrigiert
+            checkable: true
             id: office_blind_open_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F1011"} # 󱀑 (blinds_open)
-              - label: {align: bottom_left, id: office_blind_open_label, text: "Open", text_font: roboto17_font}
+              - label: {text_font: icon_font, align: top_left, text: "\U000F1011"}
+              - label: {align: bottom_left, text: "Open", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: cover.set_cover_position, data: {entity_id: cover.wohnzimmer_rechts, position: "78"}}}]
         - button: 
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
             height: 100px
-            checkable: true # Korrigiert
+            checkable: true
             id: office_blind_close_button
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F00AC"} # 󰂬 (blinds_closed)
-              - label: {align: bottom_left, id: office_blind_close_label, text: "Close", text_font: roboto17_font}
+              - label: {text_font: icon_font, align: top_left, text: "\U000F00AC"}
+              - label: {align: bottom_left, text: "Close", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: cover.set_cover_position, data: {entity_id: cover.wohnzimmer_rechts, position: "0"}}}]
         - button: 
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_mail_button
             styles: webhook
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F02AB"} # 󰊫 (gmail)
-              - label: {align: bottom_left, id: webhook_mail_label, text: "Mail", text_font: roboto17_font}
+              - label: {text_font: icon_font, align: top_left, text: "\U000F02AB"}
+              - label: {align: bottom_left, text: "Mail", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_mail}}}]
         - button: 
             grid_cell_column_pos: 4
             grid_cell_row_pos: 1
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_slack_button
             styles: webhook
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F04B1"} # 󰒱 (slack)
-              - label: {align: bottom_left, id: webhook_slack_label, text: "Slack", text_font: roboto17_font}
+              - label: {text_font: icon_font, align: top_left, text: "\U000F04B1"}
+              - label: {align: bottom_left, text: "Slack", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_slack}}}]
         - button: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_meet_button
             styles: webhook
             widgets:
-              - image: {src: meet_logo, antialias: true} # Korrigiert von True
+              - image: {src: meet_logo, antialias: true}
               - label: {align: bottom_left, text: "Meet", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_meet}}}]
         - button: 
             grid_cell_column_pos: 1
             grid_cell_row_pos: 2
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_figma_button
             styles: webhook
             widgets:
-              - image: {src: figma_logo, antialias: true} # Korrigiert
+              - image: {src: figma_logo, antialias: true}
               - label: {align: bottom_left, text: "Figma", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_figma}}}]
         - button: 
             grid_cell_column_pos: 2
             grid_cell_row_pos: 2
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_forklift_button
             styles: webhook
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F07C9"} # 󰟉 (forklift)
+              - label: {text_font: icon_font, align: top_left, text: "\U000F07C9"}
               - label: {align: bottom_left, text: "Forklift", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_forklift}}}]
         - button: 
             grid_cell_column_pos: 3
             grid_cell_row_pos: 2
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_iawriter_button
             styles: webhook
             widgets:
-              - label: {text_font: icon_font, align: top_left, text: "\U000F0633"} # 󰘳 (command)
+              - label: {text_font: icon_font, align: top_left, text: "\U000F0633"}
               - label: {align: bottom_left, text: "Ia Writer", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_iawriter}}}]
         - button: 
             grid_cell_column_pos: 4
             grid_cell_row_pos: 2
             height: 100px
-            checkable: false # Korrigiert
+            checkable: false
             id: webhook_mainsail_button
             styles: webhook
             widgets:
-              - image: {src: mainsail_logo, antialias: true} # Korrigiert
+              - image: {src: mainsail_logo, antialias: true}
               - label: {align: bottom_left, text: "Mainsail", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_mainsail}}}]
         - button: 
@@ -404,9 +402,9 @@ lvgl:
             grid_cell_row_pos: 3
             id: wohnzimmer_stehlampe_button
             height: 100px
-            checkable: true # Korrigiert
+            checkable: true
             styles: control
             widgets:
-              - label: {text_font: icon_font, align: top_left, id: wohnzimmer_stehlampe_icon, text: "\U000F0336"} # 󰌶 (lightbulb_off)
+              - label: {text_font: icon_font, align: top_left, id: wohnzimmer_stehlampe_icon, text: "\U000F0336"}
               - label: {align: bottom_left, id: wohnzimmer_stehlampe_label, text: "Wohnzimmer Stehlampe", text_font: roboto17_font}
             on_click: [{homeassistant.service: {service: light.toggle, data: {entity_id: light.wohnzimmer_stehlampe}}}]
