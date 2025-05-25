@@ -1,6 +1,6 @@
 # Materialdesign Weather Icons for main page
 - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
-    id: icon_100
+    id: font_weather_large_icon
     size: 100
     bpp: 4
     glyphs: [
