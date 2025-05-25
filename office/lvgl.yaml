@@ -8,7 +8,7 @@ lvgl:
           align: top_left
           x: 8
           y: 4
-          text_color: 0xFFFFFF
+          text_color: 16777215
       - label:
           text: "--:--"
           id: display_time
@@ -17,16 +17,16 @@ lvgl:
           x: 0
           y: 4
           text_align: center
-          text_color: 0xFFFFFF
+          text_color: 16777215
       - label:
-          text: "\U000F05AA"
+          text: "\U000F05AA" # Unicode für mdi-wifi-off (Fallback/Initial)
           id: wifi_icon_label
           styles: roboto15_style
-          text_font: $icon_font_header
+          text_font: $icon_font_header # Deine 15px Icon-Schrift
           align: top_right
           x: -8
           y: 4
-          text_color: 0xFFFFFF
+          text_color: 16777215
       - obj:
           id: page_footer
           align: bottom_mid
@@ -46,14 +46,14 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: $radius
+                radius: $radius # Wird von deiner button.yaml als "12px" substituiert
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
                       text_font: $icon_font_header
-                      text_color: $button_text_color
-                      text: $arrow_left
+                      text_color: 0xFFFFFF
+                      text: $arrow_left # Substitution aus icons.yaml
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -70,8 +70,8 @@ lvgl:
                 widgets:
                   - label:
                       text_font: $icon_font_header
-                      text_color: $button_text_color
-                      text: $home
+                      text_color: 0xFFFFFF
+                      text: $home # Substitution aus icons.yaml
                       align: center
                 on_click:
                   - lvgl.page.show: main_page
@@ -86,8 +86,8 @@ lvgl:
                 widgets:
                   - label:
                       text_font: $icon_font_header
-                      text_color: $button_text_color
-                      text: $arrow_right
+                      text_color: 0xFFFFFF
+                      text: $arrow_right # Substitution aus icons.yaml
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -96,26 +96,22 @@ lvgl:
   pages:
     - id: main_page
       width: 100%
-      bg_color: 0x000000
+      bg_color: 0 # Entspricht 0x000000 (Schwarz)
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
-      pad_column: 5px # Abstand zwischen den Spalten
-      pad_row: 5px    # Abstand zwischen den Zeilen
+      # pad_column und pad_row hier entfernt
       layout:
         type: grid
-        grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)] # 5 gleich breite Spalten
-        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]  # 4 Zeilen, Höhe passt sich dem Inhalt an
+        grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
+        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
       widgets:
         - button: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
-            # Breite und Höhe kommen vom Theme oder können hier überschrieben werden
-            # grid_cell_x_align: STRETCH # Optional, wenn Button die Zelle füllen soll
-            # grid_cell_y_align: STRETCH # Optional
-            height: $button_height_single # Bleibt erhalten, da Zeilenhöhe CONTENT ist
+            height: $button_height_single # Wird von deiner button.yaml substituiert
             checkable: false
             id: office_scene_features_button
             styles: control
