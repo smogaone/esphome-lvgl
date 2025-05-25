@@ -22,7 +22,7 @@ lvgl:
           text: "\U000F05AA"
           id: wifi_icon_label
           styles: roboto15_style
-          text_font: $icon_font_header
+          text_font: $icon_font
           align: top_right
           x: -8
           y: 4
