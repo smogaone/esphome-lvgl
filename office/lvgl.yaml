@@ -3,35 +3,37 @@ lvgl:
     widgets:
       - label:
           id: wifi_icon_label
-          text: "\U000F092E" # Initial: mdi-wifi-strength-off-outline
-          styles: roboto15_style
-          text_font: $icon_font_header
+          text: $wifi_strength_off_outline # Initial: mdi-wifi-strength-off-outline (aus icons.yaml)
+          styles: roboto15_style # Verwendet roboto15_font
+          text_font: $icon_font_header # Korrekt: Substitution aus icons.yaml
           align: top_right
           x: -8
           y: 4
-          text_color: 0xFFFFFF
+          text_color: 0xFFFFFF # War 16777215
 
       - label:
           id: header_temperatures
           text: "-°/-°"
-          styles: roboto15_style
+          styles: roboto15_style # Verwendet roboto15_font
+          # text_font: $text_font # Oder eine spezifische kleinere Font-Substitution, falls roboto15_style nicht die richtige Schriftart hat
           align: top_left
           x: 8
           y: 4
-          text_color: 0xFFFFFF
-          hidden: !lambda |- # Nur auf Button-Seite sichtbar
+          text_color: 0xFFFFFF # War 16777215
+          hidden: !lambda |-
             return lv_scr_act() != lv_page_get_obj_by_id(lv_page_get_id_by_name("main_buttons_page"));
 
       - label:
           id: header_display_time
           text: "--:--"
-          styles: roboto15_style
+          styles: roboto15_style # Verwendet roboto15_font
+          # text_font: $text_font # Oder eine spezifische kleinere Font-Substitution
           align: top_mid
           x: 0
           y: 4
           text_align: center
-          text_color: 0xFFFFFF
-          hidden: !lambda |- # Nur auf Button-Seite sichtbar
+          text_color: 0xFFFFFF # War 16777215
+          hidden: !lambda |-
             return lv_scr_act() != lv_page_get_obj_by_id(lv_page_get_id_by_name("main_buttons_page"));
 
       - obj:
@@ -45,22 +47,22 @@ lvgl:
           layout:
             type: flex
             flex_flow: row
-            flex_align_main: space_between
-            flex_align_cross: center
+            flex_align_main: space_between # Korrigiert
+            flex_align_cross: center     # Korrigiert
           widgets:
             - button:
                 id: footer_prev_button
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: $radius
+                radius: $radius # Aus button.yaml
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
-                      text_font: $icon_font_header
-                      text_color: $button_text_color
-                      text: $arrow_left
+                      text_font: $icon_font_header # Aus icons.yaml
+                      text_color: $button_text_color # Aus button.yaml
+                      text: $arrow_left          # Aus icons.yaml
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -71,14 +73,14 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: $radius
+                radius: $radius # Aus button.yaml
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
-                      text_font: $icon_font_header
-                      text_color: $button_text_color
-                      text: $home
+                      text_font: $icon_font_header # Aus icons.yaml
+                      text_color: $button_text_color # Aus button.yaml
+                      text: $home                # Aus icons.yaml
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -87,14 +89,14 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: $radius
+                radius: $radius # Aus button.yaml
                 bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
-                      text_font: $icon_font_header
-                      text_color: $button_text_color
-                      text: $arrow_right
+                      text_font: $icon_font_header # Aus icons.yaml
+                      text_color: $button_text_color # Aus button.yaml
+                      text: $arrow_right         # Aus icons.yaml
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -113,7 +115,7 @@ lvgl:
         - label:
             id: time_date_label
             text: "Lade Zeit..."
-            text_font: $font_time_date
+            text_font: $font_time_date # Korrekt, aus fonts.yaml
             text_color: 0xFFFFFF
             text_align: center
             grid_cell_column_pos: 0
@@ -123,8 +125,8 @@ lvgl:
 
         - label:
             id: weather_main_icon
-            text: "\U000F0599" # Initial: Sunny
-            text_font: $font_weather_main_icon
+            text: $sunny # Initial: Sunny (aus icons.yaml, falls dort definiert, sonst \U000F0599)
+            text_font: $font_weather_main_icon # Korrekt, aus weather_icons.yaml
             text_color: 0xFFFFFF
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
@@ -134,7 +136,7 @@ lvgl:
         - label:
             id: weather_condition_label
             text: "Wetter lädt..."
-            text_font: $font_weather_text
+            text_font: $font_weather_text # Korrekt, aus fonts.yaml
             text_color: 0xFFFFFF
             text_align: left
             long_mode: LV_LABEL_LONG_WRAP # Korrigiert
@@ -144,7 +146,7 @@ lvgl:
             grid_cell_y_align: center
             pad_left: 10px
 
-        - obj:
+        - obj: # Container für die Temperaturanzeigen
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             grid_cell_column_span: 2
@@ -154,47 +156,53 @@ lvgl:
             layout:
               type: flex
               flex_flow: row
-              flex_main_place: space_around
-              flex_cross_place: center
+              flex_align_main: space_around # Korrigiert
+              flex_align_cross: center     # Korrigiert
             widgets:
               - obj:
                   width: SIZE_CONTENT
                   height: SIZE_CONTENT
                   bg_opa: transparent
-                  layout: { type: flex, flex_flow: row, flex_cross_place: center }
+                  layout: 
+                    type: flex
+                    flex_flow: row
+                    flex_align_cross: center # Korrigiert
                   widgets:
                     - label:
                         id: indoor_temp_icon_label
-                        text: $temp_indoor_icon
-                        text_font: $icon_font_header
+                        text: $temp_indoor_icon # Korrekt, aus icons.yaml
+                        text_font: $icon_font_header # Korrekt, aus icons.yaml
                         text_color: 0xFFFFFF
                         pad_right: 8px
                     - label:
                         id: indoor_temp_value_label
                         text: "--.-°C"
-                        text_font: $font_weather_text
+                        text_font: $font_weather_text # Korrekt, aus fonts.yaml
                         text_color: 0xFFFFFF
               - obj:
                   width: SIZE_CONTENT
                   height: SIZE_CONTENT
                   bg_opa: transparent
-                  layout: { type: flex, flex_flow: row, flex_cross_place: center }
+                  layout:
+                    type: flex
+                    flex_flow: row
+                    flex_align_cross: center # Korrigiert
                   widgets:
                     - label:
                         id: outdoor_temp_icon_label
-                        text: $temp_outdoor_icon
-                        text_font: $icon_font_header
+                        text: $temp_outdoor_icon # Korrekt, aus icons.yaml
+                        text_font: $icon_font_header # Korrekt, aus icons.yaml
                         text_color: 0xFFFFFF
                         pad_right: 8px
                     - label:
                         id: outdoor_temp_value_label
                         text: "--.-°C"
-                        text_font: $font_weather_text
+                        text_font: $font_weather_text # Korrekt, aus fonts.yaml
                         text_color: 0xFFFFFF
 
-    - id: main_buttons_page # Deine ursprüngliche main_page, jetzt zweite Seite
+    - id: main_buttons_page
       width: 100%
-      bg_color: 0x000000 # Schwarz
+      bg_color: 0x000000
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
@@ -208,13 +216,13 @@ lvgl:
         - button: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
-            height: $button_height_single
+            height: $button_height_single # Aus button.yaml
             checkable: false
             id: office_scene_features_button
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, id: scene_features_icon, text: $ledstrip}
-              - label: {align: bottom_left, id: scene_features_label, text: "Features"}
+              - label: {align: bottom_left, id: scene_features_label, text: "Features", text_font: $text_font} # Verwendet $text_font aus fonts.yaml
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_features}}}]
         - button: 
             grid_cell_column_pos: 1
@@ -225,7 +233,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, id: office_scene_calls_icon, text: $videocall}
-              - label: {align: bottom_left, id: office_scene_calls_label, text: "Calls"}
+              - label: {align: bottom_left, id: office_scene_calls_label, text: "Calls", text_font: $text_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_desk_call}}}]
         - button: 
             grid_cell_column_pos: 2
@@ -236,7 +244,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, id: office_scene_evening_icon, text: $nightlight}
-              - label: {align: bottom_left, id: office_scene_evening_label, text: "Evening"}
+              - label: {align: bottom_left, id: office_scene_evening_label, text: "Evening", text_font: $text_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_evening}}}]
         - button: 
             grid_cell_column_pos: 3
@@ -247,7 +255,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, id: office_scene_dimmed_icon, text: $nightlight}
-              - label: {align: bottom_left, id: office_scene_dimmed_label, text: "Dimmed"}
+              - label: {align: bottom_left, id: office_scene_dimmed_label, text: "Dimmed", text_font: $text_font}
             on_press: [{homeassistant.service: {service: scene.turn_on, data: {entity_id: scene.office_dimmed}}}]
         - button: 
             grid_cell_column_pos: 4
@@ -258,7 +266,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, id: printer_power_icon, text: $printer}
-              - label: {align: bottom_left, id: printer_power_label, text: "Printer"}
+              - label: {align: bottom_left, id: printer_power_label, text: "Printer", text_font: $text_font}
             on_click: [{homeassistant.service: {service: switch.toggle, data: {entity_id: switch.office_3d_printer_power}}}]
         - button: 
             grid_cell_column_pos: 0
@@ -269,7 +277,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, text: $lightbulb}
-              - label: {align: bottom_left, text: "Wohnzimmer"}
+              - label: {align: bottom_left, text: "Wohnzimmer", text_font: $text_font}
             on_click: [{homeassistant.service: {service: switch.toggle, data: {entity_id: light.wz_lichtschalter}}}]
         - button: 
             grid_cell_column_pos: 1
@@ -280,7 +288,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, text: $blinds_open}
-              - label: {align: bottom_left, text: "Open"}
+              - label: {align: bottom_left, id: office_blind_open_label, text: "Open", text_font: $text_font}
             on_click: [{homeassistant.service: {service: cover.set_cover_position, data: {entity_id: cover.wohnzimmer_rechts, position: "78"}}}]
         - button: 
             grid_cell_column_pos: 2
@@ -291,7 +299,7 @@ lvgl:
             styles: control
             widgets:
               - label: {text_font: $icon_font, align: top_left, text: $blinds_closed}
-              - label: {align: bottom_left, text: "Close"}
+              - label: {align: bottom_left, id: office_blind_close_label, text: "Close", text_font: $text_font}
             on_click: [{homeassistant.service: {service: cover.set_cover_position, data: {entity_id: cover.wohnzimmer_rechts, position: "0"}}}]
         - button: 
             grid_cell_column_pos: 3
@@ -302,7 +310,7 @@ lvgl:
             styles: webhook
             widgets:
               - label: {text_font: $icon_font, align: top_left, text: $gmail}
-              - label: {align: bottom_left, text: "Mail"}
+              - label: {align: bottom_left, id: webhook_mail_label, text: "Mail", text_font: $text_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_mail}}}]
         - button: 
             grid_cell_column_pos: 4
@@ -313,7 +321,7 @@ lvgl:
             styles: webhook
             widgets:
               - label: {text_font: $icon_font, align: top_left, text: $slack}
-              - label: {align: bottom_left, text: "Slack"}
+              - label: {align: bottom_left, id: webhook_slack_label, text: "Slack", text_font: $text_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_slack}}}]
         - button: 
             grid_cell_column_pos: 0
@@ -324,6 +332,60 @@ lvgl:
             styles: webhook
             widgets:
               - image: {src: meet_logo, antialias: true}
-              - label: {align: bottom_left, text: "Meet"}
+              - label: {align: bottom_left, text: "Meet", text_font: $text_font}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_meet}}}]
-        - button:
+        - button: 
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 2
+            height: $button_height_single
+            checkable: false
+            id: webhook_figma_button
+            styles: webhook
+            widgets:
+              - image: {src: figma_logo, antialias: true}
+              - label: {align: bottom_left, text: "Figma", text_font: $text_font}
+            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_figma}}}]
+        - button: 
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 2
+            height: $button_height_single
+            checkable: false
+            id: webhook_forklift_button
+            styles: webhook
+            widgets:
+              - label: {text_font: $icon_font, align: top_left, text: $forklift}
+              - label: {align: bottom_left, text: "Forklift", text_font: $text_font}
+            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_forklift}}}]
+        - button: 
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 2
+            height: $button_height_single
+            checkable: false
+            id: webhook_iawriter_button
+            styles: webhook
+            widgets:
+              - label: {text_font: $icon_font, align: top_left, text: $command}
+              - label: {align: bottom_left, text: "Ia Writer", text_font: $text_font}
+            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_iawriter}}}]
+        - button: 
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 2
+            height: $button_height_single
+            checkable: false
+            id: webhook_mainsail_button
+            styles: webhook
+            widgets:
+              - image: {src: mainsail_logo, antialias: true}
+              - label: {align: bottom_left, text: "Mainsail", text_font: $text_font}
+            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_mainsail}}}]
+        - button: 
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 3
+            id: wohnzimmer_stehlampe_button
+            height: $button_height_single
+            checkable: true
+            styles: control
+            widgets:
+              - label: {text_font: $icon_font, align: top_left, id: wohnzimmer_stehlampe_icon, text: $lightbulb_off}
+              - label: {align: bottom_left, id: wohnzimmer_stehlampe_label, text: "Wohnzimmer Stehlampe", text_font: $text_font}
+            on_click: [{homeassistant.service: {service: light.toggle, data: {entity_id: light.wohnzimmer_stehlampe}}}]
