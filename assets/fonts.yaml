@@ -3,29 +3,33 @@ font:
     id: roboto17_font
     size: 17
     bpp: 4
-    glyphsets: [GF_Latin_Core] # Nur das Basis-Set, um Fehler zu vermeiden
+    glyphsets: [GF_Latin_Core]
     glyphs: "°äöüÄÖÜß€" # Explizit als Glyphen hinzufügen
 
   - file: "gfonts://Roboto"
     id: roboto15_font
     size: 15
     bpp: 4
-    glyphsets: [GF_Latin_Core] # Nur das Basis-Set, um Fehler zu vermeiden
+    glyphsets: [GF_Latin_Core]
     glyphs: "°€"  # Explizit als Glyphen hinzufügen
 
   - file: "gfonts://Roboto"
     id: font_roboto_56 # Für die große Uhrzeit/Datumsanzeige
     size: 56
     bpp: 4
-    # Benötigte Zeichen für Zeit/Datum: Zahlen, Doppelpunkt, Punkt, Komma, Leerzeichen.
-    glyphs: "0123456789.:, AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzäöüÄÖÜß "
+    # Das Leerzeichen am Ende wurde entfernt.
+    # GF_Latin_Core (standardmäßig für gfonts geladen) enthält bereits das Leerzeichen.
+    # Die Buchstaben Aa-Zz und Umlaute sind hier wichtig für Wochentage/Monate.
+    glyphs: "0123456789.:,AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzäöüÄÖÜß"
 
   - file: "gfonts://Roboto"
     id: font_roboto_28 # Für Wetterbeschreibung und Temperaturwerte
     size: 28
     bpp: 4
-    glyphsets: [GF_Latin_Core, GF_Latin_Extended_A]  # größeres Set
-    glyphs: "°€" # die fehlenden Zeichen hier explizit hinzufügen
+    # GF_Latin_Extended_A deckt viele europäische Zeichen inkl. Umlaute ab.
+    # Grad und Euro explizit, falls nicht in Extended_A enthalten.
+    glyphsets: [GF_Latin_Core, GF_Latin_Extended_A]
+    glyphs: "°€"
 
 substitutions:
   font_time_date: font_roboto_56
