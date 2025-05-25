@@ -25,6 +25,7 @@ packages:
             addon/network.yaml,
             assets/fonts.yaml,
             assets/icons.yaml,
+            assets/weather_icons.yaml
             assets/images.yaml,
             theme/button.yaml,
             office/sensors.yaml,
