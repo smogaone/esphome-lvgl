@@ -5,7 +5,7 @@ lvgl:
           id: wifi_icon_label
           text: "\U000F092E"
           styles: roboto15_style
-          text_font: $icon_font_header # Korrekt, da in icons.yaml [Search Result 5] definiert
+          text_font: $icon_font_header
           align: top_right
           x: -8
           y: 4
@@ -19,7 +19,8 @@ lvgl:
           x: 8
           y: 4
           text_color: 0xFFFFFF
-          hidden: lv.scr_act() != lv.page_get_object(lv.page_get_id_by_name("main_buttons_page")) # Nur auf Button-Seite sichtbar
+          hidden: !lambda |- # Korrektur: Explizites Lambda
+            return lv_scr_act() != lv_page_get_obj_by_id(lv_page_get_id_by_name("main_buttons_page"));
 
       - label:
           id: header_display_time
@@ -30,7 +31,8 @@ lvgl:
           y: 4
           text_align: center
           text_color: 0xFFFFFF
-          hidden: lv.scr_act() != lv.page_get_object(lv.page_get_id_by_name("main_buttons_page")) # Nur auf Button-Seite sichtbar
+          hidden: !lambda |- # Korrektur: Explizites Lambda
+            return lv_scr_act() != lv_page_get_obj_by_id(lv_page_get_id_by_name("main_buttons_page"));
 
       - obj:
           id: page_footer
@@ -100,7 +102,7 @@ lvgl:
                       time: 300ms
   pages:
     - id: weather_page
-      bg_image_src: weather_page_background # Korrigiert
+      bg_image_src: weather_page_background
       bg_opa: cover
       pad_all: 15px
       layout:
@@ -111,7 +113,7 @@ lvgl:
         - label:
             id: time_date_label
             text: "Lade Zeit..."
-            text_font: $font_time_date # Korrekt, da in fonts.yaml [Search Result 4] definiert
+            text_font: $font_time_date
             text_color: 0xFFFFFF
             text_align: center
             grid_cell_column_pos: 0
@@ -122,7 +124,7 @@ lvgl:
         - label:
             id: weather_main_icon
             text: "\U000F0599"
-            text_font: $font_weather_main_icon # Korrekt, da Substitution jetzt in weather_icons.yaml [Search Result 7] existiert
+            text_font: $font_weather_main_icon
             text_color: 0xFFFFFF
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
@@ -132,7 +134,7 @@ lvgl:
         - label:
             id: weather_condition_label
             text: "Wetter lädt..."
-            text_font: $font_weather_text # Korrekt, da in fonts.yaml [Search Result 4] definiert
+            text_font: $font_weather_text
             text_color: 0xFFFFFF
             text_align: left
             wrap: word
@@ -163,14 +165,14 @@ lvgl:
                   widgets:
                     - label:
                         id: indoor_temp_icon_label
-                        text: $temp_indoor_icon # Korrekt, da in icons.yaml [Search Result 5] definiert
-                        text_font: $icon_font_header # Korrekt
+                        text: $temp_indoor_icon
+                        text_font: $icon_font_header
                         text_color: 0xFFFFFF
                         pad_right: 8px
                     - label:
                         id: indoor_temp_value_label
                         text: "--.-°C"
-                        text_font: $font_weather_text # Korrekt
+                        text_font: $font_weather_text
                         text_color: 0xFFFFFF
               - obj:
                   width: SIZE_CONTENT
@@ -180,14 +182,14 @@ lvgl:
                   widgets:
                     - label:
                         id: outdoor_temp_icon_label
-                        text: $temp_outdoor_icon # Korrekt, da in icons.yaml [Search Result 5] definiert
-                        text_font: $icon_font_header # Korrekt
+                        text: $temp_outdoor_icon
+                        text_font: $icon_font_header
                         text_color: 0xFFFFFF
                         pad_right: 8px
                     - label:
                         id: outdoor_temp_value_label
                         text: "--.-°C"
-                        text_font: $font_weather_text # Korrekt
+                        text_font: $font_weather_text
                         text_color: 0xFFFFFF
 
     - id: main_buttons_page
@@ -379,4 +381,3 @@ lvgl:
               - label: {text_font: $icon_font, align: top_left, id: wohnzimmer_stehlampe_icon, text: $lightbulb_off}
               - label: {align: bottom_left, id: wohnzimmer_stehlampe_label, text: "Wohnzimmer Stehlampe"}
             on_click: [{homeassistant.service: {service: light.toggle, data: {entity_id: light.wohnzimmer_stehlampe}}}]
-
