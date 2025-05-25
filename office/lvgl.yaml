@@ -101,7 +101,7 @@ lvgl:
         - label:
             id: weather_main_icon
             text: "\U000F0599"
-            text_font: font_weather_main_icon
+            text_font: $font_weather_main_icon
             text_color: 0xFFFFFF
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
