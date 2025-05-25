@@ -54,6 +54,12 @@ font:
       "\U000F1402",  # mdi-pump
       "\U000F0731",  # mdi:arrow-left-bold
       "\U000F0734",  # mdi-arrow-right-bold
+      "\U000F05AA",  # mdi-wifi-off
+      "\U000F091B",  # mdi-wifi-strength-outline
+      "\U000F091C",  # mdi-wifi-strength-1
+      "\U000F091D",  # mdi-wifi-strength-2
+      "\U000F091E",  # mdi-wifi-strength-3
+      "\U000F091F",  # mdi-wifi-strength-4
       
     ]
 
