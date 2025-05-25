@@ -102,18 +102,20 @@ lvgl:
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
+      pad_column: 5px # Abstand zwischen den Spalten
+      pad_row: 5px    # Abstand zwischen den Zeilen
       layout:
         type: grid
-        grid_columns: [1fr, 1fr, 1fr, 1fr, 1fr] # 5 Spalten
-        grid_rows: [auto, auto, auto, auto]     # 4 Zeilen
-        # Gap-Eigenschaften werden hier nicht direkt unterstützt,
-        # Abstände müssen über Padding der Widgets oder des Containers geregelt werden.
-        # Dein Theme: button: pad_all: $padding (8px) sorgt bereits für Abstände um die Buttons.
+        grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)] # 5 gleich breite Spalten
+        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]  # 4 Zeilen, Höhe passt sich dem Inhalt an
       widgets:
         - button: 
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
-            height: $button_height_single
+            # Breite und Höhe kommen vom Theme oder können hier überschrieben werden
+            # grid_cell_x_align: STRETCH # Optional, wenn Button die Zelle füllen soll
+            # grid_cell_y_align: STRETCH # Optional
+            height: $button_height_single # Bleibt erhalten, da Zeilenhöhe CONTENT ist
             checkable: false
             id: office_scene_features_button
             styles: control
