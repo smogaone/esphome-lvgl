@@ -118,7 +118,7 @@ script:
       - lvgl.label.update:
           id: wifi_icon_label
           text: !lambda |-
-            if (!wifi::is_connected()) {
+            if (!network::is_connected()) {
               return std::string("\U000F05AA");
             }
             if (id(wifi_signal_sensor).has_state()) {
