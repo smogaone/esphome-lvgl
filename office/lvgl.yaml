@@ -386,22 +386,22 @@ lvgl:
                   data:
                     entity_id: button.webhook_mainsail
         - button: 
+            id: wohnzimmer_stehlampe_button
             height: $button_height_single
-            checkable: false
-            id: office_scene_calls_button
+            checkable: true
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  id: office_scene_calls_icon                
-                  text: $videocall
+                  id: wohnzimmer_stehlampe_icon
+                  text: $lightbulb_off
               - label:
                   align: bottom_left
-                  id: office_scene_calls_label
-                  text: "Calls"
-            on_press:
+                  id: wohnzimmer_stehlampe_label
+                  text: "Wohnzimmer Stehlampe"
+            on_click:
               - homeassistant.service:
-                  service: scene.turn_on
+                  service: light.toggle
                   data:
-                    entity_id: scene.office_desk_call
+                    entity_id: light.wohnzimmer_stehlampe
