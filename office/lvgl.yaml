@@ -3,7 +3,7 @@ lvgl:
     widgets:
       - label:
           id: wifi_icon_label
-          text: "\U000F092E"
+          text: "\U000F092E" # Initial: mdi-wifi-strength-off-outline
           styles: roboto15_style
           text_font: $icon_font_header
           align: top_right
@@ -19,7 +19,7 @@ lvgl:
           x: 8
           y: 4
           text_color: 0xFFFFFF
-          hidden: !lambda |- # Korrektur: Explizites Lambda
+          hidden: !lambda |- # Nur auf Button-Seite sichtbar
             return lv_scr_act() != lv_page_get_obj_by_id(lv_page_get_id_by_name("main_buttons_page"));
 
       - label:
@@ -31,7 +31,7 @@ lvgl:
           y: 4
           text_align: center
           text_color: 0xFFFFFF
-          hidden: !lambda |- # Korrektur: Explizites Lambda
+          hidden: !lambda |- # Nur auf Button-Seite sichtbar
             return lv_scr_act() != lv_page_get_obj_by_id(lv_page_get_id_by_name("main_buttons_page"));
 
       - obj:
@@ -123,7 +123,7 @@ lvgl:
 
         - label:
             id: weather_main_icon
-            text: "\U000F0599"
+            text: "\U000F0599" # Initial: Sunny
             text_font: $font_weather_main_icon
             text_color: 0xFFFFFF
             grid_cell_column_pos: 0
@@ -137,7 +137,7 @@ lvgl:
             text_font: $font_weather_text
             text_color: 0xFFFFFF
             text_align: left
-            wrap: word
+            long_mode: LV_LABEL_LONG_WRAP # Korrigiert
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
             grid_cell_x_align: start
@@ -192,9 +192,9 @@ lvgl:
                         text_font: $font_weather_text
                         text_color: 0xFFFFFF
 
-    - id: main_buttons_page
+    - id: main_buttons_page # Deine ursprüngliche main_page, jetzt zweite Seite
       width: 100%
-      bg_color: 0x000000
+      bg_color: 0x000000 # Schwarz
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
@@ -326,58 +326,4 @@ lvgl:
               - image: {src: meet_logo, antialias: true}
               - label: {align: bottom_left, text: "Meet"}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_meet}}}]
-        - button: 
-            grid_cell_column_pos: 1
-            grid_cell_row_pos: 2
-            height: $button_height_single
-            checkable: false
-            id: webhook_figma_button
-            styles: webhook
-            widgets:
-              - image: {src: figma_logo, antialias: true}
-              - label: {align: bottom_left, text: "Figma"}
-            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_figma}}}]
-        - button: 
-            grid_cell_column_pos: 2
-            grid_cell_row_pos: 2
-            height: $button_height_single
-            checkable: false
-            id: webhook_forklift_button
-            styles: webhook
-            widgets:
-              - label: {text_font: $icon_font, align: top_left, text: $forklift}
-              - label: {align: bottom_left, text: "Forklift"}
-            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_forklift}}}]
-        - button: 
-            grid_cell_column_pos: 3
-            grid_cell_row_pos: 2
-            height: $button_height_single
-            checkable: false
-            id: webhook_iawriter_button
-            styles: webhook
-            widgets:
-              - label: {text_font: $icon_font, align: top_left, text: $command}
-              - label: {align: bottom_left, text: "Ia Writer"}
-            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_iawriter}}}]
-        - button: 
-            grid_cell_column_pos: 4
-            grid_cell_row_pos: 2
-            height: $button_height_single
-            checkable: false
-            id: webhook_mainsail_button
-            styles: webhook
-            widgets:
-              - image: {src: mainsail_logo, antialias: true}
-              - label: {align: bottom_left, text: "Mainsail"}
-            on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_mainsail}}}]
-        - button: 
-            grid_cell_column_pos: 0
-            grid_cell_row_pos: 3
-            id: wohnzimmer_stehlampe_button
-            height: $button_height_single
-            checkable: true
-            styles: control
-            widgets:
-              - label: {text_font: $icon_font, align: top_left, id: wohnzimmer_stehlampe_icon, text: $lightbulb_off}
-              - label: {align: bottom_left, id: wohnzimmer_stehlampe_label, text: "Wohnzimmer Stehlampe"}
-            on_click: [{homeassistant.service: {service: light.toggle, data: {entity_id: light.wohnzimmer_stehlampe}}}]
+        - button:
