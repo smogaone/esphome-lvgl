@@ -5,7 +5,7 @@ font:
     bpp: 4
     glyphsets: [GF_Latin_Core]
     glyphs: "°äöüÄÖÜß€" # Explizite Zeichen
-    # ignore_missing_glyphs: true # Option, um die "missing 12 glyphs"-Warnung zu unterdrücken
+    ignore_missing_glyphs: true # Option, um die "missing 12 glyphs"-Warnung zu unterdrücken
 
   - file: "gfonts://Roboto"
     id: roboto15_font
@@ -13,7 +13,7 @@ font:
     bpp: 4
     glyphsets: [GF_Latin_Core]
     glyphs: "°€" # Explizite Zeichen
-    # ignore_missing_glyphs: true # Option
+    ignore_missing_glyphs: true # Option
 
   - file: "gfonts://Roboto"
     id: font_roboto_56 # Für die große Uhrzeit/Datumsanzeige
@@ -22,7 +22,7 @@ font:
     # GF_Latin_Core wird standardmäßig geladen und enthält das Leerzeichen.
     # Explizite Glyphen für Zahlen, Satzzeichen und Buchstaben für formatierte Zeit/Datum.
     glyphs: "0123456789.:,AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzäöüÄÖÜß"
-    # ignore_missing_glyphs: true # Option
+    ignore_missing_glyphs: true # Option
 
   - file: "gfonts://Roboto"
     id: font_roboto_28 # Für Wetterbeschreibung und Temperaturwerte
@@ -32,7 +32,7 @@ font:
     # Grad und Euro explizit, falls nicht in den Sets enthalten oder zur Sicherheit.
     glyphsets: [GF_Latin_Core, GF_Latin_Beyond] # Korrigiert: GF_Latin_Extended_A -> GF_Latin_Beyond
     glyphs: "°€"
-    # ignore_missing_glyphs: true # Option
+    ignore_missing_glyphs: true # Option
 
 substitutions:
   font_time_date: font_roboto_56
