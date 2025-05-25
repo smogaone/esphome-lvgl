@@ -2,15 +2,36 @@ lvgl:
   top_layer:
     widgets:
       - label:
-          text: "\U000F05AA"
           id: wifi_icon_label
+          text: "\U000F092E" # Dein Wunsch-Icon für WLAN aus
           styles: roboto15_style
           text_font: $icon_font_header
           align: top_right
           x: -8
           y: 4
-          text_color: 0xFFFFFF
-      
+          text_color: 0xFFFFFF # Deine ursprüngliche Farbe
+
+      - label:
+          id: header_temperatures # Für die zweite Seite (Buttons)
+          text: "-°/-°"
+          styles: roboto15_style
+          align: top_left
+          x: 8
+          y: 4
+          text_color: 0xFFFFFF # Deine ursprüngliche Farbe
+          hidden: true # Wird per Lambda sichtbar geschaltet
+
+      - label:
+          id: header_display_time # Für die zweite Seite (Buttons)
+          text: "--:--"
+          styles: roboto15_style
+          align: top_mid
+          x: 0
+          y: 4
+          text_align: center
+          text_color: 0xFFFFFF # Deine ursprüngliche Farbe
+          hidden: true # Wird per Lambda sichtbar geschaltet
+
       - obj:
           id: page_footer
           align: bottom_mid
@@ -58,7 +79,7 @@ lvgl:
                       text: $home
                       align: center
                 on_click:
-                  - lvgl.page.show: weather_page
+                  - lvgl.page.show: weather_page # Zeigt auf die neue Wetter-Startseite
             - button:
                 id: footer_next_button
                 styles: footer_button_style
@@ -78,10 +99,17 @@ lvgl:
                       animation: MOVE_RIGHT
                       time: 300ms
   pages:
-    - id: weather_page
+    - id: weather_page # Neue erste Seite
       bg_image: weather_page_background
       bg_opa: cover
-      pad_all: 15px
+      pad_all: 15px # Etwas Abstand zum Rand
+      on_open: # Lambda, um Header-Elemente der zweiten Seite auszublenden
+        - lvgl.widget.update:
+            id: header_temperatures
+            hidden: true
+        - lvgl.widget.update:
+            id: header_display_time
+            hidden: true
       layout:
         type: grid
         grid_columns: [FR(45), FR(55)] 
@@ -100,7 +128,7 @@ lvgl:
 
         - label:
             id: weather_main_icon
-            text: "\U000F0599"
+            text: "\U000F0599" # Initiales Sunny-Icon
             text_font: $font_weather_main_icon
             text_color: 0xFFFFFF
             grid_cell_column_pos: 0
@@ -169,14 +197,21 @@ lvgl:
                         text_font: $font_weather_text
                         text_color: 0xFFFFFF
 
-    - id: main_buttons_page
+    - id: main_buttons_page # Deine alte Hauptseite, jetzt zweite Seite
       width: 100%
-      bg_color: 0x000000
+      bg_color: 0x000000 # Dein ursprünglicher Hintergrund
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
+      on_open: # Lambda, um Header-Elemente der zweiten Seite einzublenden
+        - lvgl.widget.update:
+            id: header_temperatures
+            hidden: false
+        - lvgl.widget.update:
+            id: header_display_time
+            hidden: false
       layout:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
@@ -300,7 +335,7 @@ lvgl:
             id: webhook_meet_button
             styles: webhook
             widgets:
-              - image: {src: meet_logo, antialias: true} # Annahme: meet_logo ist in images.yaml definiert
+              - image: {src: meet_logo, antialias: true}
               - label: {align: bottom_left, text: "Meet"}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_meet}}}]
         - button: 
@@ -311,7 +346,7 @@ lvgl:
             id: webhook_figma_button
             styles: webhook
             widgets:
-              - image: {src: figma_logo, antialias: true} # Annahme: figma_logo ist in images.yaml definiert
+              - image: {src: figma_logo, antialias: true}
               - label: {align: bottom_left, text: "Figma"}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_figma}}}]
         - button: 
@@ -344,7 +379,7 @@ lvgl:
             id: webhook_mainsail_button
             styles: webhook
             widgets:
-              - image: {src: mainsail_logo, antialias: true} # Annahme: mainsail_logo ist in images.yaml definiert
+              - image: {src: mainsail_logo, antialias: true}
               - label: {align: bottom_left, text: "Mainsail"}
             on_click: [{homeassistant.service: {service: button.press, data: {entity_id: button.webhook_mainsail}}}]
         - button: 
