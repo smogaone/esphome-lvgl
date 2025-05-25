@@ -73,6 +73,67 @@ font:
    #   "\U000F02DC",  # mdi-home
    #   ]
 
+ - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font_header
+    size: 15
+    bpp: 4
+    glyphs: [
+      "\U000F0335",  # mdi-lightbulb
+      "\U000F042B",  # mdi-printer-3d
+      "\U000F0D43",  # mdi-air-filter
+      "\U000F1051",  # mdi-led-strip-variant
+      "\U000F03D7",  # mdi-package-variant-closed
+      "\U000F07D6",  # mdi-led-strip
+      "\U000F00AC",  # mdi-blinds-closed
+      "\U000F1011",  # mdi-blinds-open
+      "\U000F1A4C",  # mdi-lightbulb-night
+      "\U000F1087",  # mdi-router-network
+      "\U000F036B",  # mdi-message-video
+      "\U000F0614",  # mdi-application-outline
+      "\U000F07C9",  # mdi-forklift
+      "\U000F02AB",  # mdi-gmail
+      "\U000F04B1",  # mdi-slack
+      "\U000F0633",  # mdi-command
+      "\U000F050F",  # mdi-thermometer
+      "\U000F10C3",  # mdi-thermometer-low
+      "\U000F10C2",  # mdi-thermometer-high
+      "\U000F192D",  # mdi-grid-import
+      "\U000F02D1",  # mdi-heart
+      "\U000F05F1",  # mdi-ev-station
+      "\U000F140B",  # mdi-lightning-bolt
+      "\U000F0425",  # mdi-power
+      "\U000F068A",  # mdi-shield-home
+      "\U000F02DC",  # mdi-home
+      "\U000F1A91",  # mdi-cash-clock
+      "\U000F0F54",  # mdi-home-thermometer
+      "\U000F18D6",  # mdi-sun-thermometer
+      "\U000F1818",  # mdi-bathtub
+      "\U000F1A43",  # mdi-heat-pump
+      "\U000F0336",  # mdi-lightbulb-off
+      "\U000F0769",  # mdi-ceiling-light
+      "\U000F0FA6",  # mdi-car-seat-heater
+      "\U000F1054",  # mdi-outdoor-lamp
+      "\U000F1A85",  # mdi-water-thermometer
+      "\U000F1A45",  # mdi-heat-wave
+      "\U000F0E02",  # mdi-thermometer-chevron-down
+      "\U000F0DA1",  # mdi-transfer-down
+      "\U000F0E03",  # mdi-thermometer-chevron-up
+      "\U000F0DA3",  # mdi-transfer-up
+      "\U000F0F9C",  # mdi-home-import-outline
+      "\U000F0F9B",  # mdi-home-export-outline
+      "\U000F0510",  # mdi-thermometer-lines
+      "\U000F1402",  # mdi-pump
+      "\U000F0731",  # mdi:arrow-left-bold
+      "\U000F0734",  # mdi-arrow-right-bold
+      "\U000F05AA",  # mdi-wifi-off
+      "\U000F091B",  # mdi-wifi-strength-outline
+      "\U000F091C",  # mdi-wifi-strength-1
+      "\U000F091D",  # mdi-wifi-strength-2
+      "\U000F091E",  # mdi-wifi-strength-3
+      "\U000F091F",  # mdi-wifi-strength-4
+      
+    ]  
+
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
     id: icons_100
     size: 100
