@@ -1,5 +1,5 @@
 lvgl:
-  style_definitions: # Aus deinem Log paste-2.txt
+  style_definitions: # Aus deinem Log paste-2.txt / paste-3.txt
     - id: roboto15_style
       text_font: roboto15_font
     - id: webhook
@@ -8,10 +8,10 @@ lvgl:
       bg_color: 0x313131
     - id: footer_button_style
       pad_all: 2px
-  theme: # Aus deinem Log paste-2.txt
+  theme: # Aus deinem Log paste-2.txt / paste-3.txt
     button:
       text_font: roboto17_font
-      scroll_on_focus: False # Beachte YAML-Boolean false
+      scroll_on_focus: false # YAML-Boolean false
       radius: 12px
       width: 149px
       height: 100px
@@ -66,8 +66,8 @@ lvgl:
           layout:
             type: flex
             flex_flow: row
-            flex_align_main: space_between
-            flex_align_cross: center
+            flex_align_main: space_between # Korrekt
+            flex_align_cross: center     # Korrekt
           widgets:
             - button:
                 id: footer_prev_button
@@ -135,7 +135,7 @@ lvgl:
             id: time_date_label
             text: "Lade Zeit..."
             text_font: font_roboto_56 # Direkte ID
-            text_color: 0xFFFFFF # Korrigiert von 16777215
+            text_color: 0xFFFFFF # War 16777215
             text_align: center
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
@@ -146,7 +146,7 @@ lvgl:
             id: weather_main_icon
             text: "\U000F0599" # Unicode für 󰖙 (Sunny)
             text_font: icon_100 # Direkte ID
-            text_color: 0xFFFFFF # Korrigiert
+            text_color: 0xFFFFFF # War 16777215
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
             grid_cell_x_align: center
@@ -156,7 +156,7 @@ lvgl:
             id: weather_condition_label
             text: "Wetter lädt..."
             text_font: font_roboto_28 # Direkte ID
-            text_color: 0xFFFFFF # Korrigiert
+            text_color: 0xFFFFFF # War 16777215
             text_align: left
             long_mode: LV_LABEL_LONG_WRAP
             grid_cell_column_pos: 1
@@ -170,7 +170,7 @@ lvgl:
             grid_cell_row_pos: 2
             grid_cell_column_span: 2
             width: 100%
-            height: SIZE_CONTENT # Korrigiert: Ohne Anführungszeichen
+            height: SIZE_CONTENT # Ohne Anführungszeichen
             bg_opa: transparent
             layout: 
               type: flex
@@ -179,8 +179,8 @@ lvgl:
               flex_align_cross: center     # Korrekt
             widgets: 
               - obj: 
-                  width: SIZE_CONTENT # Korrigiert
-                  height: SIZE_CONTENT # Korrigiert
+                  width: SIZE_CONTENT # Ohne Anführungszeichen
+                  height: SIZE_CONTENT # Ohne Anführungszeichen
                   bg_opa: transparent
                   layout: 
                     type: flex
@@ -191,16 +191,16 @@ lvgl:
                         id: indoor_temp_icon_label
                         text: "\U000F0F54" # Unicode für 󰽔 (mdi-home-thermometer)
                         text_font: icon_font_header # Direkte ID
-                        text_color: 0xFFFFFF # Korrigiert
+                        text_color: 0xFFFFFF # War 16777215
                         pad_right: 8px
                     - label: 
                         id: indoor_temp_value_label
                         text: "--.-°C"
                         text_font: font_roboto_28 # Direkte ID
-                        text_color: 0xFFFFFF # Korrigiert
+                        text_color: 0xFFFFFF # War 16777215
               - obj: 
-                  width: SIZE_CONTENT # Korrigiert
-                  height: SIZE_CONTENT # Korrigiert
+                  width: SIZE_CONTENT # Ohne Anführungszeichen
+                  height: SIZE_CONTENT # Ohne Anführungszeichen
                   bg_opa: transparent
                   layout: 
                     type: flex
@@ -211,13 +211,13 @@ lvgl:
                         id: outdoor_temp_icon_label
                         text: "\U000F18D6" # Unicode für 󱣖 (mdi-sun-thermometer)
                         text_font: icon_font_header # Direkte ID
-                        text_color: 0xFFFFFF # Korrigiert
+                        text_color: 0xFFFFFF # War 16777215
                         pad_right: 8px
                     - label: 
                         id: outdoor_temp_value_label
                         text: "--.-°C"
                         text_font: font_roboto_28 # Direkte ID
-                        text_color: 0xFFFFFF # Korrigiert
+                        text_color: 0xFFFFFF # War 16777215
 
     - id: main_buttons_page
       width: 100%
@@ -230,7 +230,7 @@ lvgl:
       layout:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
-        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
+        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT] # Ohne Anführungszeichen
       widgets:
         - button: 
             grid_cell_column_pos: 0
