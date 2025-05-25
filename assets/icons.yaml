@@ -74,8 +74,8 @@ font:
    #   ]
 
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
-    id: icons_100
-    size: 100
+    id: icon_font_header
+    size: 15
     bpp: 4
     glyphs: [
       "\U000F0594",  # clear-night
