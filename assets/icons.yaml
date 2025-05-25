@@ -95,7 +95,7 @@ font:
       "\U000F059E",  # windy-variant
       "\U000F14E4",  # sunny-off
       "\U000F050F",  # thermometer
-      "\U000F05AA",  # mdi-wifi-off
+      "\U000F092E",  # mdi-wifi-strength-off-outline
       "\U000F091B",  # mdi-wifi-strength-outline
       "\U000F091C",  # mdi-wifi-strength-1
       "\U000F091D",  # mdi-wifi-strength-2
