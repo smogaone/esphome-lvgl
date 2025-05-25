@@ -28,12 +28,12 @@ sensor:
   - platform: wifi_signal
     name: "Wifi Signal dB"
     id: wifi_signal_db
-    update_interval: 60s
+    update_interval: 15s
     entity_category: "diagnostic"
     internal: true
     on_value:
       then:
-        - script.execute: update_wifi_display
+        - script.execute: update_wifi_icon_display
 
 binary_sensor:
   - platform: homeassistant
@@ -113,14 +113,26 @@ script:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
 
-  - id: update_wifi_display
+  - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
-          id: wifi_signal_label
+          id: wifi_icon_label
           text: !lambda |-
-            char buffer[10];
-            if (id(wifi_signal_db).has_state()) {
-              snprintf(buffer, sizeof(buffer), "%.0f dB", id(wifi_signal_db).state);
-              return std::string(buffer);
+            if (!wifi::is_connected()) {
+              return std::string("\U000F05AA");
             }
-            return std::string("--- dB");
+            if (id(wifi_signal_db).has_state()) {
+              float rssi = id(wifi_signal_db).state;
+              if (rssi >= -55) {
+                return std::string("\U000F091F");
+              } else if (rssi >= -65) {
+                return std::string("\U000F091E");
+              } else if (rssi >= -75) {
+                return std::string("\U000F091D");
+              } else if (rssi >= -85) {
+                return std::string("\U000F091C");
+              } else {
+                return std::string("\U000F091B");
+              }
+            }
+            return std::string("\U000F05AA");
