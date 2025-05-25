@@ -102,7 +102,7 @@ binary_sensor:
           state:
             checked: !lambda return x;
 
-   - platform: homeassistant
+  - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
     publish_initial_state: true
@@ -121,7 +121,7 @@ binary_sensor:
           else:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
-                text: $lightbulb_off         
+                text: $lightbulb_off       
 
 script:
   - id: update_temperatur_anzeige
