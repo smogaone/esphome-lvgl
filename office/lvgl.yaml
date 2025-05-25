@@ -1,5 +1,5 @@
 lvgl:
-  style_definitions:
+  style_definitions: # Aus deinem Log paste-2.txt
     - id: roboto15_style
       text_font: roboto15_font
     - id: webhook
@@ -8,7 +8,7 @@ lvgl:
       bg_color: 0x313131
     - id: footer_button_style
       pad_all: 2px
-  theme:
+  theme: # Aus deinem Log paste-2.txt
     button:
       text_font: roboto17_font
       scroll_on_focus: False
@@ -133,7 +133,7 @@ lvgl:
       widgets:
         - label:
             id: time_date_label
-            text: "Lade Zeit..."
+            text: "Lade Zeit..." # Korrigierte Anführungszeichen (optional, aber gute Praxis)
             text_font: font_roboto_56 # Direkte ID
             text_color: 0xFFFFFF # Korrigiert von 16777215
             text_align: center
@@ -154,7 +154,7 @@ lvgl:
         
         - label:
             id: weather_condition_label
-            text: "Wetter lädt..."
+            text: "Wetter lädt..." # Korrigierte Anführungszeichen
             text_font: font_roboto_28 # Direkte ID
             text_color: 0xFFFFFF # Korrigiert
             text_align: left
