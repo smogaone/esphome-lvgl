@@ -395,7 +395,7 @@ lvgl:
                   text_font: $icon_font
                   align: top_left
                   id: wohnzimmer_stehlampe_icon
-                  text: $lightbulb_off
+                  text: $lightbulb
               - label:
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
