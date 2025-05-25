@@ -11,7 +11,7 @@ lvgl:
   theme: # Aus deinem Log paste-2.txt
     button:
       text_font: roboto17_font
-      scroll_on_focus: False
+      scroll_on_focus: False # Beachte YAML-Boolean false
       radius: 12px
       width: 149px
       height: 100px
@@ -133,7 +133,7 @@ lvgl:
       widgets:
         - label:
             id: time_date_label
-            text: "Lade Zeit..." # Korrigierte Anführungszeichen (optional, aber gute Praxis)
+            text: "Lade Zeit..."
             text_font: font_roboto_56 # Direkte ID
             text_color: 0xFFFFFF # Korrigiert von 16777215
             text_align: center
@@ -154,7 +154,7 @@ lvgl:
         
         - label:
             id: weather_condition_label
-            text: "Wetter lädt..." # Korrigierte Anführungszeichen
+            text: "Wetter lädt..."
             text_font: font_roboto_28 # Direkte ID
             text_color: 0xFFFFFF # Korrigiert
             text_align: left
@@ -170,7 +170,7 @@ lvgl:
             grid_cell_row_pos: 2
             grid_cell_column_span: 2
             width: 100%
-            height: "SIZE_CONTENT" # Korrigiert: In Anführungszeichen
+            height: SIZE_CONTENT # Korrigiert: Ohne Anführungszeichen
             bg_opa: transparent
             layout: 
               type: flex
@@ -179,8 +179,8 @@ lvgl:
               flex_align_cross: center     # Korrekt
             widgets: 
               - obj: 
-                  width: "SIZE_CONTENT" # Korrigiert
-                  height: "SIZE_CONTENT" # Korrigiert
+                  width: SIZE_CONTENT # Korrigiert
+                  height: SIZE_CONTENT # Korrigiert
                   bg_opa: transparent
                   layout: 
                     type: flex
@@ -199,8 +199,8 @@ lvgl:
                         text_font: font_roboto_28 # Direkte ID
                         text_color: 0xFFFFFF # Korrigiert
               - obj: 
-                  width: "SIZE_CONTENT" # Korrigiert
-                  height: "SIZE_CONTENT" # Korrigiert
+                  width: SIZE_CONTENT # Korrigiert
+                  height: SIZE_CONTENT # Korrigiert
                   bg_opa: transparent
                   layout: 
                     type: flex
