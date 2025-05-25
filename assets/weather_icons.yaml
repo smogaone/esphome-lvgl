@@ -1,7 +1,7 @@
 # Materialdesign Weather Icons for main page
 font:
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
-    id: font_weather_main_icon
+    id: icon_100
     size: 100
     bpp: 4
     glyphs: [
@@ -23,3 +23,6 @@ font:
       "\U000F14E4", # sunny-off
       "\U000F050F"  # thermometer
     ]
+
+substitutions:
+  font_weather_main_icon: icon_100
