@@ -31,7 +31,7 @@ lvgl:
           id: page_footer
           align: bottom_mid
           width: 100%
-          height: 24px # "px" beibehalten
+          height: 20px # "px" beibehalten
           bg_opa: 0 # Geändert von transparent
           border_width: 0
           pad_all: 2px # "px" beibehalten
@@ -45,7 +45,7 @@ lvgl:
                 id: footer_prev_button
                 styles: footer_button_style
                 width: 60px # "px" beibehalten
-                height: 20px # "px" beibehalten
+                height: 18px # "px" beibehalten
                 radius: $radius # Annahme: $radius ist "12px" oder ähnlich
                 bg_opa: 0 # Geändert von transparent
                 border_width: 0
@@ -57,13 +57,13 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.previous:
-                      animation: MOVE_RIGHT
+                      animation: MOVE_LEFT
                       time: 300ms
             - button:
                 id: footer_home_button
                 styles: footer_button_style
                 width: 60px # "px" beibehalten
-                height: 20px # "px" beibehalten
+                height: 18px # "px" beibehalten
                 radius: $radius # Annahme: $radius ist "12px" oder ähnlich
                 bg_opa: 0 # Geändert von transparent
                 border_width: 0
@@ -79,7 +79,7 @@ lvgl:
                 id: footer_next_button
                 styles: footer_button_style
                 width: 60px # "px" beibehalten
-                height: 20px # "px" beibehalten
+                height: 18px # "px" beibehalten
                 radius: $radius # Annahme: $radius ist "12px" oder ähnlich
                 bg_opa: 0 # Geändert von transparent
                 border_width: 0
@@ -91,7 +91,7 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.next:
-                      animation: MOVE_LEFT
+                      animation: MOVE_RIGHT
                       time: 300ms
   pages:
     - id: main_page
