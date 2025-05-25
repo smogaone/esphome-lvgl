@@ -3,34 +3,34 @@ lvgl:
     widgets:
       - label:
           id: wifi_icon_label
-          text: "\U000F092E" # Dein Wunsch-Icon für WLAN aus
+          text: "\U000F092E"
           styles: roboto15_style
-          text_font: $icon_font_header
+          text_font: $icon_font_header # Korrekt, da in icons.yaml [Search Result 5] definiert
           align: top_right
           x: -8
           y: 4
-          text_color: 0xFFFFFF # Deine ursprüngliche Farbe
+          text_color: 0xFFFFFF
 
       - label:
-          id: header_temperatures # Für die zweite Seite (Buttons)
+          id: header_temperatures
           text: "-°/-°"
           styles: roboto15_style
           align: top_left
           x: 8
           y: 4
-          text_color: 0xFFFFFF # Deine ursprüngliche Farbe
-          hidden: true # Wird per Lambda sichtbar geschaltet
+          text_color: 0xFFFFFF
+          hidden: lv.scr_act() != lv.page_get_object(lv.page_get_id_by_name("main_buttons_page")) # Nur auf Button-Seite sichtbar
 
       - label:
-          id: header_display_time # Für die zweite Seite (Buttons)
+          id: header_display_time
           text: "--:--"
           styles: roboto15_style
           align: top_mid
           x: 0
           y: 4
           text_align: center
-          text_color: 0xFFFFFF # Deine ursprüngliche Farbe
-          hidden: true # Wird per Lambda sichtbar geschaltet
+          text_color: 0xFFFFFF
+          hidden: lv.scr_act() != lv.page_get_object(lv.page_get_id_by_name("main_buttons_page")) # Nur auf Button-Seite sichtbar
 
       - obj:
           id: page_footer
@@ -79,7 +79,7 @@ lvgl:
                       text: $home
                       align: center
                 on_click:
-                  - lvgl.page.show: weather_page # Zeigt auf die neue Wetter-Startseite
+                  - lvgl.page.show: weather_page
             - button:
                 id: footer_next_button
                 styles: footer_button_style
@@ -99,17 +99,10 @@ lvgl:
                       animation: MOVE_RIGHT
                       time: 300ms
   pages:
-    - id: weather_page # Neue erste Seite
-      bg_image: weather_page_background
+    - id: weather_page
+      bg_image_src: weather_page_background # Korrigiert
       bg_opa: cover
-      pad_all: 15px # Etwas Abstand zum Rand
-      on_open: # Lambda, um Header-Elemente der zweiten Seite auszublenden
-        - lvgl.widget.update:
-            id: header_temperatures
-            hidden: true
-        - lvgl.widget.update:
-            id: header_display_time
-            hidden: true
+      pad_all: 15px
       layout:
         type: grid
         grid_columns: [FR(45), FR(55)] 
@@ -118,7 +111,7 @@ lvgl:
         - label:
             id: time_date_label
             text: "Lade Zeit..."
-            text_font: $font_time_date
+            text_font: $font_time_date # Korrekt, da in fonts.yaml [Search Result 4] definiert
             text_color: 0xFFFFFF
             text_align: center
             grid_cell_column_pos: 0
@@ -128,8 +121,8 @@ lvgl:
 
         - label:
             id: weather_main_icon
-            text: "\U000F0599" # Initiales Sunny-Icon
-            text_font: $font_weather_main_icon
+            text: "\U000F0599"
+            text_font: $font_weather_main_icon # Korrekt, da Substitution jetzt in weather_icons.yaml [Search Result 7] existiert
             text_color: 0xFFFFFF
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
@@ -139,7 +132,7 @@ lvgl:
         - label:
             id: weather_condition_label
             text: "Wetter lädt..."
-            text_font: $font_weather_text
+            text_font: $font_weather_text # Korrekt, da in fonts.yaml [Search Result 4] definiert
             text_color: 0xFFFFFF
             text_align: left
             wrap: word
@@ -170,14 +163,14 @@ lvgl:
                   widgets:
                     - label:
                         id: indoor_temp_icon_label
-                        text: $temp_indoor_icon
-                        text_font: $icon_font_header
+                        text: $temp_indoor_icon # Korrekt, da in icons.yaml [Search Result 5] definiert
+                        text_font: $icon_font_header # Korrekt
                         text_color: 0xFFFFFF
                         pad_right: 8px
                     - label:
                         id: indoor_temp_value_label
                         text: "--.-°C"
-                        text_font: $font_weather_text
+                        text_font: $font_weather_text # Korrekt
                         text_color: 0xFFFFFF
               - obj:
                   width: SIZE_CONTENT
@@ -187,31 +180,24 @@ lvgl:
                   widgets:
                     - label:
                         id: outdoor_temp_icon_label
-                        text: $temp_outdoor_icon
-                        text_font: $icon_font_header
+                        text: $temp_outdoor_icon # Korrekt, da in icons.yaml [Search Result 5] definiert
+                        text_font: $icon_font_header # Korrekt
                         text_color: 0xFFFFFF
                         pad_right: 8px
                     - label:
                         id: outdoor_temp_value_label
                         text: "--.-°C"
-                        text_font: $font_weather_text
+                        text_font: $font_weather_text # Korrekt
                         text_color: 0xFFFFFF
 
-    - id: main_buttons_page # Deine alte Hauptseite, jetzt zweite Seite
+    - id: main_buttons_page
       width: 100%
-      bg_color: 0x000000 # Dein ursprünglicher Hintergrund
+      bg_color: 0x000000
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
-      on_open: # Lambda, um Header-Elemente der zweiten Seite einzublenden
-        - lvgl.widget.update:
-            id: header_temperatures
-            hidden: false
-        - lvgl.widget.update:
-            id: header_display_time
-            hidden: false
       layout:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
@@ -393,3 +379,4 @@ lvgl:
               - label: {text_font: $icon_font, align: top_left, id: wohnzimmer_stehlampe_icon, text: $lightbulb_off}
               - label: {align: bottom_left, id: wohnzimmer_stehlampe_label, text: "Wohnzimmer Stehlampe"}
             on_click: [{homeassistant.service: {service: light.toggle, data: {entity_id: light.wohnzimmer_stehlampe}}}]
+
