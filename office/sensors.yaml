@@ -156,4 +156,4 @@ script:
                 return std::string("\U000F091B");
               }
             }
-            return std::string("\U000F05AA");
+            return std::string("\U000F092E");
