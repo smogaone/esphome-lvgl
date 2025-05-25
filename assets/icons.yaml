@@ -54,12 +54,13 @@ font:
       "\U000F1402",  # mdi-pump
       "\U000F0731",  # mdi:arrow-left-bold
       "\U000F0734",  # mdi-arrow-right-bold
-      "\U000F092E",  # mdi-wifi-strength-off-outline
+      "\U000F05AA",  # mdi-wifi-off
       "\U000F091B",  # mdi-wifi-strength-outline
       "\U000F091C",  # mdi-wifi-strength-1
       "\U000F091D",  # mdi-wifi-strength-2
       "\U000F091E",  # mdi-wifi-strength-3
-      "\U000F091F"   # mdi-wifi-strength-4
+      "\U000F091F",  # mdi-wifi-strength-4
+      
     ]
 
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
@@ -67,6 +68,23 @@ font:
     size: 15
     bpp: 4
     glyphs: [
+      "\U000F0594",  # clear-night
+      "\U000F0590",  # cloudy
+      "\U000F0F2F",  # exceptional
+      "\U000F0591",  # fog
+      "\U000F0592",  # hail
+      "\U000F0593",  # lightning
+      "\U000F067E",  # lightning-rainy
+      "\U000F0595",  # partlycloudy
+      "\U000F0596",  # pouring
+      "\U000F0597",  # rainy
+      "\U000F0598",  # snowy
+      "\U000F067F",  # snowy-rainy
+      "\U000F0599",  # sunny
+      "\U000F059D",  # windy
+      "\U000F059E",  # windy-variant
+      "\U000F14E4",  # sunny-off
+      "\U000F050F",  # thermometer
       "\U000F092E",  # mdi-wifi-strength-off-outline
       "\U000F091B",  # mdi-wifi-strength-outline
       "\U000F091C",  # mdi-wifi-strength-1
@@ -76,9 +94,7 @@ font:
       "\U000F0731",  # mdi-arrow-left-bold
       "\U000F0734",  # mdi-arrow-right-bold
       "\U000F02DC",  # mdi-home
-      "\U000F0F54",  # mdi-home-thermometer
-      "\U000F18D6"   # mdi-sun-thermometer
-    ]
+      ]
 
 # Map icons to names
 substitutions:
@@ -129,5 +145,3 @@ substitutions:
   pump:                "\U000F1402"
   arrow_left:          "\U000F0731"
   arrow_right:         "\U000F0734"
-  temp_indoor_icon:    "\U000F0F54"
-  temp_outdoor_icon:   "\U000F18D6"
