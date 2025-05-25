@@ -3,11 +3,30 @@ font:
     id: roboto17_font
     size: 17
     bpp: 4
+    glyphsets: [GF_Latin_Core]
 
   - file: "gfonts://Roboto"
     id: roboto15_font
     size: 15
     bpp: 4
+    glyphsets: [GF_Latin_Core]
+
+  - file: "gfonts://Roboto"
+    id: font_roboto_56
+    size: 56
+    bpp: 4
+    glyphsets: [GF_Latin_Core]
+
+  - file: "gfonts://Roboto"
+    id: font_roboto_28
+    size: 28
+    bpp: 4
+    glyphsets: [GF_Latin_Core]
+
+substitutions:
+  font_time_date: font_roboto_56
+  font_weather_text: font_roboto_28
+  text_font: roboto17_font
 
 lvgl:
   style_definitions:
