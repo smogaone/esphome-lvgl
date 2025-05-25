@@ -21,15 +21,19 @@ font:
       "\U000F059D", # windy
       "\U000F059E", # windy-variant
       "\U000F14E4", # sunny-off
-      "\U000F050F"  # thermometer
-       "\U000F0596", # mdi-weather-pouring
-      "\U000F0598", # mdi-weather-snowy
+      "\U000F050F", # thermometer
+      # Das fehlende Komma wurde nach "\U000F050F" hinzugefügt.
+      # Die folgenden Icons sind Beispiele, die du evtl. für spezifischere Wetterzustände benötigst.
+      # "\U000F0596", # mdi-weather-pouring (bereits oben als "pouring")
+      # "\U000F0598", # mdi-weather-snowy (bereits oben als "snowy")
       "\U000F0F33", # mdi-weather-fog (Alternative zu \U000F0591)
-      "\U000F059C", # mdi-weather-windy
+      "\U000F059C", # mdi-weather-windy (ggf. andere Windy-Variante, "\U000F059D" ist schon oben)
       "\U000F059A", # mdi-weather-sunset
-      "\U000F059B", # mdi-weather-sunset-down
-      "\U000F059C", # mdi-weather-sunset-up (Tippfehler im MDI-Namen, es ist windy)
-      "\U000F059E", # mdi-weather-windy-variant
+      "\U000F059B"  # mdi-weather-sunset-down
+      # "\U000F059E", # mdi-weather-windy-variant (bereits oben als "windy-variant")
+      # Das zweite "\U000F059C" (mdi-weather-sunset-up) war ein Tippfehler und identisch zu mdi-weather-windy,
+      # daher habe ich es entfernt und stattdessen mdi-weather-sunset-down belassen.
+      # Wähle die Glyphen, die deine Wetterintegration tatsächlich liefert.
     ]
 
 substitutions:
