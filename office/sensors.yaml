@@ -14,7 +14,7 @@ sensor:
       then:
         - lambda: |-
             id(innen_temp_wert) = x;
-        - script.execute: update_all_temp_displays
+        - script.execute: update_temperatur_anzeige
 
   - platform: homeassistant
     entity_id: sensor.aussentemperatur
@@ -23,7 +23,7 @@ sensor:
       then:
         - lambda: |-
             id(aussen_temp_wert) = x;
-        - script.execute: update_all_temp_displays
+        - script.execute: update_temperatur_anzeige
 
   - platform: wifi_signal
     name: "Wifi Signal Strength Icon"
@@ -34,34 +34,6 @@ sensor:
     on_value:
       then:
         - script.execute: update_wifi_icon_display
-
-text_sensor:
-  - platform: homeassistant
-    id: ha_weather_condition_text
-    entity_id: weather.forecast_home
-    attribute: condition
-    on_value:
-      then:
-        - lvgl.label.update:
-            id: weather_condition_label
-            text: !lambda return x.c_str();
-
-  - platform: homeassistant
-    id: ha_weather_icon_code
-    entity_id: sensor.wetter_ui_icon_code_v2 # ANPASSEN an deine HA Template-Sensor ID
-    on_value:
-      then:
-        - lvgl.label.update:
-            id: weather_main_icon
-            text: !lambda return x.c_str();
-
-time:
-  - platform: homeassistant
-    id: esptime
-    on_time:
-      - minutes: "*"
-        then:
-          - script.execute: update_all_time_displays
 
 binary_sensor:
   - platform: homeassistant
@@ -74,6 +46,7 @@ binary_sensor:
           id: office_scene_evening_button
           state:
             checked: !lambda return x;
+
   - platform: homeassistant
     id: office_scene_dimmed
     entity_id: binary_sensor.office_scene_dimmed
@@ -84,6 +57,7 @@ binary_sensor:
           id: office_scene_dimmed_button
           state:
             checked: !lambda return x;
+
   - platform: homeassistant
     id: office_scene_desk_call
     entity_id: binary_sensor.office_scene_desk_call
@@ -94,6 +68,7 @@ binary_sensor:
           id: office_scene_calls_button
           state:
             checked: !lambda return x;
+
   - platform: homeassistant
     id: office_scene_features
     entity_id: binary_sensor.office_scene_features
@@ -104,6 +79,7 @@ binary_sensor:
           id: office_scene_features_button
           state:
             checked: !lambda return x;
+
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
@@ -114,6 +90,7 @@ binary_sensor:
           id: printer_power_button
           state:
             checked: !lambda return x;
+
   - platform: homeassistant
     id: wz_lichtschalter
     entity_id: light.wz_lichtschalter
@@ -124,6 +101,7 @@ binary_sensor:
           id: wz_button
           state:
             checked: !lambda return x;
+
   - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
@@ -143,60 +121,39 @@ binary_sensor:
           else:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
-                text: $lightbulb_off
+                text: $lightbulb_off       
 
 script:
-  - id: update_wifi_icon_display
+  - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: wifi_icon_label # Dieses Label ist im top_layer
-          text: !lambda |-
-            if (!network::is_connected()) { return std::string("\U000F092E"); }
-            if (id(wifi_signal_sensor).has_state()) {
-              float rssi = id(wifi_signal_sensor).state;
-              if (rssi >= -55) { return std::string("\U000F091F"); }
-              else if (rssi >= -65) { return std::string("\U000F091E"); }
-              else if (rssi >= -75) { return std::string("\U000F091D"); }
-              else if (rssi >= -85) { return std::string("\U000F091C"); }
-              else { return std::string("\U000F091B"); }
-            }
-            return std::string("\U000F092E");
-
-  - id: update_all_temp_displays
-    then:
-      - lvgl.label.update:
-          id: indoor_temp_value_label # Wetterseite
+          id: temperatures
           text:
-            format: "%.1f°C"
-            args: ['id(innen_temp_wert)']
-      - lvgl.label.update:
-          id: indoor_temp_icon_label # Wetterseite
-          text: $temp_indoor_icon
-      - lvgl.label.update:
-          id: outdoor_temp_value_label # Wetterseite
-          text:
-            format: "%.1f°C"
-            args: ['id(aussen_temp_wert)']
-      - lvgl.label.update:
-          id: outdoor_temp_icon_label # Wetterseite
-          text: $temp_outdoor_icon
-      - lvgl.label.update:
-          id: header_temperatures # Header der zweiten Seite
-          text:
-            format: "%d°/%d°"
+            format: "%d° / %d°"
             args:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
 
-  - id: update_all_time_displays
+  - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
-          id: time_date_label # Wetterseite
+          id: wifi_icon_label
           text: !lambda |-
-            auto time = id(esptime).now();
-            return strftime_P(PSTR("%A, %d. %B %H:%M"), time.to_c_tm());
-      - lvgl.label.update:
-          id: header_display_time # Header der zweiten Seite
-          text: !lambda |-
-            auto time = id(esptime).now();
-            return strftime_P(PSTR("%H:%M"), time.to_c_tm());
+            if (!network::is_connected()) {
+              return std::string("\U000F05AA");
+            }
+            if (id(wifi_signal_sensor).has_state()) {
+              float rssi = id(wifi_signal_sensor).state;
+              if (rssi >= -55) {
+                return std::string("\U000F091F");
+              } else if (rssi >= -65) {
+                return std::string("\U000F091E");
+              } else if (rssi >= -75) {
+                return std::string("\U000F091D");
+              } else if (rssi >= -85) {
+                return std::string("\U000F091C");
+              } else {
+                return std::string("\U000F091B");
+              }
+            }
+            return std::string("\U000F05AA");
