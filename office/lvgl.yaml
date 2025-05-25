@@ -104,12 +104,15 @@ lvgl:
       pad_right: 5px
       layout:
         type: grid
-        grid_template_columns: [1fr, 1fr, 1fr, 1fr, 1fr]
-        grid_template_rows: [auto, auto, auto, auto]
-        grid_column_gap: 5px
-        grid_row_gap: 5px
+        grid_columns: [1fr, 1fr, 1fr, 1fr, 1fr] # 5 Spalten
+        grid_rows: [auto, auto, auto, auto]     # 4 Zeilen
+        # Gap-Eigenschaften werden hier nicht direkt unterstützt,
+        # Abstände müssen über Padding der Widgets oder des Containers geregelt werden.
+        # Dein Theme: button: pad_all: $padding (8px) sorgt bereits für Abstände um die Buttons.
       widgets:
         - button: 
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 0
             height: $button_height_single
             checkable: false
             id: office_scene_features_button
@@ -130,6 +133,8 @@ lvgl:
                   data:
                     entity_id: scene.office_features
         - button: 
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 0
             height: $button_height_single
             checkable: false
             id: office_scene_calls_button
@@ -150,6 +155,8 @@ lvgl:
                   data:
                     entity_id: scene.office_desk_call
         - button: 
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 0
             height: $button_height_single
             checkable: false
             id: office_scene_evening_button
@@ -170,6 +177,8 @@ lvgl:
                   data:
                     entity_id: scene.office_evening
         - button: 
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 0
             height: $button_height_single
             checkable: false
             id: office_scene_dimmed_button
@@ -190,6 +199,8 @@ lvgl:
                   data:
                     entity_id: scene.office_dimmed
         - button: 
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 0
             height: $button_height_single
             checkable: true
             id: printer_power_button
@@ -210,6 +221,8 @@ lvgl:
                   data:
                     entity_id: switch.office_3d_printer_power
         - button: 
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 1
             height: $button_height_single
             checkable: true
             id: wz_button
@@ -228,6 +241,8 @@ lvgl:
                   data:
                     entity_id: light.wz_lichtschalter
         - button: 
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 1
             height: $button_height_single
             checkable: true
             id: office_blind_open_button
@@ -247,6 +262,8 @@ lvgl:
                     entity_id: cover.wohnzimmer_rechts
                     position: "78"
         - button: 
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 1
             height: $button_height_single
             checkable: true
             id: office_blind_close_button
@@ -266,6 +283,8 @@ lvgl:
                     entity_id: cover.wohnzimmer_rechts
                     position: "0"
         - button: 
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 1
             height: $button_height_single
             checkable: false
             id: webhook_mail_button
@@ -284,6 +303,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_mail
         - button: 
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 1
             height: $button_height_single
             checkable: false
             id: webhook_slack_button
@@ -302,6 +323,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_slack
         - button: 
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 2
             height: $button_height_single
             checkable: false
             id: webhook_meet_button
@@ -319,6 +342,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_meet
         - button: 
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 2
             height: $button_height_single
             checkable: false
             id: webhook_figma_button
@@ -336,6 +361,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_figma
         - button: 
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 2
             height: $button_height_single
             checkable: false
             id: webhook_forklift_button
@@ -354,6 +381,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_forklift
         - button: 
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 2
             height: $button_height_single
             checkable: false
             id: webhook_iawriter_button
@@ -372,6 +401,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_iawriter
         - button: 
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 2
             height: $button_height_single
             checkable: false
             id: webhook_mainsail_button
@@ -389,6 +420,8 @@ lvgl:
                   data:
                     entity_id: button.webhook_mainsail
         - button: 
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 3
             id: wohnzimmer_stehlampe_button
             height: $button_height_single
             checkable: true
