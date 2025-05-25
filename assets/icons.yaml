@@ -75,7 +75,7 @@ font:
 
  - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
     id: icon_font_header
-    size: 15
+    size: 36
     bpp: 4
     glyphs: [
       "\U000F0335",  # mdi-lightbulb
