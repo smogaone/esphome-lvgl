@@ -26,8 +26,8 @@ sensor:
         - script.execute: update_temperatur_anzeige
 
   - platform: wifi_signal
-    name: "Wifi Signal dB"
-    id: wifi_signal_db
+    name: "Wifi Signal Strength Icon"
+    id: wifi_signal_sensor
     update_interval: 15s
     entity_category: "diagnostic"
     internal: true
@@ -121,8 +121,8 @@ script:
             if (!wifi::is_connected()) {
               return std::string("\U000F05AA");
             }
-            if (id(wifi_signal_db).has_state()) {
-              float rssi = id(wifi_signal_db).state;
+            if (id(wifi_signal_sensor).has_state()) {
+              float rssi = id(wifi_signal_sensor).state;
               if (rssi >= -55) {
                 return std::string("\U000F091F");
               } else if (rssi >= -65) {
@@ -136,4 +136,3 @@ script:
               }
             }
             return std::string("\U000F05AA");
-            
