@@ -64,7 +64,7 @@ font:
     ]
 
    - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
-    id: icon100
+    id: icon_100
     size: 100
     bpp: 4
     glyphs: [
