@@ -3,35 +3,34 @@ font:
     id: roboto17_font
     size: 17
     bpp: 4
-    glyphsets: [GF_Latin_Core, GF_Currency, "°äöüÄÖÜß"] # Grundlegend + Währung + Grad + Umlaute
+    glyphsets: [GF_Latin_Core] # Nur das Basis-Set, um Fehler zu vermeiden
+    glyphs: "°äöüÄÖÜß€" # Explizit als Glyphen hinzufügen
 
   - file: "gfonts://Roboto"
     id: roboto15_font
     size: 15
     bpp: 4
-    glyphsets: [GF_Latin_Core, GF_Currency, "°"] # Grundlegend + Währung + Grad
+    glyphsets: [GF_Latin_Core] # Nur das Basis-Set, um Fehler zu vermeiden
+    glyphs: "°€"  # Explizit als Glyphen hinzufügen
 
   - file: "gfonts://Roboto"
     id: font_roboto_56 # Für die große Uhrzeit/Datumsanzeige
     size: 56
     bpp: 4
-    # Benötigte Zeichen für Zeit/Datum: Zahlen, Doppelpunkt, Punkt, Komma, Leerzeichen
-    # und Buchstaben für Wochentage und Monatsnamen.
-    # GF_Latin_Core enthält die meisten Buchstaben und Zahlen.
-    # Füge spezifische Zeichen hinzu, die für formatierte Daten benötigt werden.
+    # Benötigte Zeichen für Zeit/Datum: Zahlen, Doppelpunkt, Punkt, Komma, Leerzeichen.
     glyphs: "0123456789.:, AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzäöüÄÖÜß "
 
   - file: "gfonts://Roboto"
     id: font_roboto_28 # Für Wetterbeschreibung und Temperaturwerte
     size: 28
     bpp: 4
-    # Benötigt Buchstaben (inkl. Umlaute), Zahlen, Satzzeichen, Gradzeichen.
-    glyphsets: [GF_Latin_Core, GF_Latin_Extended_A, GF_Currency, "°"]
+    glyphsets: [GF_Latin_Core, GF_Latin_Extended_A]  # größeres Set
+    glyphs: "°€" # die fehlenden Zeichen hier explizit hinzufügen
 
 substitutions:
   font_time_date: font_roboto_56
   font_weather_text: font_roboto_28
-  text_font: roboto17_font # Wird von button.yaml verwendet
+  text_font: roboto17_font
 
 lvgl:
   style_definitions:
