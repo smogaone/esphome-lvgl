@@ -155,7 +155,7 @@ lvgl:
             text_color: 16777215
             text: !lambda |-
               char temp_buf[20];
-              snprintf(temp_buf, sizeof(temp_buf), "\U000F050F: %.0f°C", id(aussen_temp_wert));
+              snprintf(temp_buf, sizeof(temp_buf), "Out: %.0f°C", id(aussen_temp_wert));
               return temp_buf;
         - label:
             id: indoor_temperature_label
@@ -165,7 +165,7 @@ lvgl:
             text_color: 16777215
             text: !lambda |-
               char temp_buf[20];
-              snprintf(temp_buf, sizeof(temp_buf), "\U000F0F54: %.0f°C", id(innen_temp_wert));
+              snprintf(temp_buf, sizeof(temp_buf), "Home: %.0f°C", id(innen_temp_wert));
               return temp_buf;
     - id: main_page
       width: 100%
