@@ -42,9 +42,9 @@ text_sensor:
     internal: true
     on_value:
       then:
-        - lvgl.image.update: # GEÄNDERT von lvgl.widget.update
+        - lvgl.image.update:
             id: lvgl_weather_image_widget
-            src: !lambda return x;
+            src: !lambda return x.c_str();
 
   - platform: homeassistant
     id: esphome_weather_forecast_home
