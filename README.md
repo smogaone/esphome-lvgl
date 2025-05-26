@@ -11,11 +11,6 @@ wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
 
-image:
-  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/display.jpg"
-    id: weather_page_background
-    type: RGB565
-
 packages:
   setup:
     url: https://github.com/smogaone/esphome-lvgl/
