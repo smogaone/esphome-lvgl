@@ -145,14 +145,14 @@ lvgl:
         #    height: 100
         #    text: !lambda |-
         #      return id(wetter_ui_icon_code_v2).state;
-        - label:
-            id: weather_description
-            x: 200
-            y: 175
-            text_font: roboto15_font
-            text_color: 0xFFFFFF
-            text: !lambda |-
-              return id(esphome_weather_forecast_home).state;
+        #- label:
+        #    id: weather_description
+        #    x: 200
+        #    y: 175
+        #    text_font: roboto15_font
+        #    text_color: 0xFFFFFF
+        #    text: !lambda |-
+        #      return id(esphome_weather_forecast_home).state;
         - label:
             id: outdoor_temperature_label
             x: 60
