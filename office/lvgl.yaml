@@ -19,10 +19,10 @@ lvgl:
           text_align: center
           text_color: 16777215
       - label:
-          text: "\U000F05AA" # Unicode für mdi-wifi-off (Fallback/Initial)
+          text: "\U000F05AA" 
           id: wifi_icon_label
           styles: roboto15_style
-          text_font: $icon_font_header # Deine 15px Icon-Schrift
+          text_font: $icon_font_header 
           align: top_right
           x: -8
           y: 4
@@ -46,14 +46,14 @@ lvgl:
           styles: footer_button_style
           width: 60px
           height: 20px
-          radius: $radius # Wird von deiner button.yaml als "12px" substituiert
+          radius: $radius 
           bg_opa: 0
           border_width: 0
           widgets:
             - label:
                 text_font: $icon_font_header
                 text_color: 0xFFFFFF
-                text: $arrow_left # Substitution aus icons.yaml
+                text: $arrow_left 
                 align: center
           on_click:
             - lvgl.page.previous:
@@ -71,7 +71,7 @@ lvgl:
             - label:
                 text_font: $icon_font_header
                 text_color: 0xFFFFFF
-                text: $home # Substitution aus icons.yaml
+                text: $home 
                 align: center
           on_click:
             - lvgl.page.show: weather_page
@@ -87,7 +87,7 @@ lvgl:
             - label:
                 text_font: $icon_font_header
                 text_color: 0xFFFFFF
-                text: $arrow_right # Substitution aus icons.yaml
+                text: $arrow_right 
                 align: center
           on_click:
             - lvgl.page.next:
@@ -96,14 +96,14 @@ lvgl:
   pages:
     - id: weather_page
       width: 100%
-      bg_color: 0 # Entspricht 0x000000 (Schwarz)
+      bg_color: 0 
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
       layout:
-        type: absolute # Absolute Positionierung, um Elemente genau zu platzieren
+        type: absolute 
       widgets:
         - label: # Wochentag
             id: weekday_label
@@ -119,7 +119,7 @@ lvgl:
               } else {
                 return "Unbekannt";
               }
-        - label: # Uhrzeit
+        - label: 
             id: time_label
             x: 600 # X-Position (rechts)
             y: 70  # Y-Position (unterhalb Wochentag)
@@ -134,7 +134,7 @@ lvgl:
               } else {
                 return "--:--";
               }
-        - image: # Wetter-Icon
+        - image: 
             id: weather_icon
             x: 60
             y: 150 # Y-Position (unterhalb Uhrzeit)
@@ -150,7 +150,7 @@ lvgl:
               } else {
                 return "mdi:weather-partly-cloudy";
               }
-        - label: # Wetter-Beschreibung
+        - label: 
             id: weather_description
             x: 200
             y: 175 # Y-Position (neben Wetter-Icon)
@@ -158,7 +158,7 @@ lvgl:
             text_color: 0xFFFFFF
             text: !lambda |-
               return id(weather.forecast_home).state;
-        - label: # Außentemperatur
+        - label: 
             id: outdoor_temperature_label
             x: 60
             y: 300 # Y-Position (unterhalb Wetter-Icon)
@@ -168,7 +168,7 @@ lvgl:
               char temp_buf[10];
               snprintf(temp_buf, sizeof(temp_buf), "Außen: %d°C", (int)round(id(aussen_temp_wert).state));
               return temp_buf;
-        - label: # Innentemperatur
+        - label: 
             id: indoor_temperature_label
             x: 60
             y: 350 # Y-Position (unterhalb Außentemperatur)
@@ -178,9 +178,9 @@ lvgl:
               char temp_buf[10];
               snprintf(temp_buf, sizeof(temp_buf), "Innen: %d°C", (int)round(id(innen_temp_wert).state));
               return temp_buf;
-    - id: main_page # Umbenannte Seite
+    - id: main_page 
       width: 100%
-      bg_color: 0 # Entspricht 0x000000 (Schwarz)
+      bg_color: 0 
       bg_opa: cover
       pad_top: 30px
       pad_bottom: 26px
@@ -194,7 +194,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
-            height: $button_height_single # Wird von deiner button.yaml substituiert
+            height: $button_height_single 
             checkable: false
             id: office_scene_features_button
             styles: control
