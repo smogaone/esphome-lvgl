@@ -204,4 +204,4 @@ script:
               else if (rssi >= -85) { return std::string("\U000F091C"); }
               else { return std::string("\U000F091B"); } // Schwächstes Signal
             }
-            return std::string("\U000F05AA"); # Fallback Wifi-Icon
+            return std::string("\U000F092E"); # Fallback Wifi-Icon
