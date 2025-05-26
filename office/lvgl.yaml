@@ -149,7 +149,7 @@ lvgl:
             id: weather_description
             x: 200
             y: 175
-            text_font: roboto56_gf_latin_core # Definiert in fonts.yaml [3]
+            text_font: roboto15_font
             text_color: 0xFFFFFF
             text: !lambda |-
               return id(esphome_weather_forecast_home).state;
