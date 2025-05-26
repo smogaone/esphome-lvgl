@@ -40,12 +40,11 @@ text_sensor:
     id: esphome_wetter_png_icon_id
     entity_id: sensor.wetter_icon
     internal: true
-    on_value: # GEÄNDERT von on_state
+    on_value:
       then:
         - lvgl.widget.update:
             id: lvgl_weather_image_widget
-            state:
-              src: !lambda return x;
+            src: !lambda return x; # KORRIGIERT: 'src' ist jetzt direkt unter lvgl.widget.update
 
   - platform: homeassistant
     id: esphome_weather_forecast_home
