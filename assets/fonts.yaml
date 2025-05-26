@@ -9,13 +9,6 @@ font:
     size: 15
     bpp: 4
 
- - file: "gfonts://Roboto"
-    id: roboto56_gf_latin_core
-    size: 56
-    bpp: 4
-    glyphs: GF_LATIN_CORE
-    no_glyph_if_missing: true   
-
 lvgl:
   style_definitions:
     - id: roboto15_style
