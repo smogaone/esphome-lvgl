@@ -3,7 +3,6 @@ font:
     id: roboto17_font
     size: 17
     bpp: 4
-    glyphs: !?"%()+*=,-_.:°µ²³0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrstuvwxyz$@<>/
     
   - file: "gfonts://Roboto"
     id: roboto15_font
@@ -15,8 +14,6 @@ font:
     id: roboto56_font
     size: 36
     bpp: 4
-    glyphs: !?"%()+*=,-_.:°µ²³0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrstuvwxyz$@<>/
-
 #lvgl:
 #  style_definitions:
 #    - id: roboto15_style
