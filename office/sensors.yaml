@@ -194,7 +194,7 @@ script:
           id: wifi_icon_label
           text: !lambda |-
             if (!network::is_connected()) {
-              return std::string("\U000F092E"); # Fallback Wifi-Icon
+              return std::string("\U000F092E"); 
             }
             if (id(wifi_signal_sensor).has_state()) {
               float rssi = id(wifi_signal_sensor).state;
@@ -204,4 +204,4 @@ script:
               else if (rssi >= -85) { return std::string("\U000F091C"); }
               else { return std::string("\U000F091B"); } // Schwächstes Signal
             }
-            return std::string("\U000F092E"); # Fallback Wifi-Icon
+            return std::string("\U000F092E"); 
