@@ -23,4 +23,4 @@ packages:
             theme/button.yaml,
             office/sensors.yaml,
             office/lvgl.yaml]
-    refresh: 1d
+    refresh: 1sec
