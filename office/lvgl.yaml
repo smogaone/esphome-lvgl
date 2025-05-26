@@ -134,17 +134,17 @@ lvgl:
               } else {
                 return "--:--";
               }
-        - label:
-            id: weather_icon_display
-            x: 60
-            y: 150
-            text_font: icon_100
-            text_color: 0xFFFFFF
-            text_align: left
-            width: 100
-            height: 100
-            text: !lambda |-
-              return id(wetter_ui_icon_code_v2).state;
+        #- label:
+        #    id: weather_icon_display
+        #    x: 60
+        #    y: 150
+        #    text_font: icon_100
+        #    text_color: 0xFFFFFF
+        #    text_align: left
+        #    width: 100
+        #    height: 100
+        #    text: !lambda |-
+        #      return id(wetter_ui_icon_code_v2).state;
         - label:
             id: weather_description
             x: 200
