@@ -6,7 +6,6 @@ font:
     id: icon_font
     size: 36
     bpp: 4
-    include_std_characters: false
     glyphs: [
       "\U000F0335",  # mdi-lightbulb
       "\U000F042B",  # mdi-printer-3d
@@ -68,7 +67,6 @@ font:
     id: icon_font_header
     size: 15
     bpp: 4
-    include_std_characters: false
     glyphs: [
       "\U000F0594",  # clear-night
       "\U000F0590",  # cloudy
