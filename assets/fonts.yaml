@@ -11,7 +11,7 @@ font:
     
   - file: "gfonts://Roboto"
     id: roboto56_font
-    size: 56
+    size: 46
     bpp: 4
 
 #lvgl:
