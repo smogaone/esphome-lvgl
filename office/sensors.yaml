@@ -40,7 +40,7 @@ text_sensor:
     id: esphome_wetter_png_icon_id
     entity_id: sensor.wetter_icon
     internal: true
-    on_state:
+    on_value: # GEÄNDERT von on_state
       then:
         - lvgl.widget.update:
             id: lvgl_weather_image_widget
@@ -167,7 +167,7 @@ script:
                 return std::string("\U000F091E");
               } else if (rssi >= -75) {
                 return std::string("\U000F091D");
-              } else if (rssi >= -85)
+              } else if (rssi >= -85) {
                 return std::string("\U000F091C");
               } else {
                 return std::string("\U000F091B");
