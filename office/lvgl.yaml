@@ -1,27 +1,4 @@
 lvgl:
-  style_definitions:
-    - id: roboto15_style
-      text_font: roboto15_font
-    - id: webhook
-      bg_color: 0x212121
-    - id: control
-      bg_color: 0x313131
-    - id: footer_button_style
-      pad_all: 2px
-  theme:
-    button:
-      text_font: roboto17_font
-      scroll_on_focus: False
-      radius: 12px
-      width: 149px
-      height: 100px
-      pad_all: 8px
-      shadow_width: 0
-      text_color: 0xFFFFFF
-      bg_color: 0x313131
-      checked:
-        bg_color: 0xFF8C00
-        text_color: 0xFFFFFF
   top_layer:
     widgets:
       - label:
@@ -42,7 +19,7 @@ lvgl:
           text_align: center
           text_color: 16777215
       - label:
-          text: "󰖪" # Unicode für Wifi-Icon, war \U000F05AA, dann 󰖪
+          text: "󰖪"
           id: wifi_icon_label
           styles: roboto15_style
           text_font: icon_font_header
@@ -50,7 +27,7 @@ lvgl:
           x: -8
           y: 4
           text_color: 16777215
-      - obj: # VERSCHOBEN HIERHER
+      - obj:
           id: page_footer
           align: bottom_mid
           width: 100%
@@ -75,8 +52,8 @@ lvgl:
                 widgets:
                   - label:
                       text_font: icon_font_header
-                      text_color: 16777215 # War 0xFFFFFF
-                      text: "󰜱" # Unicode für Pfeil links, war $arrow_left
+                      text_color: 16777215
+                      text: "󰜱"
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -93,8 +70,8 @@ lvgl:
                 widgets:
                   - label:
                       text_font: icon_font_header
-                      text_color: 16777215 # War 0xFFFFFF
-                      text: "󰋜" # Unicode für Home, war $home
+                      text_color: 16777215
+                      text: "󰋜"
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -109,8 +86,8 @@ lvgl:
                 widgets:
                   - label:
                       text_font: icon_font_header
-                      text_color: 16777215 # War 0xFFFFFF
-                      text: "󰜴" # Unicode für Pfeil rechts, war $arrow_right
+                      text_color: 16777215
+                      text: "󰜴"
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -125,8 +102,6 @@ lvgl:
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
-      # layout: # ENTFERNT
-      #   type: absolute
       widgets:
         - label:
             id: weekday_label
@@ -209,7 +184,7 @@ lvgl:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
             height: 100px
-            checkable: False
+            checkable: false # YAML 'false'
             id: office_scene_features_button
             styles: control
             widgets:
@@ -217,7 +192,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: scene_features_icon
-                  text: "󱁑" # Unicode für LED-Strip
+                  text: "󱁑"
               - label:
                   align: bottom_left
                   id: scene_features_label
@@ -231,7 +206,7 @@ lvgl:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
             height: 100px
-            checkable: False
+            checkable: false
             id: office_scene_calls_button
             styles: control
             widgets:
@@ -239,7 +214,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: office_scene_calls_icon
-                  text: "󰍫" # Unicode für Videocall
+                  text: "󰍫"
               - label:
                   align: bottom_left
                   id: office_scene_calls_label
@@ -253,7 +228,7 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
             height: 100px
-            checkable: False
+            checkable: false
             id: office_scene_evening_button
             styles: control
             widgets:
@@ -261,7 +236,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: office_scene_evening_icon
-                  text: "󱩌" # Unicode für Nightlight
+                  text: "󱩌"
               - label:
                   align: bottom_left
                   id: office_scene_evening_label
@@ -275,7 +250,7 @@ lvgl:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 0
             height: 100px
-            checkable: False
+            checkable: false
             id: office_scene_dimmed_button
             styles: control
             widgets:
@@ -283,7 +258,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: office_scene_dimmed_icon
-                  text: "󱩌" # Unicode für Nightlight
+                  text: "󱩌"
               - label:
                   align: bottom_left
                   id: office_scene_dimmed_label
@@ -297,7 +272,7 @@ lvgl:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
             height: 100px
-            checkable: True
+            checkable: true # YAML 'true'
             id: printer_power_button
             styles: control
             widgets:
@@ -305,7 +280,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: printer_power_icon
-                  text: "󰐫" # Unicode für Printer
+                  text: "󰐫"
               - label:
                   align: bottom_left
                   id: printer_power_label
@@ -319,14 +294,14 @@ lvgl:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
             height: 100px
-            checkable: True
+            checkable: true
             id: wz_button
             styles: control
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰌵" # Unicode für Lightbulb
+                  text: "󰌵"
               - label:
                   align: bottom_left
                   text: "Wohnzimmer"
@@ -339,14 +314,14 @@ lvgl:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
             height: 100px
-            checkable: True
+            checkable: true
             id: office_blind_open_button
             styles: control
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󱀑" # Unicode für Blinds Open
+                  text: "󱀑"
               - label:
                   align: bottom_left
                   text: "Open"
@@ -360,14 +335,14 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
             height: 100px
-            checkable: True
+            checkable: true
             id: office_blind_close_button
             styles: control
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰂬" # Unicode für Blinds Closed
+                  text: "󰂬"
               - label:
                   align: bottom_left
                   text: "Close"
@@ -381,14 +356,14 @@ lvgl:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_mail_button
             styles: webhook
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰊫" # Unicode für Gmail
+                  text: "󰊫"
               - label:
                   align: bottom_left
                   text: "Mail"
@@ -401,14 +376,14 @@ lvgl:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 1
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_slack_button
             styles: webhook
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰒱" # Unicode für Slack
+                  text: "󰒱"
               - label:
                   align: bottom_left
                   text: "Slack"
@@ -421,13 +396,13 @@ lvgl:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_meet_button
             styles: webhook
             widgets:
               - image:
                   src: meet_logo
-                  antialias: True
+                  antialias: True # YAML 'true'
               - label:
                   align: bottom_left
                   text: "Meet"
@@ -440,7 +415,7 @@ lvgl:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 2
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_figma_button
             styles: webhook
             widgets:
@@ -459,14 +434,14 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 2
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_forklift_button
             styles: webhook
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰟉" # Unicode für Forklift
+                  text: "󰟉"
               - label:
                   align: bottom_left
                   text: "Forklift"
@@ -479,14 +454,14 @@ lvgl:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 2
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_iawriter_button
             styles: webhook
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰘳" # Unicode für Command
+                  text: "󰘳"
               - label:
                   align: bottom_left
                   text: "Ia Writer"
@@ -499,7 +474,7 @@ lvgl:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 2
             height: 100px
-            checkable: False
+            checkable: false
             id: webhook_mainsail_button
             styles: webhook
             widgets:
@@ -519,14 +494,14 @@ lvgl:
             grid_cell_row_pos: 3
             id: wohnzimmer_stehlampe_button
             height: 100px
-            checkable: True
+            checkable: true
             styles: control
             widgets:
               - label:
                   text_font: icon_font
                   align: top_left
                   id: wohnzimmer_stehlampe_icon
-                  text: "󰌶" # Unicode für Lightbulb off
+                  text: "󰌶"
               - label:
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
