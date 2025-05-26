@@ -355,7 +355,7 @@ lvgl:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.wohnzimmer_rechts
-                    position: 78
+                    position: "78"
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
@@ -376,7 +376,7 @@ lvgl:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.wohnzimmer_rechts
-                    position: 0
+                    position: "0"
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
