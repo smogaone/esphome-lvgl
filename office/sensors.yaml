@@ -198,7 +198,7 @@ script:
             }
             if (id(wifi_signal_sensor).has_state()) {
               float rssi = id(wifi_signal_sensor).state;
-              if (rssi >= -55) { return std::string("\U000F091F"); } // Stärkstes Signal
+              if (rssi >= -55) { return std::string("\U000F092E"); } // Stärkstes Signal
               else if (rssi >= -65) { return std::string("\U000F091E"); }
               else if (rssi >= -75) { return std::string("\U000F091D"); }
               else if (rssi >= -85) { return std::string("\U000F091C"); }
