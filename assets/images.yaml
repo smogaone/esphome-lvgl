@@ -1,4 +1,94 @@
 image:
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/clear-night.png"
+    id: icon_png_clear_night
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/cloudy.png"
+    id: icon_png_cloudy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/exceptional.png"
+    id: icon_png_exceptional
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/fog.png"
+    id: icon_png_fog
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/hail.png"
+    id: icon_png_hail
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/lightning.png"
+    id: icon_png_lightning
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/lightning-rainy.png"
+    id: icon_png_lightning_rainy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/partlycloudy.png"
+    id: icon_png_partlycloudy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/pouring.png"
+    id: icon_png_pouring
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/rainy.png"
+    id: icon_png_rainy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/snowy.png"
+    id: icon_png_snowy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/snowy-rainy.png"
+    id: icon_png_snowy_rainy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/sunny.png"
+    id: icon_png_sunny
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/windy.png"
+    id: icon_png_windy
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/windy-variant.png"
+    id: icon_png_windy_variant
+    resize: 100x100
+    type: RGB565
+    transparency: alpha_channel
+
   - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/figma.svg
     id: figma_logo
     resize: 32x32
@@ -14,23 +104,5 @@ image:
   - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/meet.svg
     id: meet_logo
     resize: 32x32
-    type: RGB565
-    transparency: alpha_channel
-
-  - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/arrow_left.svg
-    id: arrow_left
-    resize: 20x20
-    type: RGB565
-    transparency: alpha_channel
-
-  - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/arrow_right.svg
-    id: arrow_right
-    resize: 20x20
-    type: RGB565
-    transparency: alpha_channel
-
-  - file: https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/home.svg
-    id: home
-    resize: 20x20
     type: RGB565
     transparency: alpha_channel
