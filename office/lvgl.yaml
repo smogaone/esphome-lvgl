@@ -118,7 +118,7 @@ lvgl:
                 return "Unbekannt";
               }
         - label:
-            id: display_time
+            id: time_label
             x: 600
             y: 70
             text_font: roboto56_font
