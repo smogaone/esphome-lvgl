@@ -42,9 +42,18 @@ text_sensor:
     internal: true
     on_value:
       then:
-        - lvgl.image.update:
-            id: lvgl_weather_image_widget
-            src: !lambda return x.c_str();
+        - if: # Hinzugefügte Bedingung
+            condition:
+              lambda: return !x.empty(); # Führe nur aus, wenn x nicht leer ist
+            then:
+              - logger.log: # Behalte Logging bei für die Diagnose
+                  format: "Versuche Wetter-Icon zu setzen auf: '%s'"
+                  args: [x.c_str()]
+              - lvgl.image.update:
+                  id: lvgl_weather_image_widget
+                  src: !lambda return x.c_str(); # oder testweise return x;
+            else:
+              - logger.log: "Wetter-Icon ID von HA ist leer, kein Update."
 
   - platform: homeassistant
     id: esphome_weather_forecast_home
