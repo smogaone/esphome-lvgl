@@ -118,20 +118,20 @@ lvgl:
                 return "Unbekannt";
               }
         - label:
-            id: time_label
+            id: display_time
             x: 600
             y: 70
             text_font: roboto56_font
             text_color: 16777215
-            text: !lambda |-
-              static char time_buf[6];
-              auto now = id(sntp_time).now();
-              if (now.is_valid()) {
-                snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
-                return time_buf;
-              } else {
-                return "--:--";
-              }
+            #text: !lambda |-
+            #  static char time_buf[6];
+            #  auto now = id(sntp_time).now();
+            #  if (now.is_valid()) {
+            #    snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+            #    return time_buf;
+            #  } else {
+            #    return "--:--";
+            #  }
         - image:
             id: lvgl_weather_image_widget
             x: 60
