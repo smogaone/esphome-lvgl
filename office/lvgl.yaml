@@ -109,7 +109,7 @@ lvgl:
             id: weekday_label
             x: 600
             y: 10
-            text_font: roboto56_gf_latin_core
+            text_font: roboto56
             text_color: 0xFFFFFF
             text: !lambda |-
               static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
@@ -123,7 +123,7 @@ lvgl:
             id: time_label
             x: 600
             y: 70
-            text_font: roboto56_gf_latin_core
+            text_font: roboto56
             text_color: 0xFFFFFF
             text: !lambda |-
               static char time_buf[6];
@@ -145,7 +145,7 @@ lvgl:
             id: weather_description
             x: 200
             y: 175
-            text_font: roboto56_gf_latin_core # GEÄNDERT von roboto15_font
+            text_font: roboto56 # GEÄNDERT von roboto15_font
             text_color: 0xFFFFFF
             text: !lambda |-
               return id(esphome_weather_forecast_home).state;
