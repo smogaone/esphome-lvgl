@@ -3,12 +3,14 @@ font:
     id: roboto17_font
     size: 17
     bpp: 4
-
+    glyphs: GF_LATIN_CORE
+    
   - file: "gfonts://Roboto"
     id: roboto15_font
     size: 15
     bpp: 4
-
+    glyphs: GF_LATIN_CORE
+    
   - file: "gfonts://Roboto"
     id: roboto56_gf_latin_core
     size: 56
