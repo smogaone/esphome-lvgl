@@ -8,6 +8,7 @@ font:
     id: roboto15_font
     size: 15
     bpp: 4
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrstuvwxyz
     
   - file: "gfonts://Roboto"
     id: roboto56_font
