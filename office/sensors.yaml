@@ -35,6 +35,23 @@ sensor:
       then:
         - script.execute: update_wifi_icon_display
 
+text_sensor:
+  - platform: homeassistant
+    id: esphome_wetter_png_icon_id
+    entity_id: sensor.wetter_icon
+    internal: true
+    on_state:
+      then:
+        - lvgl.widget.update:
+            id: lvgl_weather_image_widget
+            state:
+              src: !lambda return x;
+
+  - platform: homeassistant
+    id: esphome_weather_forecast_home
+    entity_id: weather.forecast_home
+    internal: true
+
 binary_sensor:
   - platform: homeassistant
     id: office_scene_evening
@@ -150,7 +167,7 @@ script:
                 return std::string("\U000F091E");
               } else if (rssi >= -75) {
                 return std::string("\U000F091D");
-              } else if (rssi >= -85) {
+              } else if (rssi >= -85)
                 return std::string("\U000F091C");
               } else {
                 return std::string("\U000F091B");
