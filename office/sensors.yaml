@@ -25,6 +25,17 @@ sensor:
             id(aussen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
 
+  text_sensor:
+  - platform: homeassistant
+    id: wetter_ui_icon_code_v2 
+    entity_id: sensor.wetter_ui_icon_code_v2 
+    internal: true 
+
+  - platform: homeassistant
+    id: esphome_weather_forecast_home 
+    entity_id: weather.forecast_home 
+    internal: true
+    
   - platform: wifi_signal
     name: "Wifi Signal Strength Icon"
     id: wifi_signal_sensor
