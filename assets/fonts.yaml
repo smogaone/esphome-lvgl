@@ -14,7 +14,7 @@ font:
     size: 56
     bpp: 4
 
-lvgl:
-  style_definitions:
-    - id: roboto15_style
-      text_font: roboto15_font
+#lvgl:
+#  style_definitions:
+#    - id: roboto15_style
+#      text_font: roboto15_font
