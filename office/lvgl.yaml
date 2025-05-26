@@ -155,7 +155,7 @@ lvgl:
             text_color: 16777215
             text: !lambda |-
               char temp_buf[20];
-              snprintf(temp_buf, sizeof(temp_buf), "Außen: %.0f°C", id(aussen_temp_wert).state);
+              snprintf(temp_buf, sizeof(temp_buf), "Außen: %.0f°C", id(aussen_temp_wert));
               return temp_buf;
         - label:
             id: indoor_temperature_label
@@ -165,7 +165,7 @@ lvgl:
             text_color: 16777215
             text: !lambda |-
               char temp_buf[20];
-              snprintf(temp_buf, sizeof(temp_buf), "Innen: %.0f°C", id(innen_temp_wert).state);
+              snprintf(temp_buf, sizeof(temp_buf), "Innen: %.0f°C", id(innen_temp_wert));
               return temp_buf;
     - id: main_page
       width: 100%
@@ -184,7 +184,7 @@ lvgl:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
             height: 100px
-            checkable: false # YAML 'false'
+            checkable: false
             id: office_scene_features_button
             styles: control
             widgets:
@@ -272,7 +272,7 @@ lvgl:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
             height: 100px
-            checkable: true # YAML 'true'
+            checkable: true
             id: printer_power_button
             styles: control
             widgets:
@@ -402,7 +402,7 @@ lvgl:
             widgets:
               - image:
                   src: meet_logo
-                  antialias: True # YAML 'true'
+                  antialias: true
               - label:
                   align: bottom_left
                   text: "Meet"
@@ -421,7 +421,7 @@ lvgl:
             widgets:
               - image:
                   src: figma_logo
-                  antialias: True
+                  antialias: true
               - label:
                   align: bottom_left
                   text: "Figma"
@@ -480,7 +480,7 @@ lvgl:
             widgets:
               - image:
                   src: mainsail_logo
-                  antialias: True
+                  antialias: true
               - label:
                   align: bottom_left
                   text: "Mainsail"
