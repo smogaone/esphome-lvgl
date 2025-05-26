@@ -14,7 +14,6 @@ font:
     size: 56
     bpp: 4
     glyphs: GF_LATIN_CORE
-    no_glyph_if_missing: true
 
 lvgl:
   style_definitions:
