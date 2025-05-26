@@ -13,7 +13,7 @@ font:
     id: roboto56_font
     size: 46
     bpp: 4
-    glyphs: GF_LATIN_CORE
+    glyphs: ÄäÜüÖöß°
 
 #lvgl:
 #  style_definitions:
