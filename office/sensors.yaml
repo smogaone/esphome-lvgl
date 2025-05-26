@@ -42,9 +42,9 @@ text_sensor:
     internal: true
     on_value:
       then:
-        - lvgl.widget.update:
+        - lvgl.image.update: # GEÄNDERT von lvgl.widget.update
             id: lvgl_weather_image_widget
-            src: !lambda return x; # KORRIGIERT: 'src' ist jetzt direkt unter lvgl.widget.update
+            src: !lambda return x;
 
   - platform: homeassistant
     id: esphome_weather_forecast_home
