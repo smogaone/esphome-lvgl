@@ -3,19 +3,19 @@ font:
     id: roboto17_font
     size: 17
     bpp: 4
-    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz: °^!§$%&/()=?`´+*#-_.:,;<>@€
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz: °^!§$%&/()=?`´+*#-_.:
     
   - file: "gfonts://Roboto"
     id: roboto15_font
     size: 15
     bpp: 4
-    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz: °^!§$%&/()=?`´+*#-_.:,;<>@€
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz: °^!§$%&/()=?`´+*#-_.:,;
     
   - file: "gfonts://Roboto"
     id: roboto56_font
     size: 36
     bpp: 4
-    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz: °^!§$%&/()=?`´+*#-_.:,;<>@€
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz: °^!§$%&/()=?`´+*#-_.:,;
     
 #lvgl:
 #  style_definitions:
