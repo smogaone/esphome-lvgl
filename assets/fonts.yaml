@@ -13,6 +13,7 @@ font:
     id: roboto56_font
     size: 36
     bpp: 4
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrstuvwxyz
     
 #lvgl:
 #  style_definitions:
