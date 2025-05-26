@@ -149,10 +149,10 @@ lvgl:
             id: weather_description
             x: 200
             y: 175
-            text_font: roboto15_font
+            text_font: roboto15_font # Definiert in fonts.yaml [3]
             text_color: 0xFFFFFF
             text: !lambda |-
-              return id(weather.forecast_home).state;
+              return id(esphome_weather_forecast_home).state;
         - label:
             id: outdoor_temperature_label
             x: 60
