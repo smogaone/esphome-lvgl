@@ -158,41 +158,41 @@ lvgl:
               } else {
                 return "--:--";
               }
+        - label:
+            id: outdoor_temp_large_label
+            x: 28
+            y: 10
+            text_font: roboto36_font
+            text_color: 16777215
+            text: !lambda |-
+              char temp_buf[20];
+              float temp_val = id(aussen_temp_wert);
+              if (isnan(temp_val)) {
+                return std::string("--,-° C");
+              }
+              snprintf(temp_buf, sizeof(temp_buf), "%.1f° C", temp_val);
+              for (int i = 0; temp_buf[i] != '\0'; i++) {
+                  if (temp_buf[i] == '.') {
+                      temp_buf[i] = ',';
+                      break;
+                  }
+              }
+              return std::string(temp_buf);
         - image:
             id: lvgl_weather_image_widget
             x: 28
-            y: 10
+            y: 55
             width: 100
             height: 100
             src: icon_png_sunny
         - label:
             id: weather_description
             x: 138
-            y: 42
+            y: 87
             text_font: roboto36_font
             text_color: 16777215
             text: !lambda |-
               return id(esphome_weather_forecast_home).state;
-        - label:
-            id: outdoor_temperature_label
-            x: 28
-            y: 300
-            text_font: roboto15_font
-            text_color: 16777215
-            text: !lambda |-
-              char temp_buf[20];
-              snprintf(temp_buf, sizeof(temp_buf), "Out: %.0f°C", id(aussen_temp_wert));
-              return temp_buf;
-        - label:
-            id: indoor_temperature_label
-            x: 28
-            y: 350
-            text_font: roboto15_font
-            text_color: 16777215
-            text: !lambda |-
-              char temp_buf[20];
-              snprintf(temp_buf, sizeof(temp_buf), "Home: %.0f°C", id(innen_temp_wert));
-              return temp_buf;
     - id: main_page
       width: 100%
       bg_color: 0
