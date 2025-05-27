@@ -57,7 +57,7 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.previous:
-                      animation: MOVE_LEFT
+                      animation: MOVE_RIGHT
                       time: 300ms
             - button:
                 id: footer_home_button
@@ -91,7 +91,7 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.next:
-                      animation: MOVE_RIGHT
+                      animation: MOVE_LEFT
                       time: 300ms
   pages:
     - id: weather_page
@@ -107,7 +107,7 @@ lvgl:
             id: weekday_label
             x: 600
             y: 10
-            text_font: roboto56_font
+            text_font: roboto46_font
             text_color: 16777215
             text: !lambda |-
               static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
@@ -121,7 +121,7 @@ lvgl:
             id: time_label
             x: 600
             y: 70
-            text_font: roboto56_font
+            text_font: roboto46_font
             text_color: 16777215
             text: !lambda |-
               static char time_buf[6];
@@ -143,7 +143,7 @@ lvgl:
             id: weather_description
             x: 200
             y: 175
-            text_font: roboto56_font
+            text_font: roboto46_font
             text_color: 16777215
             text: !lambda |-
               return id(esphome_weather_forecast_home).state;
