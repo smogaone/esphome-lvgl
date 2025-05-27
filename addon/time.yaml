@@ -9,8 +9,8 @@ time:
      - 2.pool.ntp.org
 
     on_time:
-      - minutes: '*' 
-        seconds: 0 # Löst jede Minute zur Sekunde 0 aus
+      # minutes: '*' 
+      - seconds: 0 # Löst jede Minute zur Sekunde 0 aus
         then:
           - lvgl.label.update:
               id: display_time # Uhrzeit im Header (aus lvgl-7.yaml [2])
