@@ -267,17 +267,18 @@ script:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
       - lvgl.label.update:
-          id: outdoor_temperature_label
+          id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
-            snprintf(temp_buf, sizeof(temp_buf), "Out: %.0f°C", id(aussen_temp_wert));
-            return temp_buf;
-      - lvgl.label.update:
-          id: indoor_temperature_label
-          text: !lambda |-
-            char temp_buf[20];
-            snprintf(temp_buf, sizeof(temp_buf), "Home: %.0f°C", id(innen_temp_wert));
-            return temp_buf;
+            float temp_val = id(aussen_temp_wert);
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f° C", temp_val);
+            for (int i = 0; temp_buf[i] != '\0'; i++) {
+                if (temp_buf[i] == '.') {
+                    temp_buf[i] = ',';
+                    break;
+                }
+            }
+            return std::string(temp_buf);
   - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
