@@ -12,7 +12,7 @@ font:
     glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz :°/
     
   - file: "gfonts://Roboto"
-    id: roboto56_font
+    id: roboto36_font
     size: 36
     bpp: 4
     glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz :°/
