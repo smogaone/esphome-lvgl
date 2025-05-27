@@ -39,7 +39,7 @@ sensor:
 text_sensor:
   - platform: homeassistant
     id: esphome_wetter_png_icon_id
-    entity_id: sensor.wetter_icon # Stellt sicher, dass dieser HA-Sensor die korrekte Bild-ID liefert
+    entity_id: sensor.wetter_icon
     internal: true
     on_value:
       then:
@@ -53,134 +53,138 @@ text_sensor:
               - lvgl.image.update:
                   id: lvgl_weather_image_widget
                   src: icon_png_clear_night
-        - else if:
-            condition:
-              lambda: return x == "icon_png_cloudy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_cloudy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_exceptional";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_exceptional
-        - else if:
-            condition:
-              lambda: return x == "icon_png_fog";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_fog
-        - else if:
-            condition:
-              lambda: return x == "icon_png_hail";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_hail
-        - else if:
-            condition:
-              lambda: return x == "icon_png_lightning";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_lightning
-        - else if:
-            condition:
-              lambda: return x == "icon_png_lightning_rainy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_lightning_rainy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_partlycloudy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_partlycloudy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_pouring";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_pouring
-        - else if:
-            condition:
-              lambda: return x == "icon_png_rainy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_rainy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_snowy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_snowy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_snowy_rainy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_snowy_rainy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_sunny";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_sunny
-        - else if:
-            condition:
-              lambda: return x == "icon_png_windy";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_windy
-        - else if:
-            condition:
-              lambda: return x == "icon_png_windy_variant";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_windy_variant
-        - else:
-            - logger.log:
-                format: "Unbekannte oder leere Wetter Icon ID: '%s'. Kein Update des Icons."
-                args: [x.c_str()]
-            # Optional: Hier ein Fallback-Icon setzen, wenn der Name unbekannt oder leer ist.
-            # Z.B. das 'exceptional' Icon, falls es als allgemeines Fallback dienen soll.
-            # - if:
-            #     condition:
-            #       lambda: return x.empty(); # Nur wenn x wirklich leer ist
-            #     then:
-            #       - lvgl.image.update:
-            #           id: lvgl_weather_image_widget
-            #           src: icon_png_exceptional # Oder dein bevorzugtes Fallback
-
+            else:
+              - if:
+                  condition:
+                    lambda: return x == "icon_png_cloudy";
+                  then:
+                    - lvgl.image.update:
+                        id: lvgl_weather_image_widget
+                        src: icon_png_cloudy
+                  else:
+                    - if:
+                        condition:
+                          lambda: return x == "icon_png_exceptional";
+                        then:
+                          - lvgl.image.update:
+                              id: lvgl_weather_image_widget
+                              src: icon_png_exceptional
+                        else:
+                          - if:
+                              condition:
+                                lambda: return x == "icon_png_fog";
+                              then:
+                                - lvgl.image.update:
+                                    id: lvgl_weather_image_widget
+                                    src: icon_png_fog
+                              else:
+                                - if:
+                                    condition:
+                                      lambda: return x == "icon_png_hail";
+                                    then:
+                                      - lvgl.image.update:
+                                          id: lvgl_weather_image_widget
+                                          src: icon_png_hail
+                                    else:
+                                      - if:
+                                          condition:
+                                            lambda: return x == "icon_png_lightning";
+                                          then:
+                                            - lvgl.image.update:
+                                                id: lvgl_weather_image_widget
+                                                src: icon_png_lightning
+                                          else:
+                                            - if:
+                                                condition:
+                                                  lambda: return x == "icon_png_lightning_rainy";
+                                                then:
+                                                  - lvgl.image.update:
+                                                      id: lvgl_weather_image_widget
+                                                      src: icon_png_lightning_rainy
+                                                else:
+                                                  - if:
+                                                      condition:
+                                                        lambda: return x == "icon_png_partlycloudy";
+                                                      then:
+                                                        - lvgl.image.update:
+                                                            id: lvgl_weather_image_widget
+                                                            src: icon_png_partlycloudy
+                                                      else:
+                                                        - if:
+                                                            condition:
+                                                              lambda: return x == "icon_png_pouring";
+                                                            then:
+                                                              - lvgl.image.update:
+                                                                  id: lvgl_weather_image_widget
+                                                                  src: icon_png_pouring
+                                                            else:
+                                                              - if:
+                                                                  condition:
+                                                                    lambda: return x == "icon_png_rainy";
+                                                                  then:
+                                                                    - lvgl.image.update:
+                                                                        id: lvgl_weather_image_widget
+                                                                        src: icon_png_rainy
+                                                                  else:
+                                                                    - if:
+                                                                        condition:
+                                                                          lambda: return x == "icon_png_snowy";
+                                                                        then:
+                                                                          - lvgl.image.update:
+                                                                              id: lvgl_weather_image_widget
+                                                                              src: icon_png_snowy
+                                                                        else:
+                                                                          - if:
+                                                                              condition:
+                                                                                lambda: return x == "icon_png_snowy_rainy";
+                                                                              then:
+                                                                                - lvgl.image.update:
+                                                                                    id: lvgl_weather_image_widget
+                                                                                    src: icon_png_snowy_rainy
+                                                                              else:
+                                                                                - if:
+                                                                                    condition:
+                                                                                      lambda: return x == "icon_png_sunny";
+                                                                                    then:
+                                                                                      - lvgl.image.update:
+                                                                                          id: lvgl_weather_image_widget
+                                                                                          src: icon_png_sunny
+                                                                                    else:
+                                                                                      - if:
+                                                                                          condition:
+                                                                                            lambda: return x == "icon_png_windy";
+                                                                                          then:
+                                                                                            - lvgl.image.update:
+                                                                                                id: lvgl_weather_image_widget
+                                                                                                src: icon_png_windy
+                                                                                          else:
+                                                                                            - if:
+                                                                                                condition:
+                                                                                                  lambda: return x == "icon_png_windy_variant";
+                                                                                                then:
+                                                                                                  - lvgl.image.update:
+                                                                                                      id: lvgl_weather_image_widget
+                                                                                                      src: icon_png_windy_variant
+                                                                                                else:
+                                                                                                  - logger.log: # Fallback, wenn keine der Bedingungen zutrifft
+                                                                                                      format: "Unbekannte oder leere Wetter Icon ID: '%s'. Kein Update des Icons."
+                                                                                                      args: [x.c_str()]
   - platform: homeassistant
-    id: esphome_weather_forecast_home # Liefert den Zustand von weather.forecast_home (z.B. "cloudy")
+    id: esphome_weather_forecast_home
     entity_id: weather.forecast_home
     internal: true
     on_value:
       then:
         - if:
             condition:
-              lambda: return !x.empty(); # Nur ausführen, wenn die Beschreibung nicht leer ist
+              lambda: return !x.empty();
             then:
               - logger.log:
                   format: "Wetter Forecast State von HA: '%s'"
                   args: [x.c_str()]
               - lvgl.label.update:
-                  id: weather_description # ID des Beschreibungs-Labels in lvgl.yaml
-                  text: !lambda return x.c_str(); # Setzt den Text auf den Zustand (z.B. "cloudy")
+                  id: weather_description
+                  text: !lambda return x.c_str();
             else:
               - logger.log: "Wetter Forecast State von HA ist leer, kein Beschreibungs-Update."
 
@@ -275,23 +279,21 @@ binary_sensor:
 script:
   - id: update_temperatur_anzeige
     then:
-      # Header-Temperaturen aktualisieren
       - lvgl.label.update:
-          id: temperatures # ID aus lvgl.yaml
+          id: temperatures
           text:
             format: "%d° / %d°"
             args:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
-      # Wetterseiten-Temperaturen aktualisieren
       - lvgl.label.update:
-          id: outdoor_temperature_label # ID aus lvgl.yaml
+          id: outdoor_temperature_label
           text: !lambda |-
             char temp_buf[20];
             snprintf(temp_buf, sizeof(temp_buf), "Out: %.0f°C", id(aussen_temp_wert));
             return temp_buf;
       - lvgl.label.update:
-          id: indoor_temperature_label # ID aus lvgl.yaml
+          id: indoor_temperature_label
           text: !lambda |-
             char temp_buf[20];
             snprintf(temp_buf, sizeof(temp_buf), "Home: %.0f°C", id(innen_temp_wert));
@@ -303,7 +305,7 @@ script:
           id: wifi_icon_label
           text: !lambda |-
             if (!network::is_connected()) {
-              return std::string("\U000F092E"); // Fallback Wifi-Icon (bitte Unicode prüfen, war \U000F05AA)
+              return std::string("\U000F092E"); 
             }
             if (id(wifi_signal_sensor).has_state()) {
               float rssi = id(wifi_signal_sensor).state;
@@ -313,4 +315,4 @@ script:
               else if (rssi >= -85) { return std::string("\U000F091C"); }
               else { return std::string("\U000F091B"); }
             }
-            return std::string("\U000F092E"); // Fallback Wifi-Icon (bitte Unicode prüfen, war \U000F05AA)
+            return std::string("\U000F092E"); 
