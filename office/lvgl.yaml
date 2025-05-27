@@ -106,7 +106,7 @@ lvgl:
       widgets:
         - label:
             id: weekday_label
-            x: 600
+            x: 482 # GEÄNDERT für neuen rechten Abstand
             y: 10
             text_font: roboto36_font
             text_color: 16777215
@@ -120,7 +120,7 @@ lvgl:
               }
         - label:
             id: date_label
-            x: 600
+            x: 482 # GEÄNDERT für neuen rechten Abstand
             y: 50
             text_font: roboto36_font
             text_color: 16777215
@@ -136,7 +136,7 @@ lvgl:
               }
         - label:
             id: time_label
-            x: 600
+            x: 482 # GEÄNDERT für neuen rechten Abstand
             y: 90
             text_font: roboto36_font
             text_color: 16777215
@@ -151,14 +151,14 @@ lvgl:
               }
         - image:
             id: lvgl_weather_image_widget
-            x: 60
+            x: 28  # GEÄNDERT für reduzierten linken Abstand
             y: 10
             width: 100
             height: 100
             src: icon_png_sunny
         - label:
             id: weather_description
-            x: 170
+            x: 138 # GEÄNDERT: 28 (Icon-X) + 100 (Icon-Breite) + 10 (Puffer)
             y: 42
             text_font: roboto36_font
             text_color: 16777215
@@ -166,8 +166,8 @@ lvgl:
               return id(esphome_weather_forecast_home).state;
         - label:
             id: outdoor_temperature_label
-            x: 60
-            y: 300
+            x: 28  # GEÄNDERT: Ausgerichtet am neuen linken Wetterblock-Start
+            y: 300 # Y-Position kann beibehalten oder angepasst werden
             text_font: roboto15_font
             text_color: 16777215
             text: !lambda |-
@@ -176,8 +176,8 @@ lvgl:
               return temp_buf;
         - label:
             id: indoor_temperature_label
-            x: 60
-            y: 350
+            x: 28  # GEÄNDERT: Ausgerichtet am neuen linken Wetterblock-Start
+            y: 350 # Y-Position kann beibehalten oder angepasst werden
             text_font: roboto15_font
             text_color: 16777215
             text: !lambda |-
