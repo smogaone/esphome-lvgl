@@ -8,10 +8,9 @@ time:
      - 1.pool.ntp.org
      - 2.pool.ntp.org
 
-    on_time_sync: # Einmalig nach erfolgreicher Zeitsynchronisation
+    on_time_sync:
       then:
-        - logger.log: "SNTP Zeit erfolgreich synchronisiert. Aktualisiere initiale Zeit- und Wochentag-Labels."
-        # Uhrzeit im Header aktualisieren
+        - logger.log: "SNTP Zeit erfolgreich synchronisiert. Aktualisiere initiale Zeit-, Datums- und Wochentag-Labels."
         - lvgl.label.update:
             id: display_time
             text: !lambda |-
@@ -22,7 +21,6 @@ time:
                 return std::string(time_buf);
               }
               return std::string("--:--");
-        # Uhrzeit auf der Wetterseite aktualisieren
         - lvgl.label.update:
             id: time_label
             text: !lambda |-
@@ -33,7 +31,6 @@ time:
                 return std::string(time_buf);
               }
               return std::string("--:--");
-        # Wochentag auf der Wetterseite initial aktualisieren
         - lvgl.label.update:
             id: weekday_label
             text: !lambda |-
@@ -44,9 +41,20 @@ time:
               } else {
                 return "Unbekannt";
               }
+        - lvgl.label.update:
+            id: date_label
+            text: !lambda |-
+              static const char* months[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+              auto now = id(sntp_time).now();
+              if (now.is_valid()) {
+                char date_buf[30];
+                snprintf(date_buf, sizeof(date_buf), "%02d. %s %d", now.day_of_month, months[now.month - 1], now.year);
+                return std::string(date_buf);
+              } else {
+                return "--.--.----";
+              }
 
     on_time:
-      # Aktualisiere die Uhrzeiten jede Minute, zur Sekunde 0 (periodisches Update)
       - seconds: 0
         then:
           - lvgl.label.update:
@@ -69,33 +77,48 @@ time:
                   return std::string(time_buf);
                 }
                 return std::string("--:--");
-      # Der cron-Job für den Wochentag wird durch den text_sensor unten ersetzt
-      # - cron: '0 1 0 * * *' # Täglich um 00:01:00 Uhr
-      #   then:
-      #     - lvgl.label.update:
-      #         id: weekday_label
-      #         # ...
 
-# NEU: Textsensor für den Wochentag
 text_sensor:
   - platform: template
     id: esphome_current_weekday_name
-    name: "ESPHome Wochentag Name" # Optionaler Name für Home Assistant, wenn nicht internal
-    internal: true # Da wir es nur für LVGL verwenden
-    update_interval: 60s # Überprüfe jede Minute, ob sich der Wochentag geändert hat
+    name: "ESPHome Wochentag Name"
+    internal: true
+    update_interval: 60s
     lambda: |-
       auto now = id(sntp_time).now();
       if (now.is_valid()) {
         static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
-        // now.day_of_week gibt 1 (Sonntag) bis 7 (Samstag) zurück.
         return std::string(weekdays[now.day_of_week - 1]);
       }
-      return std::string("Unbekannt"); // Fallback
-    on_value: # Dieser Trigger löst NUR aus, wenn sich der zurückgegebene String (Wochentag) ändert
+      return std::string("Unbekannt");
+    on_value:
       then:
         - logger.log:
             format: "Wochentag hat sich auf '%s' geändert. Aktualisiere Label."
             args: [x.c_str()]
         - lvgl.label.update:
-            id: weekday_label # ID des Wochentag-Labels in lvgl.yaml
-            text: !lambda return x.c_str(); # x ist hier der neue Wochentagsname
+            id: weekday_label
+            text: !lambda return x.c_str();
+
+  - platform: template
+    id: esphome_current_date_formatted
+    name: "ESPHome Formatiertes Datum"
+    internal: true
+    update_interval: 60s
+    lambda: |-
+      auto now = id(sntp_time).now();
+      if (now.is_valid()) {
+        static const char* months[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+        char date_buf[30];
+        snprintf(date_buf, sizeof(date_buf), "%02d. %s %d", now.day_of_month, months[now.month - 1], now.year);
+        return std::string(date_buf);
+      }
+      return std::string("--.--.----");
+    on_value:
+      then:
+        - logger.log:
+            format: "Datum hat sich auf '%s' geändert. Aktualisiere Label."
+            args: [x.c_str()]
+        - lvgl.label.update:
+            id: date_label
+            text: !lambda return x.c_str();
