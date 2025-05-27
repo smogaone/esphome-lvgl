@@ -1,48 +1,101 @@
 # time.yaml
 time:
   - platform: sntp
-    id: sntp_time # Stelle sicher, dass diese ID konsistent ist
+    id: sntp_time
     timezone: "Europe/Berlin"
     servers:
      - 0.pool.ntp.org
      - 1.pool.ntp.org
      - 2.pool.ntp.org
 
-    on_time:
-      # minutes: '*' 
-      - seconds: 0 # Löst jede Minute zur Sekunde 0 aus
-        then:
-          - lvgl.label.update:
-              id: display_time # Uhrzeit im Header (aus lvgl-7.yaml [2])
-              text: !lambda |-
-                static char time_buf[6];
-                auto now = id(sntp_time).now();
-                if (now.is_valid()) {
-                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
-                  return std::string(time_buf);
-                }
-                return std::string("--:--");
-          - lvgl.label.update:
-              id: time_label # Uhrzeit auf der Wetterseite (aus lvgl-7.yaml [2])
-              text: !lambda |-
-                static char time_buf[6];
-                auto now = id(sntp_time).now();
-                if (now.is_valid()) {
-                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
-                  return std::string(time_buf);
-                }
-                return std::string("--:--");
+    on_time_sync: # Einmalig nach erfolgreicher Zeitsynchronisation
+      then:
+        - logger.log: "SNTP Zeit erfolgreich synchronisiert. Aktualisiere initiale Zeit- und Wochentag-Labels."
+        # Uhrzeit im Header aktualisieren
+        - lvgl.label.update:
+            id: display_time
+            text: !lambda |-
+              static char time_buf[6];
+              auto now = id(sntp_time).now();
+              if (now.is_valid()) {
+                snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                return std::string(time_buf);
+              }
+              return std::string("--:--");
+        # Uhrzeit auf der Wetterseite aktualisieren
+        - lvgl.label.update:
+            id: time_label
+            text: !lambda |-
+              static char time_buf[6];
+              auto now = id(sntp_time).now();
+              if (now.is_valid()) {
+                snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                return std::string(time_buf);
+              }
+              return std::string("--:--");
+        # Wochentag auf der Wetterseite initial aktualisieren
+        - lvgl.label.update:
+            id: weekday_label
+            text: !lambda |-
+              static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
+              auto now = id(sntp_time).now();
+              if (now.is_valid()) {
+                return weekdays[now.day_of_week - 1];
+              } else {
+                return "Unbekannt";
+              }
 
-      # Optional: Aktualisiere den Wochentag einmal täglich (oder seltener)
-      - cron: '0 1 0 * * *' # Jede Nacht um 00:01:00 (Sekunde Minute Stunde Tag Monat Wochentag)
+    on_time:
+      # Aktualisiere die Uhrzeiten jede Minute, zur Sekunde 0 (periodisches Update)
+      - seconds: 0
         then:
           - lvgl.label.update:
-              id: weekday_label # Wochentag auf der Wetterseite (aus lvgl-7.yaml [2])
+              id: display_time
               text: !lambda |-
-                static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
+                static char time_buf[6];
                 auto now = id(sntp_time).now();
                 if (now.is_valid()) {
-                  return weekdays[now.day_of_week - 1];
-                } else {
-                  return "Unbekannt";
+                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                  return std::string(time_buf);
                 }
+                return std::string("--:--");
+          - lvgl.label.update:
+              id: time_label
+              text: !lambda |-
+                static char time_buf[6];
+                auto now = id(sntp_time).now();
+                if (now.is_valid()) {
+                  snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
+                  return std::string(time_buf);
+                }
+                return std::string("--:--");
+      # Der cron-Job für den Wochentag wird durch den text_sensor unten ersetzt
+      # - cron: '0 1 0 * * *' # Täglich um 00:01:00 Uhr
+      #   then:
+      #     - lvgl.label.update:
+      #         id: weekday_label
+      #         # ...
+
+# NEU: Textsensor für den Wochentag
+text_sensor:
+  - platform: template
+    id: esphome_current_weekday_name
+    name: "ESPHome Wochentag Name" # Optionaler Name für Home Assistant, wenn nicht internal
+    internal: true # Da wir es nur für LVGL verwenden
+    update_interval: 60s # Überprüfe jede Minute, ob sich der Wochentag geändert hat
+    lambda: |-
+      auto now = id(sntp_time).now();
+      if (now.is_valid()) {
+        static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
+        // now.day_of_week gibt 1 (Sonntag) bis 7 (Samstag) zurück.
+        return std::string(weekdays[now.day_of_week - 1]);
+      }
+      return std::string("Unbekannt"); // Fallback
+    on_value: # Dieser Trigger löst NUR aus, wenn sich der zurückgegebene String (Wochentag) ändert
+      then:
+        - logger.log:
+            format: "Wochentag hat sich auf '%s' geändert. Aktualisiere Label."
+            args: [x.c_str()]
+        - lvgl.label.update:
+            id: weekday_label # ID des Wochentag-Labels in lvgl.yaml
+            text: !lambda return x.c_str(); # x ist hier der neue Wochentagsname
