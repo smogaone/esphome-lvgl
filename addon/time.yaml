@@ -10,7 +10,6 @@ time:
 
     on_time_sync:
       then:
-        - logger.log: "SNTP Zeit erfolgreich synchronisiert. Aktualisiere initiale Zeit-, Datums- und Wochentag-Labels."
         - lvgl.label.update:
             id: display_time
             text: !lambda |-
@@ -44,7 +43,7 @@ time:
         - lvgl.label.update:
             id: date_label
             text: !lambda |-
-              static const char* months[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+              static const char* months[] = {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
               auto now = id(sntp_time).now();
               if (now.is_valid()) {
                 char date_buf[30];
@@ -93,9 +92,6 @@ text_sensor:
       return std::string("Unbekannt");
     on_value:
       then:
-        - logger.log:
-            format: "Wochentag hat sich auf '%s' geändert. Aktualisiere Label."
-            args: [x.c_str()]
         - lvgl.label.update:
             id: weekday_label
             text: !lambda return x.c_str();
@@ -108,7 +104,7 @@ text_sensor:
     lambda: |-
       auto now = id(sntp_time).now();
       if (now.is_valid()) {
-        static const char* months[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+        static const char* months[] = {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
         char date_buf[30];
         snprintf(date_buf, sizeof(date_buf), "%02d. %s %d", now.day_of_month, months[now.month - 1], now.year);
         return std::string(date_buf);
@@ -116,9 +112,6 @@ text_sensor:
       return std::string("--.--.----");
     on_value:
       then:
-        - logger.log:
-            format: "Datum hat sich auf '%s' geändert. Aktualisiere Label."
-            args: [x.c_str()]
         - lvgl.label.update:
             id: date_label
             text: !lambda return x.c_str();
