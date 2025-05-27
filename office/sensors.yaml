@@ -16,7 +16,6 @@ sensor:
         - lambda: |-
             id(innen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
-
   - platform: homeassistant
     entity_id: sensor.aussentemperatur
     id: outdoor_temperature
@@ -25,7 +24,6 @@ sensor:
         - lambda: |-
             id(aussen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
-
   - platform: wifi_signal
     name: "Wifi Signal Strength Icon"
     id: wifi_signal_sensor
@@ -43,9 +41,6 @@ text_sensor:
     internal: true
     on_value:
       then:
-        - logger.log:
-            format: "Wetter Icon ID von HA empfangen: '%s'"
-            args: [x.c_str()]
         - if:
             condition:
               lambda: return x == "icon_png_clear_night";
@@ -165,13 +160,9 @@ text_sensor:
                                                                                                   - lvgl.image.update:
                                                                                                       id: lvgl_weather_image_widget
                                                                                                       src: icon_png_windy_variant
-                                                                                                else:
-                                                                                                  - logger.log: # Fallback, wenn keine der Bedingungen zutrifft
-                                                                                                      format: "Unbekannte oder leere Wetter Icon ID: '%s'. Kein Update des Icons."
-                                                                                                      args: [x.c_str()]
   - platform: homeassistant
     id: esphome_weather_forecast_home
-    entity_id: weather.forecast_home
+    entity_id: sensor.wetter_deutsch
     internal: true
     on_value:
       then:
@@ -179,14 +170,9 @@ text_sensor:
             condition:
               lambda: return !x.empty();
             then:
-              - logger.log:
-                  format: "Wetter Forecast State von HA: '%s'"
-                  args: [x.c_str()]
               - lvgl.label.update:
                   id: weather_description
                   text: !lambda return x.c_str();
-            else:
-              - logger.log: "Wetter Forecast State von HA ist leer, kein Beschreibungs-Update."
 
 binary_sensor:
   - platform: homeassistant
@@ -199,7 +185,6 @@ binary_sensor:
           id: office_scene_evening_button
           state:
             checked: !lambda return x;
-
   - platform: homeassistant
     id: office_scene_dimmed
     entity_id: binary_sensor.office_scene_dimmed
@@ -210,7 +195,6 @@ binary_sensor:
           id: office_scene_dimmed_button
           state:
             checked: !lambda return x;
-
   - platform: homeassistant
     id: office_scene_desk_call
     entity_id: binary_sensor.office_scene_desk_call
@@ -221,7 +205,6 @@ binary_sensor:
           id: office_scene_calls_button
           state:
             checked: !lambda return x;
-
   - platform: homeassistant
     id: office_scene_features
     entity_id: binary_sensor.office_scene_features
@@ -232,7 +215,6 @@ binary_sensor:
           id: office_scene_features_button
           state:
             checked: !lambda return x;
-
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
@@ -243,7 +225,6 @@ binary_sensor:
           id: printer_power_button
           state:
             checked: !lambda return x;
-
   - platform: homeassistant
     id: wz_lichtschalter
     entity_id: light.wz_lichtschalter
@@ -254,7 +235,6 @@ binary_sensor:
           id: wz_button
           state:
             checked: !lambda return x;
-
   - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
@@ -274,7 +254,7 @@ binary_sensor:
           else:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
-                text: $lightbulb_off       
+                text: $lightbulb_off
 
 script:
   - id: update_temperatur_anzeige
@@ -298,21 +278,20 @@ script:
             char temp_buf[20];
             snprintf(temp_buf, sizeof(temp_buf), "Home: %.0f°C", id(innen_temp_wert));
             return temp_buf;
-
   - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
           id: wifi_icon_label
           text: !lambda |-
             if (!network::is_connected()) {
-              return std::string("\U000F092E"); 
+              return std::string("\U000F092E");
             }
             if (id(wifi_signal_sensor).has_state()) {
               float rssi = id(wifi_signal_sensor).state;
-              if (rssi >= -55) { return std::string("\U000F091F"); } 
+              if (rssi >= -55) { return std::string("\U000F091F"); }
               else if (rssi >= -65) { return std::string("\U000F091E"); }
               else if (rssi >= -75) { return std::string("\U000F091D"); }
               else if (rssi >= -85) { return std::string("\U000F091C"); }
               else { return std::string("\U000F091B"); }
             }
-            return std::string("\U000F092E"); 
+            return std::string("\U000F092E");
