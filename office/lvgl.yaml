@@ -1,3 +1,4 @@
+# lvgl.yaml
 lvgl:
   top_layer:
     widgets:
@@ -19,7 +20,7 @@ lvgl:
           text_align: center
           text_color: 16777215
       - label:
-          text: "󰖪"
+          text: ""
           id: wifi_icon_label
           styles: roboto15_style
           text_font: icon_font_header
@@ -53,7 +54,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: "󰜱"
+                      text: ""
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -71,7 +72,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: "󰋜"
+                      text: ""
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -87,7 +88,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: "󰜴"
+                      text: ""
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -118,9 +119,25 @@ lvgl:
                 return "Unbekannt";
               }
         - label:
+            id: date_label
+            x: 600
+            y: 50
+            text_font: roboto36_font
+            text_color: 16777215
+            text: !lambda |-
+              static const char* months[] = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+              auto now = id(sntp_time).now();
+              if (now.is_valid()) {
+                char date_buf[30];
+                snprintf(date_buf, sizeof(date_buf), "%02d. %s %d", now.day_of_month, months[now.month - 1], now.year);
+                return std::string(date_buf);
+              } else {
+                return "--.--.----";
+              }
+        - label:
             id: time_label
             x: 600
-            y: 70
+            y: 90
             text_font: roboto36_font
             text_color: 16777215
             text: !lambda |-
@@ -135,14 +152,14 @@ lvgl:
         - image:
             id: lvgl_weather_image_widget
             x: 60
-            y: 150
+            y: 10
             width: 100
             height: 100
             src: icon_png_sunny
         - label:
             id: weather_description
-            x: 200
-            y: 175
+            x: 170
+            y: 42
             text_font: roboto36_font
             text_color: 16777215
             text: !lambda |-
@@ -192,7 +209,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: scene_features_icon
-                  text: "󱁑"
+                  text: ""
               - label:
                   align: bottom_left
                   id: scene_features_label
@@ -214,7 +231,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: office_scene_calls_icon
-                  text: "󰍫"
+                  text: ""
               - label:
                   align: bottom_left
                   id: office_scene_calls_label
@@ -236,7 +253,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: office_scene_evening_icon
-                  text: "󱩌"
+                  text: ""
               - label:
                   align: bottom_left
                   id: office_scene_evening_label
@@ -258,7 +275,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: office_scene_dimmed_icon
-                  text: "󱩌"
+                  text: ""
               - label:
                   align: bottom_left
                   id: office_scene_dimmed_label
@@ -280,7 +297,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: printer_power_icon
-                  text: "󰐫"
+                  text: ""
               - label:
                   align: bottom_left
                   id: printer_power_label
@@ -301,7 +318,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰌵"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Wohnzimmer"
@@ -321,7 +338,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󱀑"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Open"
@@ -342,7 +359,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰂬"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Close"
@@ -363,7 +380,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰊫"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Mail"
@@ -383,7 +400,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰒱"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Slack"
@@ -441,7 +458,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰟉"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Forklift"
@@ -461,7 +478,7 @@ lvgl:
               - label:
                   text_font: icon_font
                   align: top_left
-                  text: "󰘳"
+                  text: ""
               - label:
                   align: bottom_left
                   text: "Ia Writer"
@@ -501,7 +518,7 @@ lvgl:
                   text_font: icon_font
                   align: top_left
                   id: wohnzimmer_stehlampe_icon
-                  text: "󰌶"
+                  text: ""
               - label:
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
