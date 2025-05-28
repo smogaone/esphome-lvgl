@@ -241,19 +241,19 @@ lvgl:
             grid_cell_row_pos: 0
             height: 100px
             checkable: true
-            id: wz_lichtschalter
+            id: wz_lichtschalter_button
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  id: scene_features_icon
+                  id: wz_lichtschalter_icon
                   text: $lightbulb_off
               - label:
                   text_font: $text_font
                   align: bottom_left
                   id: wz_lichtschalter_label
-                  text: "Features"
+                  text: "Wohnzimmer"
             on_click:
               - homeassistant.service:
                   service: input_boolean.toggle
