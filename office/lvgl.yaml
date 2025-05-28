@@ -23,7 +23,7 @@ lvgl:
           text: ""
           id: wifi_icon_label
           styles: roboto15_style
-          text_font: icon_font_header
+          text_font: icon_font_header # Nutzt Glyphen aus icon_font_header
           align: top_right
           x: -8
           y: 4
@@ -54,7 +54,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: "\U000F0731"
+                      text: $arrow_left # Substitution
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -72,7 +72,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: "\U000F02DC"
+                      text: $home # Substitution
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -88,7 +88,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: "\U000F0734"
+                      text: $arrow_right # Substitution
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -159,7 +159,7 @@ lvgl:
                 return "--:--";
               }
         - label:
-            id: outdoor_temp_large_label # Außentemperatur, jetzt oberste Zeile im Wetterblock
+            id: outdoor_temp_large_label
             x: 28
             y: 10
             text_font: roboto36_font
@@ -168,75 +168,57 @@ lvgl:
               char temp_buf[20];
               float temp_val = id(aussen_temp_wert);
               if (isnan(temp_val)) { return std::string("--.-°C"); }
-              snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val); // Punkt als Dezimaltrennzeichen
+              snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
               return std::string(temp_buf);
         - image:
-            id: lvgl_weather_image_widget # Wetter-Icon, jetzt unter outdoor_temp_large_label
+            id: lvgl_weather_image_widget
             x: 28
-            y: 55 # Angepasste Y-Position (10 für Temp + ~40 Höhe Temp + 5 Puffer)
+            y: 55
             width: 100
             height: 100
             src: icon_png_sunny
         - label:
-            id: weather_description # Wetterbeschreibung, neben dem Icon
-            x: 138 # (28 für Icon-X + 100 Icon-Breite + 10 Puffer)
-            y: 87  # Angepasste Y-Position, mittig zum Icon (55 + 100/2 - 36/2)
+            id: weather_description
+            x: 138
+            y: 87
             text_font: roboto36_font
             text_color: 16777215
             text: !lambda |-
               return id(esphome_weather_forecast_home).state;
-        - obj: # NEU: Container für Flur Temperatur
+        - image:
+            id: flur_temp_png_icon
             x: 28
-            y: 170 # Position unter dem Wetter-Icon/Beschreibung (55 + 100 Icon-Höhe + 15 Puffer)
-            width: 300 # Breite nach Bedarf anpassen
-            height: SIZE_CONTENT
-            layout:
-              type: flex
-              flex_flow: row
-              flex_align_cross: center # Vertikal zentrieren innerhalb dieses Containers
-            widgets:
-              - label: # Icon für Flur Temperatur
-                  id: flur_temp_icon_label
-                  text_font: icon_font # Deine Icon-Schriftart
-                  text_color: 0xFFA500 # Orange
-                  text: "\U000F0F54"  # home_thermometer
-              - label: # Wert für Flur Temperatur
-                  id: flur_temp_value_label
-                  text_font: roboto36_font
-                  text_color: 16777215
-                  pad_left: 10 # Abstand zum Icon
-                  text: !lambda |-
-                    char temp_buf[20];
-                    float temp_val = id(flur_temp_wert);
-                    if (isnan(temp_val)) { return std::string("--.-°C"); }
-                    snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
-                    return std::string(temp_buf);
-        - obj: # NEU: Container für Flur Luftfeuchtigkeit
+            y: 165
+            src: icon_png_indoor_temp
+        - label:
+            id: flur_temp_value_label
+            x: 138
+            y: 197
+            text_font: roboto36_font
+            text_color: 16777215
+            text: !lambda |-
+              char temp_buf[20];
+              float temp_val = id(flur_temp_wert);
+              if (isnan(temp_val)) { return std::string("--.-°C"); }
+              snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
+              return std::string(temp_buf);
+        - image:
+            id: flur_humidity_png_icon
             x: 28
-            y: 215 # Position unter der Flur Temperatur (170 + ~40 Höhe + 5 Puffer)
-            width: 300 # Breite nach Bedarf anpassen
-            height: SIZE_CONTENT
-            layout:
-              type: flex
-              flex_flow: row
-              flex_align_cross: center # Vertikal zentrieren
-            widgets:
-              - label: # Icon für Flur Luftfeuchtigkeit
-                  id: flur_humidity_icon_label
-                  text_font: icon_font # Deine Icon-Schriftart
-                  text_color: 0x0000FF # Blau
-                  text: "\U000F058E"  # water_percent
-              - label: # Wert für Flur Luftfeuchtigkeit
-                  id: flur_humidity_value_label
-                  text_font: roboto36_font
-                  text_color: 16777215
-                  pad_left: 10 # Abstand zum Icon
-                  text: !lambda |-
-                    char temp_buf[20];
-                    float temp_val = id(flur_humidity_wert);
-                    if (isnan(temp_val)) { return std::string("--.-%"); } // Korrigiert: ein %
-                    snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val); // Zwei % für literales %
-                    return std::string(temp_buf);
+            y: 275
+            src: icon_png_humidity
+        - label:
+            id: flur_humidity_value_label
+            x: 138
+            y: 307
+            text_font: roboto36_font
+            text_color: 16777215
+            text: !lambda |-
+              char temp_buf[20];
+              float temp_val = id(flur_humidity_wert);
+              if (isnan(temp_val)) { return std::string("--.-%"); }
+              snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
+              return std::string(temp_buf);
     - id: main_page
       width: 100%
       bg_color: 0
@@ -259,11 +241,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
                   id: scene_features_icon
-                  text: "\U000F1051"
+                  text: $ledstrip
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   id: scene_features_label
                   text: "Features"
@@ -281,11 +264,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
                   id: office_scene_calls_icon
-                  text: "\U000F036B"
+                  text: $videocall
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   id: office_scene_calls_label
                   text: "Calls"
@@ -303,11 +287,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
                   id: office_scene_evening_icon
-                  text: "\U000F1A4C"
+                  text: $nightlight
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   id: office_scene_evening_label
                   text: "Evening"
@@ -325,11 +310,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
                   id: office_scene_dimmed_icon
-                  text: "\U000F1A4C"
+                  text: $nightlight
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   id: office_scene_dimmed_label
                   text: "Dimmed"
@@ -347,11 +333,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
                   id: printer_power_icon
-                  text: "\U000F042B"
+                  text: $printer
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   id: printer_power_label
                   text: "Printer"
@@ -369,10 +356,11 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F0335"
+                  text: $lightbulb
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Wohnzimmer"
             on_click:
@@ -389,10 +377,11 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F1011"
+                  text: $blinds_open
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Open"
             on_click:
@@ -410,10 +399,11 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F00AC"
+                  text: $blinds_closed
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Close"
             on_click:
@@ -431,10 +421,11 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F02AB"
+                  text: $gmail
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Mail"
             on_click:
@@ -451,10 +442,11 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F04B1"
+                  text: $slack
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Slack"
             on_click:
@@ -470,10 +462,12 @@ lvgl:
             id: webhook_meet_button
             styles: webhook
             widgets:
-              - image:
-                  src: meet_logo
-                  antialias: true
               - label:
+                  text_font: $icon_font
+                  align: top_left
+                  text: $lightbulb # Ersetzt meet_logo
+              - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Meet"
             on_click:
@@ -489,10 +483,12 @@ lvgl:
             id: webhook_figma_button
             styles: webhook
             widgets:
-              - image:
-                  src: figma_logo
-                  antialias: true
               - label:
+                  text_font: $icon_font
+                  align: top_left
+                  text: $lightbulb # Ersetzt figma_logo
+              - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Figma"
             on_click:
@@ -509,10 +505,11 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F07C9"
+                  text: $forklift
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Forklift"
             on_click:
@@ -529,10 +526,11 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
-                  text: "\U000F0633"
+                  text: $command
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Ia Writer"
             on_click:
@@ -548,10 +546,12 @@ lvgl:
             id: webhook_mainsail_button
             styles: webhook
             widgets:
-              - image:
-                  src: mainsail_logo
-                  antialias: true
               - label:
+                  text_font: $icon_font
+                  align: top_left
+                  text: $lightbulb # Ersetzt mainsail_logo
+              - label:
+                  text_font: $text_font
                   align: bottom_left
                   text: "Mainsail"
             on_click:
@@ -568,11 +568,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: icon_font
+                  text_font: $icon_font
                   align: top_left
                   id: wohnzimmer_stehlampe_icon
-                  text: "\U000F0336"
+                  text: $lightbulb_off
               - label:
+                  text_font: $text_font
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
                   text: "Wohnzimmer Stehlampe"
