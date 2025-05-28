@@ -9,13 +9,13 @@ font:
     id: roboto15_font
     size: 15
     bpp: 4
-    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz., :°%/
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz., :°%/-
     
   - file: "gfonts://Roboto"
     id: roboto36_font
     size: 36
     bpp: 4
-    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz., :°%/
+    glyphs: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnÖÄÜöäüopqrsßtuvwxyz., :°%/-
     
 #lvgl:
 #  style_definitions:
