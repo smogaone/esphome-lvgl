@@ -239,9 +239,9 @@ binary_sensor:
               checked: !lambda return x;
         - lambda: |-
             if (x) {
-              lv_label_set_text(id(wz_lichtschalter_icon).get_obj(), "\U000F0335");
+              lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0335");
             } else {
-              lv_label_set_text(id(wz_lichtschalter_icon).get_obj(), "\U000F0336");
+              lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0336");
             }
   - platform: homeassistant
     id: office_3d_printer_power
