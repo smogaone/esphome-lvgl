@@ -33,7 +33,7 @@ lvgl:
           align: bottom_mid
           width: 100%
           height: 24px
-          bg_opa: 0
+          bg_color: $button_control_color
           border_width: 0
           pad_all: 2px
           layout:
@@ -48,7 +48,7 @@ lvgl:
                 width: 60px
                 height: 20px
                 radius: 12px
-                bg_opa: 0
+                bg_color: $button_control_color
                 border_width: 0
                 widgets:
                   - label:
@@ -66,7 +66,7 @@ lvgl:
                 width: 60px
                 height: 20px
                 radius: 12px
-                bg_opa: 0
+                bg_color: $button_control_color
                 border_width: 0
                 widgets:
                   - label:
@@ -82,7 +82,7 @@ lvgl:
                 width: 60px
                 height: 20px
                 radius: 12px
-                bg_opa: 0
+                bg_color: $button_control_color
                 border_width: 0
                 widgets:
                   - label:
