@@ -205,10 +205,14 @@ lvgl:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
         grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
+        # Optional: pad_column und pad_row für Abstände zwischen den Buttons
+        # pad_column: 5px
+        # pad_row: 5px
       widgets:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: $button_height_double
             checkable: false
             id: office_scene_features_button
@@ -231,6 +235,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: office_scene_calls_button
@@ -253,6 +258,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: office_scene_evening_button
@@ -275,6 +281,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 0
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: office_scene_dimmed_button
@@ -297,6 +304,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: true
             id: printer_power_button
@@ -319,6 +327,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: true
             id: wz_button
@@ -339,6 +348,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: true
             id: office_blind_open_button
@@ -360,6 +370,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: true
             id: office_blind_close_button
@@ -381,6 +392,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_mail_button
@@ -401,6 +413,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 1
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_slack_button
@@ -421,6 +434,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_meet_button
@@ -440,6 +454,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 2
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_figma_button
@@ -459,6 +474,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 2
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_forklift_button
@@ -479,6 +495,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 2
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_iawriter_button
@@ -499,6 +516,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 2
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             height: 100px
             checkable: false
             id: webhook_mainsail_button
@@ -518,6 +536,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 3
+            grid_cell_x_align: STRETCH # HINZUGEFÜGT
             id: wohnzimmer_stehlampe_button
             height: 100px
             checkable: true
