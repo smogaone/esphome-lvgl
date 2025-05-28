@@ -228,15 +228,21 @@ binary_sensor:
           state:
             checked: !lambda return x;
   - platform: homeassistant
-    id: office_scene_features
-    entity_id: binary_sensor.office_scene_features
+    id: office_scene_features # Dies ist der Sensor, den wir anpassen.
+    entity_id: input_boolean.wz_lichtschalter # GEÄNDERT: Überwacht jetzt den input_boolean
     publish_initial_state: true
-    on_state:
+    on_state: # Wird aufgerufen, wenn sich input_boolean.wz_lichtschalter ändert
       then:
-        lvgl.widget.update:
-          id: office_scene_features_button
-          state:
-            checked: !lambda return x;
+        - lvgl.widget.update:
+            id: office_scene_features_button # LVGL Button ID
+            state:
+              checked: !lambda return x; # Setzt den checked-Zustand des LVGL Buttons
+        - lambda: |- # Ändert das Icon des Labels im LVGL Button
+            if (x) { // x ist der neue Zustand von input_boolean.wz_lichtschalter (true = an)
+              lv_label_set_text(id(scene_features_icon).get_obj(), id(lightbulb).c_str());
+            } else { // false = aus
+              lv_label_set_text(id(scene_features_icon).get_obj(), id(lightbulb_off).c_str());
+            }
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
