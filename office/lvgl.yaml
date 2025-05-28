@@ -238,26 +238,27 @@ lvgl:
       widgets:
         - button:
             grid_cell_column_pos: 0
-            grid_cell_row_pos: 1
+            grid_cell_row_pos: 0
             height: 100px
             checkable: true
-            id: wz_button # Button für light.wz_lichtschalter
+            id: wz_lichtschalter
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  id: wz_button_icon # Annahme einer ID für dieses Icon
-                  text: $lightbulb # Wird durch seinen eigenen binary_sensor gesteuert
+                  id: scene_features_icon
+                  text: $lightbulb_off
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Wohnzimmer"
+                  id: wz_lichtschalter_label
+                  text: "Features"
             on_click:
               - homeassistant.service:
-                  service: light.toggle # Korrekt für eine Licht-Entität
+                  service: input_boolean.toggle
                   data:
-                    entity_id: light.wz_lichtschalter
+                    entity_id: input_boolean.wz_lichtschalter
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
