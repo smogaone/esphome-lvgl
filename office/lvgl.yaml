@@ -209,7 +209,7 @@ lvgl:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
-            height: 100px
+            height: button_height_double
             checkable: false
             id: office_scene_features_button
             styles: control
