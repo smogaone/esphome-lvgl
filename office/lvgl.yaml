@@ -159,7 +159,7 @@ lvgl:
                 return "--:--";
               }
         - label:
-            id: outdoor_temp_large_label
+            id: outdoor_temp_large_label # Außentemperatur, jetzt oberste Zeile im Wetterblock
             x: 28
             y: 10
             text_font: roboto36_font
@@ -167,32 +167,76 @@ lvgl:
             text: !lambda |-
               char temp_buf[20];
               float temp_val = id(aussen_temp_wert);
-              if (isnan(temp_val)) {
-                return std::string("--,-° C");
-              }
-              snprintf(temp_buf, sizeof(temp_buf), "%.1f° C", temp_val);
-              for (int i = 0; temp_buf[i] != '\0'; i++) {
-                  if (temp_buf[i] == '.') {
-                      temp_buf[i] = ',';
-                      break;
-                  }
-              }
+              if (isnan(temp_val)) { return std::string("--.-°C"); }
+              snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val); // Punkt als Dezimaltrennzeichen
               return std::string(temp_buf);
         - image:
-            id: lvgl_weather_image_widget
+            id: lvgl_weather_image_widget # Wetter-Icon, jetzt unter outdoor_temp_large_label
             x: 28
-            y: 55
+            y: 55 # Angepasste Y-Position (10 für Temp + ~40 Höhe Temp + 5 Puffer)
             width: 100
             height: 100
             src: icon_png_sunny
         - label:
-            id: weather_description
-            x: 138
-            y: 87
+            id: weather_description # Wetterbeschreibung, neben dem Icon
+            x: 138 # (28 für Icon-X + 100 Icon-Breite + 10 Puffer)
+            y: 87  # Angepasste Y-Position, mittig zum Icon (55 + 100/2 - 36/2)
             text_font: roboto36_font
             text_color: 16777215
             text: !lambda |-
               return id(esphome_weather_forecast_home).state;
+        - obj: # NEU: Container für Flur Temperatur
+            x: 28
+            y: 170 # Position unter dem Wetter-Icon/Beschreibung (55 + 100 Icon-Höhe + 15 Puffer)
+            width: 300 # Breite nach Bedarf anpassen
+            height: SIZE_CONTENT
+            layout:
+              type: flex
+              flex_flow: row
+              flex_align_cross: center # Vertikal zentrieren innerhalb dieses Containers
+            widgets:
+              - label: # Icon für Flur Temperatur
+                  id: flur_temp_icon_label
+                  text_font: icon_font # Deine Icon-Schriftart
+                  text_color: 0xFFA500 # Orange
+                  text: "\U000F0F54"  # home_thermometer
+              - label: # Wert für Flur Temperatur
+                  id: flur_temp_value_label
+                  text_font: roboto36_font
+                  text_color: 16777215
+                  pad_left: 10 # Abstand zum Icon
+                  text: !lambda |-
+                    char temp_buf[20];
+                    float temp_val = id(flur_temp_wert);
+                    if (isnan(temp_val)) { return std::string("--.-°C"); }
+                    snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
+                    return std::string(temp_buf);
+        - obj: # NEU: Container für Flur Luftfeuchtigkeit
+            x: 28
+            y: 215 # Position unter der Flur Temperatur (170 + ~40 Höhe + 5 Puffer)
+            width: 300 # Breite nach Bedarf anpassen
+            height: SIZE_CONTENT
+            layout:
+              type: flex
+              flex_flow: row
+              flex_align_cross: center # Vertikal zentrieren
+            widgets:
+              - label: # Icon für Flur Luftfeuchtigkeit
+                  id: flur_humidity_icon_label
+                  text_font: icon_font # Deine Icon-Schriftart
+                  text_color: 0x0000FF # Blau
+                  text: "\U000F058E"  # water_percent
+              - label: # Wert für Flur Luftfeuchtigkeit
+                  id: flur_humidity_value_label
+                  text_font: roboto36_font
+                  text_color: 16777215
+                  pad_left: 10 # Abstand zum Icon
+                  text: !lambda |-
+                    char temp_buf[20];
+                    float temp_val = id(flur_humidity_wert);
+                    if (isnan(temp_val)) { return std::string("--.-%"); } // Korrigiert: ein %
+                    snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val); // Zwei % für literales %
+                    return std::string(temp_buf);
     - id: main_page
       width: 100%
       bg_color: 0
