@@ -6,6 +6,12 @@ globals:
   - id: aussen_temp_wert
     type: float
     initial_value: '0.0'
+  - id: flur_temp_wert # NEU
+    type: float
+    initial_value: '0.0'
+  - id: flur_humidity_wert # NEU
+    type: float
+    initial_value: '0.0'
 
 sensor:
   - platform: homeassistant
@@ -23,6 +29,22 @@ sensor:
       then:
         - lambda: |-
             id(aussen_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
+  - platform: homeassistant # NEU
+    entity_id: sensor.flur_temperatur_temperature
+    id: flur_temperature_sensor
+    on_value:
+      then:
+        - lambda: |-
+            id(flur_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
+  - platform: homeassistant # NEU
+    entity_id: sensor.flur_temperatur_humidity
+    id: flur_humidity_sensor
+    on_value:
+      then:
+        - lambda: |-
+            id(flur_humidity_wert) = x;
         - script.execute: update_temperatur_anzeige
   - platform: wifi_signal
     name: "Wifi Signal Strength Icon"
@@ -260,24 +282,35 @@ script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures
+          id: temperatures # Header Temperatur (Innen/Außen)
           text:
             format: "%d° / %d°"
             args:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
-      - lvgl.label.update:
+      - lvgl.label.update: # Große Außentemperatur auf Wetterseite
           id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(aussen_temp_wert);
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f° C", temp_val);
-            for (int i = 0; temp_buf[i] != '\0'; i++) {
-                if (temp_buf[i] == '.') {
-                    temp_buf[i] = ',';
-                    break;
-                }
-            }
+            if (isnan(temp_val)) { return std::string("--.-°C"); }
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val); // Punkt als Dezimaltrennzeichen
+            return std::string(temp_buf);
+      - lvgl.label.update: # NEU: Flur Temperatur Wert
+          id: flur_temp_value_label
+          text: !lambda |-
+            char temp_buf[20];
+            float temp_val = id(flur_temp_wert);
+            if (isnan(temp_val)) { return std::string("--.-°C"); }
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
+            return std::string(temp_buf);
+      - lvgl.label.update: # NEU: Flur Luftfeuchtigkeit Wert
+          id: flur_humidity_value_label
+          text: !lambda |-
+            char temp_buf[20];
+            float temp_val = id(flur_humidity_wert);
+            if (isnan(temp_val)) { return std::string("--.-%%"); } // Zwei % für literales % in snprintf
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val); // Zwei % für literales %
             return std::string(temp_buf);
   - id: update_wifi_icon_display
     then:
