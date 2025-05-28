@@ -43,6 +43,7 @@ font:
       "\U000F0FA6",  # mdi-car-seat-heater
       "\U000F1054",  # mdi-outdoor-lamp
       "\U000F1A85",  # mdi-water-thermometer
+      "\U000F058E",  # mdi-water-percent
       "\U000F1A45",  # mdi-heat-wave
       "\U000F0E02",  # mdi-thermometer-chevron-down
       "\U000F0DA1",  # mdi-transfer-down
@@ -134,6 +135,7 @@ substitutions:
   car_seat_heater:     "\U000F0FA6"
   outdoor_lamp:        "\U000F1054"
   water_thermometer:   "\U000F1A85"
+  water_percent:       "\U000F058E"
   heat_wave:           "\U000F1A45"
   thermometer_chevron_down: "\U000F0E02"
   transfer_down:       "\U000F0DA1"
