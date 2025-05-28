@@ -33,7 +33,7 @@ lvgl:
           align: bottom_mid
           width: 100%
           height: 24px
-          bg_color: $button_control_color
+          bg_opa: 0
           border_width: 0
           pad_all: 2px
           layout:
@@ -48,7 +48,7 @@ lvgl:
                 width: 60px
                 height: 20px
                 radius: 12px
-                bg_color: $button_control_color
+                bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
@@ -66,7 +66,7 @@ lvgl:
                 width: 60px
                 height: 20px
                 radius: 12px
-                bg_color: $button_control_color
+                bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
@@ -82,7 +82,7 @@ lvgl:
                 width: 60px
                 height: 20px
                 radius: 12px
-                bg_color: $button_control_color
+                bg_opa: 0
                 border_width: 0
                 widgets:
                   - label:
@@ -209,19 +209,17 @@ lvgl:
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
-            height: $button_height_double # Dieser Button überspannt zwei Zeilen
-            grid_cell_row_span: 2      # Explizit angeben
+            height: 100px
             checkable: false
             id: office_scene_features_button
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font # Verwende Substitution
+                  text_font: icon_font
                   align: top_left
                   id: scene_features_icon
                   text: "\U000F1051"
               - label:
-                  text_font: $text_font # Explizit die Text-Schriftart zuweisen
                   align: bottom_left
                   id: scene_features_label
                   text: "Features"
@@ -239,12 +237,11 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font # Verwende Substitution
+                  text_font: icon_font
                   align: top_left
                   id: office_scene_calls_icon
                   text: "\U000F036B"
               - label:
-                  text_font: $text_font # Explizit die Text-Schriftart zuweisen
                   align: bottom_left
                   id: office_scene_calls_label
                   text: "Calls"
@@ -262,12 +259,11 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font # Verwende Substitution
+                  text_font: icon_font
                   align: top_left
                   id: office_scene_evening_icon
                   text: "\U000F1A4C"
               - label:
-                  text_font: $text_font # Explizit die Text-Schriftart zuweisen
                   align: bottom_left
                   id: office_scene_evening_label
                   text: "Evening"
@@ -276,62 +272,20 @@ lvgl:
                   service: scene.turn_on
                   data:
                     entity_id: scene.office_evening
-        # ... (Rest der Buttons analog anpassen: Icon-Labels mit text_font: $icon_font, Text-Labels mit text_font: $text_font)
-        # Beispiel für einen Button in der "leeren" Zelle neben dem hohen Button:
         - button:
-            grid_cell_column_pos: 1 # Nächste Spalte
-            grid_cell_row_pos: 1    # Zweite Zeile (neben dem hohen Button)
-            height: 100px           # Standardhöhe
-            id: wz_button           # ID deines WZ-Buttons (oder ein anderer)
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  text: "\U000F0335" # Lightbulb
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Wohnzimmer"
-            on_click:
-              - homeassistant.service:
-                  service: switch.toggle
-                  data:
-                    entity_id: light.wz_lichtschalter
-
-        # Alle weiteren Buttons müssen ihre grid_cell_row_pos und grid_cell_column_pos
-        # entsprechend der neuen Anordnung bekommen.
-        # Du musst die Positionen manuell durchgehen und anpassen,
-        # um die Lücken zu füllen und das 5x4 Grid nicht zu überschreiten.
-
-        # Beispiel: Der "Dimmed" Button, der vorher in Spalte 3, Zeile 0 war,
-        # könnte jetzt in Spalte 3, Zeile 0 bleiben, oder wenn du die Lücke füllen willst,
-        # und der WZ-Button jetzt in Spalte 1, Zeile 1 ist, könnte
-        # der "Open Blinds" Button (vorher Spalte 1, Zeile 1) jetzt z.B. in Spalte 2, Zeile 1 etc.
-
-        # HIER MUSST DU DIE VERBLEIBENDEN BUTTONS MANUELL NEU ANORDNEN
-        # Es ist wichtig, dass keine grid_cell_column_pos >= 5 wird
-        # und keine grid_cell_row_pos >= 4 (für ein 5x4 Grid).
-
-        # Hier sind die restlichen Buttons aus deiner lvgl.yaml, du musst grid_cell_column_pos und grid_cell_row_pos
-        # so anpassen, dass sie die Lücken füllen und im Raster bleiben.
-        # Ich lasse die ursprünglichen Positionen als Kommentar stehen und du musst sie anpassen.
-
-        - button: # Ursprünglich Spalte 3, Zeile 0
-            # grid_cell_column_pos: 3 # Anpassen!
-            # grid_cell_row_pos: 0    # Anpassen!
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 0
             height: 100px
             checkable: false
             id: office_scene_dimmed_button
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: office_scene_dimmed_icon
                   text: "\U000F1A4C"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   id: office_scene_dimmed_label
                   text: "Dimmed"
@@ -340,22 +294,20 @@ lvgl:
                   service: scene.turn_on
                   data:
                     entity_id: scene.office_dimmed
-
-        - button: # Ursprünglich Spalte 4, Zeile 0
-            # grid_cell_column_pos: 4 # Anpassen!
-            # grid_cell_row_pos: 0    # Anpassen!
+        - button:
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 0
             height: 100px
             checkable: true
             id: printer_power_button
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: printer_power_icon
                   text: "\U000F042B"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   id: printer_power_label
                   text: "Printer"
@@ -364,24 +316,39 @@ lvgl:
                   service: switch.toggle
                   data:
                     entity_id: switch.office_3d_printer_power
-
-        # Der WZ-Button wurde oben als Beispiel verschoben (Spalte 1, Zeile 1)
-        # Wenn du ihn dort lässt, dann weiter mit den nächsten:
-
-        - button: # Ursprünglich Spalte 1, Zeile 1 (jetzt ggf. woanders)
-            # grid_cell_column_pos: 2 # Anpassen!
-            # grid_cell_row_pos: 1    # Anpassen!
+        - button:
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 1
+            height: 100px
+            checkable: true
+            id: wz_button
+            styles: control
+            widgets:
+              - label:
+                  text_font: icon_font
+                  align: top_left
+                  text: "\U000F0335"
+              - label:
+                  align: bottom_left
+                  text: "Wohnzimmer"
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: light.wz_lichtschalter
+        - button:
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 1
             height: 100px
             checkable: true
             id: office_blind_open_button
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   text: "\U000F1011"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Open"
             on_click:
@@ -390,21 +357,19 @@ lvgl:
                   data:
                     entity_id: cover.wohnzimmer_rechts
                     position: "78"
-
-        - button: # Ursprünglich Spalte 2, Zeile 1
-            # grid_cell_column_pos: 3 # Anpassen!
-            # grid_cell_row_pos: 1    # Anpassen!
+        - button:
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 1
             height: 100px
             checkable: true
             id: office_blind_close_button
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   text: "\U000F00AC"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Close"
             on_click:
@@ -413,21 +378,19 @@ lvgl:
                   data:
                     entity_id: cover.wohnzimmer_rechts
                     position: "0"
-
-        - button: # Ursprünglich Spalte 3, Zeile 1
-            # grid_cell_column_pos: 4 # Anpassen!
-            # grid_cell_row_pos: 1    # Anpassen!
+        - button:
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 1
             height: 100px
             checkable: false
             id: webhook_mail_button
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   text: "\U000F02AB"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Mail"
             on_click:
@@ -435,21 +398,19 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mail
-
-        - button: # Ursprünglich Spalte 4, Zeile 1 -> wird dann zu Spalte 0, Zeile 2
-            grid_cell_column_pos: 0 # Beispiel: Nächste Zeile, erste Spalte
-            grid_cell_row_pos: 2
+        - button:
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 1
             height: 100px
             checkable: false
             id: webhook_slack_button
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   text: "\U000F04B1"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Slack"
             on_click:
@@ -457,10 +418,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_slack
-
-        # Die image-basierten Buttons (Meet, Figma, Mainsail)
-        - button: # Ursprünglich Spalte 0, Zeile 2
-            grid_cell_column_pos: 1 # Beispiel
+        - button:
+            grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             height: 100px
             checkable: false
@@ -471,7 +430,6 @@ lvgl:
                   src: meet_logo
                   antialias: true
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Meet"
             on_click:
@@ -479,9 +437,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_meet
-
-        - button: # Ursprünglich Spalte 1, Zeile 2
-            grid_cell_column_pos: 2 # Beispiel
+        - button:
+            grid_cell_column_pos: 1
             grid_cell_row_pos: 2
             height: 100px
             checkable: false
@@ -492,7 +449,6 @@ lvgl:
                   src: figma_logo
                   antialias: true
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Figma"
             on_click:
@@ -500,9 +456,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_figma
-
-        - button: # Ursprünglich Spalte 2, Zeile 2
-            grid_cell_column_pos: 3 # Beispiel
+        - button:
+            grid_cell_column_pos: 2
             grid_cell_row_pos: 2
             height: 100px
             checkable: false
@@ -510,11 +465,10 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   text: "\U000F07C9"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Forklift"
             on_click:
@@ -522,9 +476,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_forklift
-
-        - button: # Ursprünglich Spalte 3, Zeile 2
-            grid_cell_column_pos: 4 # Beispiel
+        - button:
+            grid_cell_column_pos: 3
             grid_cell_row_pos: 2
             height: 100px
             checkable: false
@@ -532,11 +485,10 @@ lvgl:
             styles: webhook
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   text: "\U000F0633"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Ia Writer"
             on_click:
@@ -544,10 +496,9 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_iawriter
-
-        - button: # Ursprünglich Spalte 4, Zeile 2 -> wird dann zu Spalte 0, Zeile 3
-            grid_cell_column_pos: 0 # Beispiel
-            grid_cell_row_pos: 3
+        - button:
+            grid_cell_column_pos: 4
+            grid_cell_row_pos: 2
             height: 100px
             checkable: false
             id: webhook_mainsail_button
@@ -557,7 +508,6 @@ lvgl:
                   src: mainsail_logo
                   antialias: true
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   text: "Mainsail"
             on_click:
@@ -565,9 +515,8 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mainsail
-
-        - button: # Ursprünglich Spalte 0, Zeile 3
-            grid_cell_column_pos: 1 # Beispiel
+        - button:
+            grid_cell_column_pos: 0
             grid_cell_row_pos: 3
             id: wohnzimmer_stehlampe_button
             height: 100px
@@ -575,12 +524,11 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: wohnzimmer_stehlampe_icon
                   text: "\U000F0336"
               - label:
-                  text_font: $text_font
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
                   text: "Wohnzimmer Stehlampe"
