@@ -229,20 +229,24 @@ binary_sensor:
             checked: !lambda return x;
   - platform: homeassistant
     id: wz_lichtschalter_state_esphome
-    entity_id: input_boolean.wz_lichtschalter
+    entity_id: light.wz_lichtschalter
     publish_initial_state: true
     on_state:
-      then:
-        - lvgl.widget.update:
-            id: wz_lichtschalter_button
-            state:
-              checked: !lambda return x;
-        - lambda: |-
-            if (x) {
-              lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0335");
-            } else {
-              lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0336");
-            }
+      - lvgl.widget.update:
+          id: wz_lichtschalter_button
+          state:
+            checked: !lambda return x;
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $lightbulb
+          else:
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $lightbulb_off
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
