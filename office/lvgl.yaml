@@ -387,7 +387,7 @@ lvgl:
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Open"
+                  text: "Auf"
             on_click:
               - homeassistant.service:
                   service: cover.set_cover_position
@@ -419,13 +419,23 @@ lvgl:
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Close"
+                  text: "Zu"
             on_click:
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.wohnzimmer_rechts
                     position: "0"
+              - homeassistant.service:
+                  service: cover.set_cover_position
+                  data:
+                    entity_id: cover.esszimmer_links
+                    position: "0"
+              - homeassistant.service:
+                  service: cover.set_cover_position
+                  data:
+                    entity_id: cover.esszimmer_rechts
+                    position: "0"      
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
