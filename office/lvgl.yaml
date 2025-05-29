@@ -389,7 +389,7 @@ lvgl:
                   align: bottom_left
                   text: "Auf"
             on_click:
-             - homeassistant.service:
+              - homeassistant.service:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.wohnzimmer_links
@@ -426,6 +426,11 @@ lvgl:
                   align: bottom_left
                   text: "Zu"
             on_click:
+              - homeassistant.service:
+                  service: cover.set_cover_position
+                  data:
+                    entity_id: cover.wohnzimmer_links
+                    position: "0"
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
