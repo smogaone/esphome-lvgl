@@ -218,15 +218,25 @@ binary_sensor:
           state:
             checked: !lambda return x;
   - platform: homeassistant
-    id: office_scene_desk_call
-    entity_id: binary_sensor.office_scene_desk_call
+    id: wohnzimmer_stehlampe_status
+    entity_id: light.wohnzimmer_stehlampe
     publish_initial_state: true
     on_state:
-      then:
-        lvgl.widget.update:
-          id: office_scene_calls_button
+      - lvgl.widget.update:
+          id: wohnzimmer_stehlampe_button
           state:
             checked: !lambda return x;
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: wohnzimmer_stehlampe_icon
+                text: $lightbulb
+          else:
+            - lvgl.label.update:
+                id: wohnzimmer_stehlampe_icon
+                text: $lightbulb_off
   - platform: homeassistant
     id: wz_lichtschalter_state_esphome
     entity_id: light.wz_lichtschalter
@@ -267,27 +277,6 @@ binary_sensor:
           id: wz_button
           state:
             checked: !lambda return x;
-  - platform: homeassistant
-    id: wohnzimmer_stehlampe_status
-    entity_id: light.wohnzimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wohnzimmer_stehlampe_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $lightbulb
-          else:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $lightbulb_off
-
 script:
   - id: update_temperatur_anzeige
     then:
