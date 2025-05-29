@@ -16,7 +16,7 @@ light:
     name: "${friendly_name} Backlight"
     id: lcd_backlight_brightness
     output: lcd_backlight_pwm
-    restore_mode: ALWAYS_OFF
+    restore_mode: ALWAYS_ON
     default_transition_length: 0s
     gamma_correct: 0
 
