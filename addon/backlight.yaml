@@ -1,33 +1,14 @@
-# backlight.yaml
-substitutions:
-  friendly_name: ""
-  backlight_brightness_pin: "GPIO16" 
-  initial_brightness_on_pres: "1.0" 
-  initial_brightness_on_boot: "0.8" 
-
-output:
-  - platform: ledc
-    pin: ${backlight_brightness_pin}
-    id: lcd_backlight_pwm
-    frequency: 1000 Hz
-
-light:
-  - platform: monochromatic
-    name: "${friendly_name} Backlight"
-    id: lcd_backlight_brightness
-    output: lcd_backlight_pwm
+# Backlight
+switch:
+  - platform: gpio
+    id: backlight
+    pin: 
+      ch422g: ch422g_hub
+      number: 2
     restore_mode: ALWAYS_ON
-    default_transition_length: 0s
-    gamma_correct: 0
+    internal: true
 
-esphome:
-  on_boot:
-    priority: -10.0
-    then:
-      - light.turn_on:
-          id: lcd_backlight_brightness
-          brightness: !lambda 'return ${initial_brightness_on_boot};'
-
+# Screensaver Presence Trigger
 binary_sensor:
   - platform: homeassistant
     id: presence
@@ -35,13 +16,11 @@ binary_sensor:
     on_press:
       - lvgl.resume:
       - delay: 10ms
-      - light.turn_on:
-          id: lcd_backlight_brightness
-          brightness: !lambda 'return ${initial_brightness_on_pres};'
-      - logger.log: "Screensaver is turned off, backlight ON"
+      - switch.turn_on: backlight
+      - logger.log: "Screensaver is turned off"
+
     on_release:
-      - light.turn_off:
-          id: lcd_backlight_brightness
+      - switch.turn_off: backlight
       - lvgl.pause:
           show_snow: true
-      - logger.log: "Screensaver is turned on, backlight OFF"
+      - logger.log: "Screensaver is turned on"
