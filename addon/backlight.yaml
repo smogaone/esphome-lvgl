@@ -16,7 +16,7 @@ light:
     name: "${friendly_name} Backlight" # Nutzt friendly_name aus wz.yaml
     id: lcd_backlight_brightness # Die ID der neuen Light-Entität
     output: lcd_backlight_pwm
-    restore_mode: ALWAYS_OFF # Startet standardmäßig aus, wird durch Präsenz oder on_boot gesteuert
+    restore_mode: ALWAYS_ON # Startet standardmäßig aus, wird durch Präsenz oder on_boot gesteuert
     default_transition_length: 0s
     gamma_correct: 0 # Für direkte LED-Ansteuerung meist 0
 
