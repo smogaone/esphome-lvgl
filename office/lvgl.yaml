@@ -389,21 +389,26 @@ lvgl:
                   align: bottom_left
                   text: "Auf"
             on_click:
+             - homeassistant.service:
+                  service: cover.set_cover_position
+                  data:
+                    entity_id: cover.wohnzimmer_links
+                    position: "83"
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.wohnzimmer_rechts
-                    position: 78
+                    position: "78"
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.esszimmer_links
-                    position: 68
+                    position: "68"
               - homeassistant.service:
                   service: cover.set_cover_position
                   data:
                     entity_id: cover.esszimmer_rechts
-                    position: 70
+                    position: "70"
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
