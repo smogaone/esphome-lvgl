@@ -609,26 +609,3 @@ lvgl:
                   service: button.press
                   data:
                     entity_id: button.webhook_mainsail
-        - button:
-            grid_cell_column_pos: 0
-            grid_cell_row_pos: 3
-            id: wohnzimmer_stehlampe_button
-            height: 100px
-            checkable: true
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: wohnzimmer_stehlampe_icon
-                  text: $lightbulb_off
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  id: wohnzimmer_stehlampe_label
-                  text: "Wohnzimmer Stehlampe"
-            on_click:
-              - homeassistant.service:
-                  service: light.toggle
-                  data:
-                    entity_id: light.wohnzimmer_stehlampe
