@@ -256,9 +256,9 @@ lvgl:
                   text: "Wohnzimmer"
             on_click:
               - homeassistant.service:
-                  service: input_boolean.toggle
+                  service: light.toggle
                   data:
-                    entity_id: input_boolean.wz_lichtschalter
+                    entity_id: light.wz_lichtschalter
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
