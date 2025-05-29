@@ -1,26 +1,47 @@
-# Backlight
-switch:
-  - platform: gpio
-    id: backlight
-    pin: 
-      ch422g: ch422g_hub
-      number: 2
-    restore_mode: ALWAYS_ON
-    internal: true
+# backlight.yaml
+substitutions:
+  # Diese werden in wz.yaml definiert, hier nur als Platzhalter für die Logik
+  backlight_brightness_pin: "GPIO16" # Standard-Pin aus inytar, anpassen!
+  initial_brightness_on_pres: "1.0" # Helligkeit (0.0-1.0) wenn Präsenz erkannt wird
+  initial_brightness_on_boot: "0.8" # Helligkeit (0.0-1.0) beim Booten
 
-# Screensaver Presence Trigger
+output:
+  - platform: ledc
+    pin: ${backlight_brightness_pin}
+    id: lcd_backlight_pwm
+    frequency: 1000 Hz # Eine übliche Frequenz für LEDC PWM
+
+light:
+  - platform: monochromatic
+    name: "${friendly_name} Backlight" # Nutzt friendly_name aus wz.yaml
+    id: lcd_backlight_brightness # Die ID der neuen Light-Entität
+    output: lcd_backlight_pwm
+    restore_mode: ALWAYS_OFF # Startet standardmäßig aus, wird durch Präsenz oder on_boot gesteuert
+    default_transition_length: 0s
+    gamma_correct: 0 # Für direkte LED-Ansteuerung meist 0
+
+esphome:
+  on_boot:
+    priority: -10.0 # Stellt sicher, dass die Light-Komponente initialisiert ist
+    then:
+      - light.turn_on:
+          id: lcd_backlight_brightness
+          brightness: !lambda 'return ${initial_brightness_on_boot};'
+
 binary_sensor:
   - platform: homeassistant
-    id: presence
+    id: presence # Behält die ID 'presence'
     entity_id: binary_sensor.wz_presence
-    on_press:
+    on_press: # Wenn Präsenz erkannt wird
       - lvgl.resume:
       - delay: 10ms
-      - switch.turn_on: backlight
-      - logger.log: "Screensaver is turned off"
-
-    on_release:
-      - switch.turn_off: backlight
+      - light.turn_on:
+          id: lcd_backlight_brightness
+          brightness: !lambda 'return ${initial_brightness_on_pres};' # Setzt definierte Helligkeit
+      - logger.log: "Screensaver is turned off, backlight ON"
+    on_release: # Wenn Präsenz nicht mehr erkannt wird
+      - light.turn_off:
+          id: lcd_backlight_brightness
       - lvgl.pause:
           show_snow: true
-      - logger.log: "Screensaver is turned on"
+      - logger.log: "Screensaver is turned on, backlight OFF"
