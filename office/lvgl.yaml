@@ -23,7 +23,7 @@ lvgl:
           text: ""
           id: wifi_icon_label
           styles: roboto15_style
-          text_font: icon_font_header # Nutzt Glyphen aus icon_font_header
+          text_font: icon_font_header
           align: top_right
           x: -8
           y: 4
@@ -54,7 +54,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: $arrow_left # Substitution
+                      text: $arrow_left
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -72,7 +72,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: $home # Substitution
+                      text: $home
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -88,12 +88,58 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: $arrow_right # Substitution
+                      text: $arrow_right
                       align: center
                 on_click:
                   - lvgl.page.next:
                       animation: MOVE_LEFT
                       time: 300ms
+  widgets:
+    - obj:
+        id: stehlampe_dimmer_msgbox
+        width: 300
+        height: 200
+        align: center
+        hidden: true
+        bg_color: 0x222222
+        border_width: 2
+        border_color: 0x888888
+        radius: 10
+        layout:
+          type: flex
+          flex_flow: column
+          flex_align_main: space_evenly
+          flex_align_cross: center
+        widgets:
+          - label:
+              id: stehlampe_dimmer_label
+              text: "Stehlampe Helligkeit"
+              text_font: $text_font
+              pad_top: 10
+          - slider:
+              id: stehlampe_brightness_slider
+              width: 80%
+              height: 30
+              min_value: 1
+              max_value: 255
+              value: 128
+              on_value_set:
+                - light.turn_on:
+                    id: light_wohnzimmer_stehlampe_control
+                    brightness: !lambda 'return x;'
+          - button:
+              id: stehlampe_dimmer_close_button
+              width: 100
+              margin_top: 10
+              margin_bottom: 10
+              widgets:
+                - label:
+                    text: "OK"
+                    text_font: $text_font
+              on_click:
+                - lvgl.widget.hide: stehlampe_dimmer_msgbox
+                - lambda: |-
+                    id(dimmer_msgbox_active) = false;
   pages:
     - id: weather_page
       width: 100%
@@ -282,6 +328,15 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_stehlampe
+            on_long_press:
+              - lambda: |-
+                  id(dimmer_msgbox_active) = true;
+                  if (id(wohnzimmer_stehlampe_brightness_sensor).has_state()) {
+                    lv_slider_set_value(id(stehlampe_brightness_slider).get_obj(), id(wohnzimmer_stehlampe_brightness_sensor).state, LV_ANIM_OFF);
+                  } else {
+                    lv_slider_set_value(id(stehlampe_brightness_slider).get_obj(), 128, LV_ANIM_OFF);
+                  }
+              - lvgl.widget.show: stehlampe_dimmer_msgbox
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
@@ -421,7 +476,7 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
             height: 100px
-            checkable: true 
+            checkable: true
             id: wz_blind_close_button
             styles: control
             widgets:
@@ -461,7 +516,7 @@ lvgl:
               - lvgl.widget.update:
                   id: wz_blind_open_button
                   state:
-                    checked: false      
+                    checked: false
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
@@ -515,7 +570,7 @@ lvgl:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb # Ersetzt meet_logo
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
@@ -536,7 +591,7 @@ lvgl:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb # Ersetzt figma_logo
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
@@ -599,7 +654,7 @@ lvgl:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb # Ersetzt mainsail_logo
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
