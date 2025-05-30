@@ -259,25 +259,20 @@ binary_sensor:
             lv_label_set_text(id(wohnzimmer_stehlampe_icon), "\U000F0336");
           }
   - platform: homeassistant
-    id: wz_lichtschalter_state_esphome
-    entity_id: light.wz_lichtschalter
+    id: wz_lichtschalter_state_esphome # Für den Button, der input_boolean.wz_lichtschalter steuert
+    entity_id: input_boolean.wz_lichtschalter # Oder light.wz_lichtschalter, wenn der Button das Licht direkt toggelt
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wz_lichtschalter_button
+          id: wz_lichtschalter_button # ID des Buttons, der diesen input_boolean/Licht steuert
           state:
             checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $lightbulb
-          else:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $lightbulb_off
+      - lambda: |-
+          if (x) {
+            lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0335");
+          } else {
+            lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0336");
+          }
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
@@ -289,15 +284,25 @@ binary_sensor:
           state:
             checked: !lambda return x;
   - platform: homeassistant
-    id: wz_lichtschalter
-    entity_id: light.wz_lichtschalter
+    id: wz_button_alt_state # Für den separaten "Wohnzimmer" Button mit ID wz_button_alt
+    entity_id: light.wz_lichtschalter # Annahme: Dieser Button steuert auch light.wz_lichtschalter
     publish_initial_state: true
     on_state:
       then:
         lvgl.widget.update:
-          id: wz_button
+          id: wz_button_alt
           state:
             checked: !lambda return x;
+        # Optional: Icon-Update für wz_button_alt_icon
+        - lambda: |-
+            if (id(wz_button_alt_icon).is_valid()) { // Prüfen ob das Icon-Label existiert
+              if (x) {
+                lv_label_set_text(id(wz_button_alt_icon).get_obj(), "\U000F0335");
+              } else {
+                lv_label_set_text(id(wz_button_alt_icon).get_obj(), "\U000F0336");
+              }
+            }
+
 
 light:
   - platform: homeassistant
