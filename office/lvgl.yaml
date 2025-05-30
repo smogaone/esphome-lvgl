@@ -299,7 +299,7 @@ lvgl:
                   text_font: $text_font
                   align: bottom_left
                   id: wohnzimmer_deckenlampe_label
-                  text: "Stehlampe"
+                  text: "Deckenlampe"
             on_click:
               - homeassistant.service:
                   service: light.toggle
