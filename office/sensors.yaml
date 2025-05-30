@@ -259,12 +259,12 @@ binary_sensor:
             lv_label_set_text(id(wohnzimmer_stehlampe_icon), "\U000F0336");
           }
   - platform: homeassistant
-    id: wz_lichtschalter_state_esphome # Für den Button, der input_boolean.wz_lichtschalter steuert
-    entity_id: input_boolean.wz_lichtschalter # Oder light.wz_lichtschalter, wenn der Button das Licht direkt toggelt
+    id: wz_lichtschalter_state_esphome
+    entity_id: input_boolean.wz_lichtschalter # oder light.wz_lichtschalter je nach Steuerung
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wz_lichtschalter_button # ID des Buttons, der diesen input_boolean/Licht steuert
+          id: wz_lichtschalter_button
           state:
             checked: !lambda return x;
       - lambda: |-
@@ -284,32 +284,23 @@ binary_sensor:
           state:
             checked: !lambda return x;
   - platform: homeassistant
-    id: wz_button_alt_state # Für den separaten "Wohnzimmer" Button mit ID wz_button_alt
-    entity_id: light.wz_lichtschalter # Annahme: Dieser Button steuert auch light.wz_lichtschalter
+    id: wz_button_alt_state
+    entity_id: light.wz_lichtschalter # Annahme, dieser steuert auch light.wz_lichtschalter
     publish_initial_state: true
     on_state:
       then:
         lvgl.widget.update:
-          id: wz_button_alt
+          id: wz_button_alt # ID des Buttons "Wohnzimmer"
           state:
             checked: !lambda return x;
-        # Optional: Icon-Update für wz_button_alt_icon
         - lambda: |-
-            if (id(wz_button_alt_icon).is_valid()) { // Prüfen ob das Icon-Label existiert
+            if (id(wz_button_alt_icon).is_valid()) {
               if (x) {
                 lv_label_set_text(id(wz_button_alt_icon).get_obj(), "\U000F0335");
               } else {
                 lv_label_set_text(id(wz_button_alt_icon).get_obj(), "\U000F0336");
               }
             }
-
-
-light:
-  - platform: homeassistant
-    id: light_wohnzimmer_stehlampe_control
-    entity_id: light.wohnzimmer_stehlampe
-    name: "ESPHome Stehlampe Dimmer Control"
-    internal: true
 
 script:
   - id: update_temperatur_anzeige
