@@ -123,9 +123,11 @@ lvgl:
                 max_value: 255
                 value: 128
                 on_value_set:
-                  - light.turn_on:
-                      id: light_wohnzimmer_stehlampe_control
-                      brightness: !lambda 'return x;'
+                  - homeassistant.service: # GEÄNDERT
+                      service: light.turn_on
+                      data:
+                        entity_id: light.wohnzimmer_stehlampe
+                        brightness: !lambda 'return x;' # x ist der Wert des Sliders (1-255)
             - button:
                 id: stehlampe_dimmer_close_button
                 width: 100
@@ -301,9 +303,9 @@ lvgl:
                   text: "WZ Schalter"
             on_click:
               - homeassistant.service:
-                  service: input_boolean.toggle # Oder light.toggle, wenn direkt das Licht gesteuert wird
+                  service: input_boolean.toggle
                   data:
-                    entity_id: input_boolean.wz_lichtschalter # oder light.wz_lichtschalter
+                    entity_id: input_boolean.wz_lichtschalter
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
@@ -410,23 +412,23 @@ lvgl:
             grid_cell_row_pos: 1
             height: 100px
             checkable: true
-            id: wz_button_alt # Umbenannt, um Verwechslung mit wz_lichtschalter_button zu vermeiden
+            id: wz_button_alt
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  id: wz_button_alt_icon # Entsprechend umbenannt
-                  text: $lightbulb # Angenommen, dies steuert eine andere Entität
+                  id: wz_button_alt_icon
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Wohnzimmer" # Allgemeiner Name
+                  text: "Wohnzimmer"
             on_click:
-              - homeassistant.service: # Aktion für diesen spezifischen Button definieren
-                  service: light.toggle 
+              - homeassistant.service:
+                  service: light.toggle
                   data:
-                    entity_id: light.wz_lichtschalter # Beispiel, anpassen!
+                    entity_id: light.wz_lichtschalter
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
