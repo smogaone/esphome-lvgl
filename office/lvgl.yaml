@@ -94,52 +94,51 @@ lvgl:
                   - lvgl.page.next:
                       animation: MOVE_LEFT
                       time: 300ms
-  widgets:
-    - obj:
-        id: stehlampe_dimmer_msgbox
-        width: 300
-        height: 200
-        align: center
-        hidden: true
-        bg_color: 0x222222
-        border_width: 2
-        border_color: 0x888888
-        radius: 10
-        layout:
-          type: flex
-          flex_flow: column
-          flex_align_main: space_evenly
-          flex_align_cross: center
-        widgets:
-          - label:
-              id: stehlampe_dimmer_label
-              text: "Stehlampe Helligkeit"
-              text_font: $text_font
-              pad_top: 10
-          - slider:
-              id: stehlampe_brightness_slider
-              width: 80%
-              height: 30
-              min_value: 1
-              max_value: 255
-              value: 128
-              on_value_set:
-                - light.turn_on:
-                    id: light_wohnzimmer_stehlampe_control
-                    brightness: !lambda 'return x;'
-          - button:
-              id: stehlampe_dimmer_close_button
-              width: 100
-              margin_top: 10
-              margin_bottom: 10
-              widgets:
-                - label:
-                    text: "OK"
-                    text_font: $text_font
-              on_click:
-                - lvgl.widget.hide: stehlampe_dimmer_msgbox
-                - lambda: |-
-                    id(dimmer_msgbox_active) = false;
+      - obj:
+          id: stehlampe_dimmer_msgbox
+          width: 300
+          height: 200
+          align: center
+          hidden: true
+          bg_color: 0x222222
+          border_width: 2
+          border_color: 0x888888
+          radius: 10
+          layout:
+            type: flex
+            flex_flow: column
+            flex_align_main: space_evenly
+            flex_align_cross: center
+          widgets:
+            - label:
+                id: stehlampe_dimmer_label
+                text: "Stehlampe Helligkeit"
+                text_font: $text_font
+                pad_top: 10
+            - slider:
+                id: stehlampe_brightness_slider
+                width: 80%
+                height: 30
+                min_value: 1
+                max_value: 255
+                value: 128
+                on_value_set:
+                  - light.turn_on:
+                      id: light_wohnzimmer_stehlampe_control
+                      brightness: !lambda 'return x;'
+            - button:
+                id: stehlampe_dimmer_close_button
+                width: 100
+                margin_top: 10
+                margin_bottom: 10
+                widgets:
+                  - label:
+                      text: "OK"
+                      text_font: $text_font
+                on_click:
+                  - lvgl.widget.hide: stehlampe_dimmer_msgbox
+                  - lambda: |-
+                      id(dimmer_msgbox_active) = false;
   pages:
     - id: weather_page
       width: 100%
@@ -299,12 +298,12 @@ lvgl:
                   text_font: $text_font
                   align: bottom_left
                   id: wz_lichtschalter_label
-                  text: "Wohnzimmer"
+                  text: "WZ Schalter"
             on_click:
               - homeassistant.service:
-                  service: light.toggle
+                  service: input_boolean.toggle # Oder light.toggle, wenn direkt das Licht gesteuert wird
                   data:
-                    entity_id: light.wz_lichtschalter
+                    entity_id: input_boolean.wz_lichtschalter # oder light.wz_lichtschalter
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
@@ -411,22 +410,23 @@ lvgl:
             grid_cell_row_pos: 1
             height: 100px
             checkable: true
-            id: wz_button
+            id: wz_button_alt # Umbenannt, um Verwechslung mit wz_lichtschalter_button zu vermeiden
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb
+                  id: wz_button_alt_icon # Entsprechend umbenannt
+                  text: $lightbulb # Angenommen, dies steuert eine andere Entität
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Wohnzimmer"
+                  text: "Wohnzimmer" # Allgemeiner Name
             on_click:
-              - homeassistant.service:
-                  service: switch.toggle
+              - homeassistant.service: # Aktion für diesen spezifischen Button definieren
+                  service: light.toggle 
                   data:
-                    entity_id: light.wz_lichtschalter
+                    entity_id: light.wz_lichtschalter # Beispiel, anpassen!
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
