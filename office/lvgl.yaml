@@ -286,29 +286,6 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
             height: 100px
-            checkable: false
-            id: office_scene_evening_button
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: office_scene_evening_icon
-                  text: $nightlight
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  id: office_scene_evening_label
-                  text: "Evening"
-            on_press:
-              - homeassistant.service:
-                  service: scene.turn_on
-                  data:
-                    entity_id: scene.office_evening
-        - button:
-            grid_cell_column_pos: 3
-            grid_cell_row_pos: 0
-            height: 100px
             checkable: true
             styles: control
             id: wohnzimmer_deckenlampe_button
@@ -328,6 +305,29 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_deckenlampe
+        - button:
+            grid_cell_column_pos: 3
+            grid_cell_row_pos: 0
+            height: 100px
+            checkable: false
+            id: office_scene_dimmed_button
+            styles: control
+            widgets:
+              - label:
+                  text_font: $icon_font
+                  align: top_left
+                  id: office_scene_dimmed_icon
+                  text: $nightlight
+              - label:
+                  text_font: $text_font
+                  align: bottom_left
+                  id: office_scene_dimmed_label
+                  text: "Dimmed"
+            on_press:
+              - homeassistant.service:
+                  service: scene.turn_on
+                  data:
+                    entity_id: scene.office_dimmed
         - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
