@@ -12,9 +12,6 @@ globals:
   - id: flur_humidity_wert
     type: float
     initial_value: '0.0'
-  - id: dimmer_msgbox_active
-    type: bool
-    initial_value: 'false'
 
 sensor:
   - platform: homeassistant
@@ -33,7 +30,7 @@ sensor:
         - lambda: |-
             id(aussen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
-  - platform: homeassistant
+  - platform: homeassistant # NEU
     entity_id: sensor.flur_temperatur_temperature
     id: flur_temperature_sensor
     on_value:
@@ -41,7 +38,7 @@ sensor:
         - lambda: |-
             id(flur_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
-  - platform: homeassistant
+  - platform: homeassistant # NEU
     entity_id: sensor.flur_temperatur_humidity
     id: flur_humidity_sensor
     on_value:
@@ -58,19 +55,6 @@ sensor:
     on_value:
       then:
         - script.execute: update_wifi_icon_display
-  - platform: homeassistant
-    id: wohnzimmer_stehlampe_brightness_sensor
-    entity_id: light.wohnzimmer_stehlampe
-    attribute: brightness
-    internal: true
-    on_value:
-      - if:
-          condition:
-            lambda: 'return id(dimmer_msgbox_active).state;'
-          then:
-            - lvgl.slider.update:
-                id: stehlampe_brightness_slider
-                value: !lambda 'return x;'
 
 text_sensor:
   - platform: homeassistant
@@ -252,27 +236,37 @@ binary_sensor:
           id: wohnzimmer_stehlampe_button
           state:
             checked: !lambda return x;
-      - lambda: |-
-          if (x) {
-            lv_label_set_text(id(wohnzimmer_stehlampe_icon), "\U000F0335");
-          } else {
-            lv_label_set_text(id(wohnzimmer_stehlampe_icon), "\U000F0336");
-          }
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: wohnzimmer_stehlampe_icon
+                text: $lightbulb
+          else:
+            - lvgl.label.update:
+                id: wohnzimmer_stehlampe_icon
+                text: $lightbulb_off
   - platform: homeassistant
     id: wz_lichtschalter_state_esphome
-    entity_id: input_boolean.wz_lichtschalter
+    entity_id: light.wz_lichtschalter
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
           id: wz_lichtschalter_button
           state:
             checked: !lambda return x;
-      - lambda: |-
-          if (x) {
-            lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0335");
-          } else {
-            lv_label_set_text(id(wz_lichtschalter_icon), "\U000F0336");
-          }
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $lightbulb
+          else:
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $lightbulb_off
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
@@ -284,29 +278,20 @@ binary_sensor:
           state:
             checked: !lambda return x;
   - platform: homeassistant
-    id: wz_button_alt_state
+    id: wz_lichtschalter
     entity_id: light.wz_lichtschalter
     publish_initial_state: true
     on_state:
       then:
         lvgl.widget.update:
-          id: wz_button_alt
+          id: wz_button
           state:
             checked: !lambda return x;
-        - lambda: |-
-            if (id(wz_button_alt_icon).is_valid()) {
-              if (x) {
-                lv_label_set_text(id(wz_button_alt_icon).get_obj(), "\U000F0335");
-              } else {
-                lv_label_set_text(id(wz_button_alt_icon).get_obj(), "\U000F0336");
-              }
-            }
-
 script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures
+          id: temperatures 
           text:
             format: "%d° / %d°"
             args:
@@ -318,7 +303,7 @@ script:
             char temp_buf[20];
             float temp_val = id(aussen_temp_wert);
             if (isnan(temp_val)) { return std::string("--.-°C"); }
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val); // Punkt als Dezimaltrennzeichen
             return std::string(temp_buf);
       - lvgl.label.update:
           id: flur_temp_value_label
@@ -328,20 +313,22 @@ script:
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update:
+      - lvgl.label.update: 
           id: flur_humidity_value_label
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(flur_humidity_wert);
-            if (isnan(temp_val)) { return std::string("--.-%%"); }
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
+            if (isnan(temp_val)) { return std::string("--.-%%"); } // Zwei % für literales % in snprintf
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val); // Zwei % für literales %
             return std::string(temp_buf);
   - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
           id: wifi_icon_label
           text: !lambda |-
-            if (!network::is_connected()) { return std::string("\U000F092E"); }
+            if (!network::is_connected()) {
+              return std::string("\U000F092E");
+            }
             if (id(wifi_signal_sensor).has_state()) {
               float rssi = id(wifi_signal_sensor).state;
               if (rssi >= -55) { return std::string("\U000F091F"); }
