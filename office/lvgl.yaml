@@ -322,7 +322,7 @@ lvgl:
                   text_font: $text_font
                   align: bottom_left
                   id: esszimmertisch_label
-                  text: "Deckenlampe"
+                  text: "Esszimmer Tisch"
             on_click:
               - homeassistant.service:
                   service: light.toggle
