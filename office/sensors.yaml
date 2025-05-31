@@ -284,15 +284,25 @@ binary_sensor:
                 id: wohnzimmer_deckenlampe_icon
                 text: $lightbulb_off
   - platform: homeassistant
-    id: office_scene_dimmed
-    entity_id: binary_sensor.office_scene_dimmed
+    id: esszimmertisch_status
+    entity_id: light.esszimmer_esstisch
     publish_initial_state: true
     on_state:
-      then:
-        lvgl.widget.update:
-          id: office_scene_dimmed_button
+      - lvgl.widget.update:
+          id: esszimmertisch_button
           state:
             checked: !lambda return x;
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: esszimmertisch_icon
+                text: $lightbulb
+          else:
+            - lvgl.label.update:
+                id: esszimmertisch_icon
+                text: $lightbulb_off
   - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
