@@ -12,6 +12,9 @@ globals:
   - id: flur_humidity_wert
     type: float
     initial_value: '0.0'
+  - id: dimmer_msgbox_active
+    type: bool
+    initial_value: 'false'  
 
 sensor:
   - platform: homeassistant
@@ -55,6 +58,19 @@ sensor:
     on_value:
       then:
         - script.execute: update_wifi_icon_display
+   - platform: homeassistant
+     id: wohnzimmer_stehlampe_brightness_sensor
+     entity_id: light.wohnzimmer_stehlampe
+     attribute: brightness
+     internal: true
+     on_value:
+       - if:
+           condition:
+             lambda: 'return id(dimmer_msgbox_active).state;'
+           then:
+             - lvgl.slider.update:
+                 id: stehlampe_brightness_slider
+                 value: !lambda 'return x;'       
 
 text_sensor:
   - platform: homeassistant
