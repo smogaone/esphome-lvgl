@@ -6,10 +6,10 @@ globals:
   - id: aussen_temp_wert
     type: float
     initial_value: '0.0'
-  - id: flur_temp_wert # NEU
+  - id: flur_temp_wert
     type: float
     initial_value: '0.0'
-  - id: flur_humidity_wert # NEU
+  - id: flur_humidity_wert
     type: float
     initial_value: '0.0'
 
@@ -30,7 +30,7 @@ sensor:
         - lambda: |-
             id(aussen_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
-  - platform: homeassistant # NEU
+  - platform: homeassistant
     entity_id: sensor.flur_temperatur_temperature
     id: flur_temperature_sensor
     on_value:
@@ -38,7 +38,7 @@ sensor:
         - lambda: |-
             id(flur_temp_wert) = x;
         - script.execute: update_temperatur_anzeige
-  - platform: homeassistant # NEU
+  - platform: homeassistant
     entity_id: sensor.flur_temperatur_humidity
     id: flur_humidity_sensor
     on_value:
@@ -57,9 +57,9 @@ sensor:
         - script.execute: update_wifi_icon_display
 
 text_sensor:
- - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker # Eindeutige ID für diesen Sensor
-    entity_id: cover.wohnzimmer_links # Der Rollladen, dessen Zustand überwacht wird
+  - platform: homeassistant
+    id: cover_wohnzimmer_links_state_tracker
+    entity_id: cover.wohnzimmer_links
     internal: true
     on_value:
       then:
@@ -301,34 +301,35 @@ binary_sensor:
           state:
             checked: !lambda return x;
   - platform: homeassistant
-    id: wz_lichtschalter
-    entity_id: light.wz_lichtschalter
+    id: wz_lichtschalter # Beachte: Diese ID ist identisch mit der entity_id des vorherigen Sensors. Das könnte zu Konflikten führen.
+    entity_id: light.wz_lichtschalter # Wenn wz_button (aus lvgl.yaml) light.wz_lichtschalter steuert.
     publish_initial_state: true
     on_state:
       then:
         lvgl.widget.update:
-          id: wz_button
+          id: wz_button # Annahme: Dies ist der Button, der mit light.wz_lichtschalter verbunden ist.
           state:
             checked: !lambda return x;
+
 script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures # Header Temperatur (Innen/Außen)
+          id: temperatures
           text:
             format: "%d° / %d°"
             args:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
-      - lvgl.label.update: # Große Außentemperatur auf Wetterseite
+      - lvgl.label.update:
           id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(aussen_temp_wert);
             if (isnan(temp_val)) { return std::string("--.-°C"); }
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val); // Punkt als Dezimaltrennzeichen
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update: # NEU: Flur Temperatur Wert
+      - lvgl.label.update:
           id: flur_temp_value_label
           text: !lambda |-
             char temp_buf[20];
@@ -336,22 +337,20 @@ script:
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update: # NEU: Flur Luftfeuchtigkeit Wert
+      - lvgl.label.update:
           id: flur_humidity_value_label
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(flur_humidity_wert);
-            if (isnan(temp_val)) { return std::string("--.-%%"); } // Zwei % für literales % in snprintf
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val); // Zwei % für literales %
+            if (isnan(temp_val)) { return std::string("--.-%%"); }
+            snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
             return std::string(temp_buf);
   - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
           id: wifi_icon_label
           text: !lambda |-
-            if (!network::is_connected()) {
-              return std::string("\U000F092E");
-            }
+            if (!network::is_connected()) { return std::string("\U000F092E"); }
             if (id(wifi_signal_sensor).has_state()) {
               float rssi = id(wifi_signal_sensor).state;
               if (rssi >= -55) { return std::string("\U000F091F"); }
