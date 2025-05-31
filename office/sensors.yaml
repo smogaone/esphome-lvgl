@@ -58,28 +58,71 @@ sensor:
 
 text_sensor:
   - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker
-    entity_id: cover.wohnzimmer_links
+    id: cover_wohnzimmer_links_state_tracker # Deine bestehende ID
+    entity_id: cover.wohnzimmer_links # Der Rollladen, dessen Zustand überwacht wird
     internal: true
     on_value:
       then:
-        - lambda: |-
-            if (x == "open") {
-              id(wz_blind_open_button).set_state(true);
-              id(wz_blind_close_button).set_state(false);
-            } else if (x == "closed") {
-              id(wz_blind_open_button).set_state(false);
-              id(wz_blind_close_button).set_state(true);
-            } else if (x == "opening") {
-              id(wz_blind_open_button).set_state(true);
-              id(wz_blind_close_button).set_state(false);
-            } else if (x == "closing") {
-              id(wz_blind_open_button).set_state(false);
-              id(wz_blind_close_button).set_state(true);
-            } else {
-              id(wz_blind_open_button).set_state(false);
-              id(wz_blind_close_button).set_state(false);
-            }
+        - if:
+            condition:
+              lambda: 'return x == "open";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: true
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: false
+        - if:
+            condition:
+              lambda: 'return x == "closed";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: false
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: true
+        - if:
+            condition:
+              lambda: 'return x == "opening";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: true
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: false
+        - if:
+            condition:
+              lambda: 'return x == "closing";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: false
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: true
+        - if: # Fallback für unbekannte Zustände
+            condition:
+              lambda: 'return x != "open" && x != "closed" && x != "opening" && x != "closing";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: false
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: false
   - platform: homeassistant
     id: esphome_wetter_png_icon_id
     entity_id: sensor.wetter_icon
