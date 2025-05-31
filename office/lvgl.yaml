@@ -23,7 +23,7 @@ lvgl:
           text: ""
           id: wifi_icon_label
           styles: roboto15_style
-          text_font: icon_font_header # Nutzt Glyphen aus icon_font_header
+          text_font: icon_font_header
           align: top_right
           x: -8
           y: 4
@@ -54,7 +54,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: $arrow_left # Substitution
+                      text: $arrow_left
                       align: center
                 on_click:
                   - lvgl.page.previous:
@@ -72,7 +72,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: $home # Substitution
+                      text: $home
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
@@ -88,7 +88,7 @@ lvgl:
                   - label:
                       text_font: icon_font_header
                       text_color: 16777215
-                      text: $arrow_right # Substitution
+                      text: $arrow_right
                       align: center
                 on_click:
                   - lvgl.page.next:
@@ -461,7 +461,7 @@ lvgl:
               - lvgl.widget.update:
                   id: wz_blind_open_button
                   state:
-                    checked: false      
+                    checked: false
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
@@ -515,7 +515,7 @@ lvgl:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb # Ersetzt meet_logo
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
@@ -536,7 +536,7 @@ lvgl:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb # Ersetzt figma_logo
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
@@ -599,7 +599,7 @@ lvgl:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb # Ersetzt mainsail_logo
+                  text: $lightbulb
               - label:
                   text_font: $text_font
                   align: bottom_left
