@@ -57,6 +57,29 @@ sensor:
         - script.execute: update_wifi_icon_display
 
 text_sensor:
+ - platform: homeassistant
+    id: cover_wohnzimmer_links_state_tracker # Eindeutige ID für diesen Sensor
+    entity_id: cover.wohnzimmer_links # Der Rollladen, dessen Zustand überwacht wird
+    internal: true
+    on_value:
+      then:
+        - lambda: |-
+            if (x == "open") {
+              id(wz_blind_open_button).set_state(true);
+              id(wz_blind_close_button).set_state(false);
+            } else if (x == "closed") {
+              id(wz_blind_open_button).set_state(false);
+              id(wz_blind_close_button).set_state(true);
+            } else if (x == "opening") {
+              id(wz_blind_open_button).set_state(true);
+              id(wz_blind_close_button).set_state(false);
+            } else if (x == "closing") {
+              id(wz_blind_open_button).set_state(false);
+              id(wz_blind_close_button).set_state(true);
+            } else {
+              id(wz_blind_open_button).set_state(false);
+              id(wz_blind_close_button).set_state(false);
+            }
   - platform: homeassistant
     id: esphome_wetter_png_icon_id
     entity_id: sensor.wetter_icon
