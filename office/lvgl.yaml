@@ -421,7 +421,7 @@ lvgl:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
             height: 100px
-            checkable: true 
+            checkable: true
             id: wz_blind_close_button
             styles: control
             widgets:
