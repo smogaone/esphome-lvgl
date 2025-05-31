@@ -6,15 +6,12 @@ globals:
   - id: aussen_temp_wert
     type: float
     initial_value: '0.0'
-  - id: flur_temp_wert
+  - id: flur_temp_wert # NEU
     type: float
     initial_value: '0.0'
-  - id: flur_humidity_wert
+  - id: flur_humidity_wert # NEU
     type: float
     initial_value: '0.0'
-  - id: dimmer_msgbox_active
-    type: bool
-    initial_value: 'false'  
 
 sensor:
   - platform: homeassistant
@@ -58,19 +55,6 @@ sensor:
     on_value:
       then:
         - script.execute: update_wifi_icon_display
-   - platform: homeassistant
-     id: wohnzimmer_stehlampe_brightness_sensor
-     entity_id: light.wohnzimmer_stehlampe
-     attribute: brightness
-     internal: true
-     on_value:
-       - if:
-           condition:
-             lambda: 'return id(dimmer_msgbox_active).state;'
-           then:
-             - lvgl.slider.update:
-                 id: stehlampe_brightness_slider
-                 value: !lambda 'return x;'       
 
 text_sensor:
   - platform: homeassistant
@@ -307,13 +291,13 @@ script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures 
+          id: temperatures # Header Temperatur (Innen/Außen)
           text:
             format: "%d° / %d°"
             args:
               - '(int)round(id(innen_temp_wert))'
               - '(int)round(id(aussen_temp_wert))'
-      - lvgl.label.update:
+      - lvgl.label.update: # Große Außentemperatur auf Wetterseite
           id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
@@ -321,7 +305,7 @@ script:
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val); // Punkt als Dezimaltrennzeichen
             return std::string(temp_buf);
-      - lvgl.label.update:
+      - lvgl.label.update: # NEU: Flur Temperatur Wert
           id: flur_temp_value_label
           text: !lambda |-
             char temp_buf[20];
@@ -329,7 +313,7 @@ script:
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update: 
+      - lvgl.label.update: # NEU: Flur Luftfeuchtigkeit Wert
           id: flur_humidity_value_label
           text: !lambda |-
             char temp_buf[20];
