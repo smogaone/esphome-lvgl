@@ -60,53 +60,6 @@ lvgl:
                   - lvgl.page.previous:
                       animation: MOVE_RIGHT
                       time: 300ms
-        - obj:
-          id: stehlampe_dimmer_msgbox
-          width: 300
-          height: 200
-          align: center
-          hidden: true
-          bg_color: 0x222222
-          border_width: 2
-          border_color: 0x888888
-          radius: 10
-          layout:
-            type: flex
-            flex_flow: column
-            flex_align_main: space_evenly
-            flex_align_cross: center
-          widgets:
-            - label:
-                id: stehlampe_dimmer_label
-                text: "Stehlampe Helligkeit"
-                text_font: $text_font
-                pad_top: 10
-            - slider:
-                id: stehlampe_brightness_slider
-                width: 80%
-                height: 30
-                min_value: 1
-                max_value: 255
-                value: 128
-                on_value_set:
-                  - homeassistant.service:
-                      service: light.turn_on
-                      data:
-                        entity_id: light.wohnzimmer_stehlampe
-                        brightness: !lambda 'return x;'
-            - button:
-                id: stehlampe_dimmer_close_button
-                width: 100
-                margin_top: 10
-                margin_bottom: 10
-                widgets:
-                  - label:
-                      text: "OK"
-                      text_font: $text_font
-                on_click:
-                  - lvgl.widget.hide: stehlampe_dimmer_msgbox
-                  - lambda: |-
-                      id(dimmer_msgbox_active) = false;  
             - button:
                 id: footer_home_button
                 styles: footer_button_style
@@ -329,15 +282,6 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_stehlampe
-            on_long_press:
-              - lambda: |-
-                  id(dimmer_msgbox_active) = true;
-                  if (id(wohnzimmer_stehlampe_brightness_sensor).has_state()) {
-                    lv_slider_set_value(id(stehlampe_brightness_slider).get_obj(), id(wohnzimmer_stehlampe_brightness_sensor).state, LV_ANIM_OFF);
-                  } else {
-                    lv_slider_set_value(id(stehlampe_brightness_slider).get_obj(), 128, LV_ANIM_OFF);
-                  }
-              - lvgl.widget.show: stehlampe_dimmer_msgbox
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
