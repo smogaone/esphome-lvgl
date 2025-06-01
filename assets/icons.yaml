@@ -53,8 +53,8 @@ font:
       "\U000F0F9B",  # mdi-home-export-outline
       "\U000F0510",  # mdi-thermometer-lines
       "\U000F1402",  # mdi-pump
-      "\U000F053",  # mdi:arrow-left
-      "\U000F054",  # mdi-arrow-right
+      "\U000F0141",  # mdi:arrow-left
+      "\U000F0142",  # mdi-arrow-right
       "\U000F05AA",  # mdi-wifi-off
       "\U000F091B",  # mdi-wifi-strength-outline
       "\U000F091C",  # mdi-wifi-strength-1
@@ -129,5 +129,5 @@ substitutions:
   home_export_outline: "\U000F0F9B"
   thermometer_lines:   "\U000F0510"
   pump:                "\U000F1402"
-  arrow_left:          "\U000F053"
-  arrow_right:         "\U000F054"
+  arrow_left:          "\U000F0141"
+  arrow_right:         "\U000F0142"
