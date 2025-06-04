@@ -9,9 +9,9 @@ substitutions:
   button_webhook_color: "0x212121"
   button_height_single: 100px
   button_height_double: 214px
-  button_width: 149px
-  padding: 7px
-  radius: 12px
+  button_width: 150px
+  padding: 12px
+  radius: 8px
   slider_background_color: "0x505050"
   slider_active_color: "0x2D2D2D"
   slider_knob_color: "0xE5E5E5"
