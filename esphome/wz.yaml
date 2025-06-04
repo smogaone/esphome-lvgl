@@ -3,8 +3,6 @@ substitutions:
   name: "device-name"
   friendly_name: "Touch Screen"
   room: "Room Name"
-  initial_brightness_on_pres: "1.0" # Beibehalten
-  initial_brightness_on_boot: "0.8" # Beibehalten
 
 # Wifi Setup
 wifi:
@@ -14,7 +12,7 @@ wifi:
 # Packages
 packages:
   setup:
-    url: https://github.com/smogaone/esphome-lvgl
+    url: https://github.com/smogaone/esphome-lvgl/
     files: [device/esp32-s3-touch-lcd-7.yaml,
             addon/time.yaml,
             addon/backlight.yaml,
