@@ -47,7 +47,7 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 12px
+                radius: 6px
                 bg_color: $button_control_color
                 border_width: 0
                 widgets:
@@ -65,7 +65,7 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 12px
+                radius: 6px
                 bg_color: $button_control_color
                 border_width: 0
                 widgets:
@@ -81,7 +81,7 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 12px
+                radius: 6px
                 bg_color: $button_control_color
                 border_width: 0
                 widgets:
