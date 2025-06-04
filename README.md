@@ -13,7 +13,7 @@ wifi:
 
 packages:
   setup:
-    url: https://github.com/smogaone/esphome-lvgl@main
+    url: https://github.com/smogaone/esphome-lvgl
     files: [device/esp32-s3-touch-lcd-7.yaml,
             addon/time.yaml,
             addon/backlight.yaml,
