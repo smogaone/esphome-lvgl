@@ -1,8 +1,4 @@
 # backlight.yaml
-substitutions:
-  friendly_name: "Touch Screen"
-  
-
 output:
   - platform: ledc
     pin: GPIO16
