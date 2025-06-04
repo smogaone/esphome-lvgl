@@ -1,26 +1,69 @@
-# Backlight
+# backlight.yaml
+substitutions:
+  friendly_name: "Touch Screen"
+  initial_brightness_on_pres: "1.0" # Beibehalten
+  initial_brightness_on_boot: "0.8" # Beibehalten
+
+output:
+  - platform: ledc
+    pin: GPIO16
+    id: lcd_backlight_pwm
+    frequency: 1000 Hz
+
+light:
+  - platform: monochromatic
+    name: "${friendly_name} Backlight"
+    output: lcd_backlight_pwm
+    id: lcd_backlight_brightness
+    restore_mode: ALWAYS_ON
+    default_transition_length: 0s
+    gamma_correct: 0
+
 switch:
   - platform: gpio
-    id: backlight
-    pin: 
+    name: "Backlight Switch"
+    pin:
       ch422g: ch422g_hub
       number: 2
     restore_mode: ALWAYS_ON
     internal: true
 
-# Screensaver Presence Trigger
 binary_sensor:
   - platform: homeassistant
     id: presence
     entity_id: binary_sensor.wz_presence
     on_press:
+      - light.turn_on:
+          id: lcd_backlight_brightness
+          brightness: !lambda 'return ${initial_brightness_on_pres};'
       - lvgl.resume:
-      - delay: 10ms
-      - switch.turn_on: backlight
       - logger.log: "Screensaver is turned off"
-
     on_release:
-      - switch.turn_off: backlight
+      - light.turn_off:
+          id: lcd_backlight_brightness
       - lvgl.pause:
           show_snow: true
       - logger.log: "Screensaver is turned on"
+
+switch:
+  - platform: template
+    name: "Antiburn"
+    icon: mdi:television-shimmer
+    optimistic: true
+    entity_category: config
+    turn_on_action:
+      - logger.log: "Starting Antiburn"
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
+      - lvgl.pause:
+          show_snow: true
+    turn_off_action:
+      - logger.log: "Stopping Antiburn"
+      - if:
+          condition: lvgl.is_paused
+          then:
+            - lvgl.resume:
+            - lvgl.widget.redraw:
