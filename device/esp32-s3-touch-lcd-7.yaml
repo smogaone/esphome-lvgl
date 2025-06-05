@@ -69,7 +69,6 @@ touchscreen:
         for (auto touch: touches) {
           if (touch.state <= 2) {
             ESP_LOGI("Touch points:", "id=%d x=%d, y=%d x.raw=%d, y.raw=%d", touch.id, touch.x, touch.y, touch.x_raw, touch.y_raw);
-          }
         }
   on_release:
     then:
