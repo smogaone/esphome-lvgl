@@ -1,4 +1,4 @@
-# Designed for Waveshare  ESP32-S3-Touch-LCD-7
+# device/esp32-s3-touch-lcd-7.yaml
 esp32:
   board: esp32-s3-devkitc-1
   variant: ESP32S3
@@ -24,7 +24,6 @@ esp32:
       CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
       CONFIG_COMPILER_OPTIMIZATION_PERF: y
 
-# Esphome
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
@@ -35,33 +34,26 @@ esphome:
     board_build.flash_mode: dio
     board_upload.maximum_ram_size: 524288
 
-# Over the Air Updates
 ota:
   platform: esphome
 
-# Enable Home Assistant API
 api:
 
-# Enable logging
 logger:
 
-# Video memory
 psram:
   mode: octal
   speed: 80MHz
 
-# IO Extender
 ch422g:
   - id: ch422g_hub
 
-# i2c connections
 i2c:
   sda: GPIO08
   scl: GPIO09
   scan: True
   id: bus_a
 
-# Touch screen
 touchscreen:
   platform: gt911
   id: my_touch
@@ -69,17 +61,17 @@ touchscreen:
   reset_pin:
     ch422g: ch422g_hub
     number: 1
-    mode: OUTPUT
+  mode: OUTPUT
   on_touch:
     - lambda: |-
         ESP_LOGI("Touch", "Touch detected at x=%d, y=%d", touch.x, touch.y);
   on_update:
     - lambda: |-
-          for (auto touch: touches)  {
-              if (touch.state <= 2) {
-                ESP_LOGI("Touch points:", "id=%d x=%d, y=%d x.raw=%d, y.raw=%d", touch.id, touch.x, touch.y, touch.x_raw, touch.y_raw);
-              }
-          }  
+        for (auto touch: touches) {
+          if (touch.state <= 2) {
+            ESP_LOGI("Touch points:", "id=%d x=%d, y=%d x.raw=%d, y.raw=%d", touch.id, touch.x, touch.y, touch.x_raw, touch.y_raw);
+          }
+        }
   on_release:
     then:
       - if:
@@ -88,7 +80,6 @@ touchscreen:
             - lvgl.resume:
             - lvgl.widget.redraw:
 
-# Display
 display:
   - platform: rpi_dpi_rgb
     id: my_display
@@ -112,9 +103,6 @@ display:
     reset_pin:
       ch422g: ch422g_hub
       number: 3
-#    enable_pin:
-#      ch422g: ch422g_hub
-#      number: 2  
     hsync_back_porch: 8
     hsync_front_porch: 8
     hsync_pulse_width: 4
@@ -123,21 +111,47 @@ display:
     vsync_pulse_width: 4
     data_pins:
       red:
-        - 1         #r3
-        - 2         #r4
-        - 42        #r5
-        - 41        #r6
-        - 40        #r7
+        - 1
+        - 2
+        - 42
+        - 41
+        - 40
       blue:
-        - 14        #b3
-        - 38        #b4
-        - 18        #b5
-        - 17        #b6
-        - 10        #b7
+        - 14
+        - 38
+        - 18
+        - 17
+        - 10
       green:
-        - 39        #g2
-        - 0         #g3
-        - 45        #g4
-        - 48        #g5
-        - 47        #g6
-        - 21        #g7
+        - 39
+        - 0
+        - 45
+        - 48
+        - 47
+        - 21
+
+output:
+  - platform: ledc
+    id: backlight_pwm_output
+    pin: GPIO16
+    frequency: 1000Hz
+
+light:
+  - platform: monochromatic
+    id: display_backlight_led
+    name: "${friendly_name} Helligkeit"
+    output: backlight_pwm_output
+    restore_mode: ALWAYS_ON # Wird durch on_boot der number entity auf 60% gesetzt
+    default_transition_length: 0s
+    effects:
+      - pulse:
+    on_turn_off:
+      then:
+        - number.set:
+            id: display_brightness_number
+            value: 0
+    on_level_change:
+      then:
+        - number.set:
+            id: display_brightness_number
+            value: !lambda "return round(id(display_backlight_led).current_values.get_brightness() * 100.0);"
