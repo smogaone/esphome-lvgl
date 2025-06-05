@@ -1,5 +1,4 @@
-# ESP32-S3-Touch-LCD-7
-substitutions:
+# wz.yaml
   name: "device-name"
   friendly_name: "Touch Screen"
   room: "Room Name"
