@@ -1,8 +1,8 @@
-# wz-display.yaml (oder wie auch immer Ihre Hauptkonfigurationsdatei heißt)
+# ESP32-S3-Touch-LCD-7
 substitutions:
-  name: "wz-display"
-  friendly_name: "Wohnzimmer Display"
-  room: "Wohnzimmer"
+  name: "device-name"
+  friendly_name: "Touch Screen"
+  room: "Room Name"
 
 # Wifi Setup
 wifi:
@@ -12,16 +12,15 @@ wifi:
 # Packages
 packages:
   setup:
-    url: https://github.com/smogaone/esphome-lvgl/ # Ihr Pfad zu den Paketdateien
-    files:
-      - device/esp32-s3-touch-lcd-7.yaml
-      - addon/time.yaml
-      - addon/backlight.yaml
-      - addon/network.yaml
-      - assets/fonts.yaml
-      - assets/icons.yaml
-      - assets/images.yaml
-      - theme/button.yaml
-      - office/sensors.yaml
-      - office/lvgl.yaml
+    url: https://github.com/smogaone/esphome-lvgl/
+    files: [device/esp32-s3-touch-lcd-7.yaml,
+            addon/time.yaml,
+            addon/backlight.yaml,
+            addon/network.yaml,
+            assets/fonts.yaml,
+            assets/icons.yaml,
+            assets/images.yaml,
+            theme/button.yaml,
+            office/sensors.yaml,
+            office/lvgl.yaml]
     refresh: 1sec
