@@ -248,7 +248,7 @@ lvgl:
                   text_font: $icon_font
                   align: top_left
                   id: wz_lichtschalter_icon
-                  text: $ceiling_off
+                  text: $ceiling_group_off
               - label:
                   text_font: $text_font
                   align: bottom_left
@@ -294,7 +294,7 @@ lvgl:
                   text_font: $icon_font
                   align: top_left
                   id: wohnzimmer_deckenlampe_icon
-                  text: $lightbulb_off
+                  text: $ceiling_off
               - label:
                   text_font: $text_font
                   align: bottom_left
@@ -317,7 +317,7 @@ lvgl:
                   text_font: $icon_font
                   align: top_left
                   id: esszimmertisch_icon
-                  text: $lightbulb_off
+                  text: $ceiling_off
               - label:
                   text_font: $text_font
                   align: bottom_left
