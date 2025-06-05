@@ -318,11 +318,11 @@ binary_sensor:
           then:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
-                text: $lightbulb
+                text: $floor_lamp_on
           else:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
-                text: $lightbulb_off
+                text: $floor_lamp_off
   - platform: homeassistant
     id: wz_lichtschalter_state_esphome
     entity_id: light.wz_lichtschalter
