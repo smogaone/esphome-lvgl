@@ -64,20 +64,20 @@ touchscreen:
   on_touch:
     - lambda: |-
         ESP_LOGI("Touch", "Touch detected at x=%d, y=%d", touch.x, touch.y);
-  on_update: # Dieser Block scheint in der Fehlermeldung Referenzpunkt für eine öffnende Klammer zu sein
+  on_update:
     - lambda: |-
-        for (auto touch: touches) {
+        for (auto touch : touches) {
           if (touch.state <= 2) {
             ESP_LOGI("Touch points:", "id=%d x=%d, y=%d x.raw=%d, y.raw=%d", touch.id, touch.x, touch.y, touch.x_raw, touch.y_raw);
           }
-        } # Sicherstellen, dass diese schließende Klammer korrekt ist
+        } // Ende des for-Loops und des Lambda-Blocks für on_update
   on_release:
     then:
       - if:
           condition: lvgl.is_paused
           then:
-            - lvgl.resume # Entferne leere {}, wenn keine Parameter benötigt werden
-            - lvgl.widget.redraw # Entferne leere {}, wenn keine Parameter benötigt werden
+            - lvgl.resume
+            - lvgl.widget.redraw
 
 display:
   - platform: rpi_dpi_rgb
@@ -132,7 +132,7 @@ display:
 output:
   - platform: ledc
     id: backlight_pwm_output
-    pin: GPIO16 # Stellen Sie sicher, dass dies der korrekte Pin für Ihre Hardware-Modifikation ist
+    pin: GPIO16
     frequency: 1000Hz
 
 light:
