@@ -61,6 +61,13 @@ font:
       "\U000F091D",  # mdi-wifi-strength-2
       "\U000F091E",  # mdi-wifi-strength-3
       "\U000F091F",  # mdi-wifi-strength-4
+      "\U000F17C7",  # mdi-ceiling-light-outline
+      "\U000F0769",  # mdi-ceiling-light
+      "\U000F17C8",  # mdi:floor-lamp-outline
+      "\U000F08DD",  # mdi:floor-lamp
+      "\U000F1041",  # mdi:floor-lamp-torchiere-variant
+      "\U000F17CF",  # mdi:floor-lamp-torchiere-variant-outline
+      
       
     ]
 
@@ -131,3 +138,9 @@ substitutions:
   pump:                "\U000F1402"
   arrow_left:          "\U000F0731"
   arrow_right:         "\U000F0734"
+  ceiling_off:         "\U000F17C7"
+  ceiling_on:          "\U000F0769"
+  floor_lamp_off:      "\U000F17C8"
+  floor_lamp_on:       "\U000F08DD"
+  floor_lamp_variant_on:  "\U000F1041"
+  floor_lamp_variant_off:  "\U000F17CF"
