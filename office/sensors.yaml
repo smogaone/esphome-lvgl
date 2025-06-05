@@ -278,11 +278,11 @@ binary_sensor:
           then:
             - lvgl.label.update:
                 id: wohnzimmer_deckenlampe_icon
-                text: $lightbulb
+                text: $ceiling_on
           else:
             - lvgl.label.update:
                 id: wohnzimmer_deckenlampe_icon
-                text: $lightbulb_off
+                text: $ceiling_off
   - platform: homeassistant
     id: esszimmertisch_status
     entity_id: light.esszimmer_esstisch
@@ -298,11 +298,11 @@ binary_sensor:
           then:
             - lvgl.label.update:
                 id: esszimmertisch_icon
-                text: $lightbulb
+                text: $ceiling_on
           else:
             - lvgl.label.update:
                 id: esszimmertisch_icon
-                text: $lightbulb_off
+                text: $ceiling_off
   - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
@@ -338,11 +338,11 @@ binary_sensor:
           then:
             - lvgl.label.update:
                 id: wz_lichtschalter_icon
-                text: $ceiling_on
+                text: $ceiling_group_on
           else:
             - lvgl.label.update:
                 id: wz_lichtschalter_icon
-                text: $ceiling_off
+                text: $ceiling_group_off
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
