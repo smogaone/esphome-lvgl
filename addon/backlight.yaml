@@ -56,15 +56,14 @@ binary_sensor:
       - number.set:
           id: display_brightness_number
           value: 60
-      # - switch.turn_on: backlight
+      # - switch.turn_on: backlight # Auskommentierter alter Code
       - logger.log: "Screensaver is turned off, Backlight set to 60%"
   on_release:
     then:
       - number.set:
           id: display_brightness_number
           value: 0
-      # - switch.turn_off: backlight
+      # - switch.turn_off: backlight # Auskommentierter alter Code
       - lvgl.pause:
           show_snow: true
       - logger.log: "Screensaver is turned on, Backlight OFF"
-
