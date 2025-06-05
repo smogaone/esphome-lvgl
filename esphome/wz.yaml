@@ -3,6 +3,8 @@ substitutions:
   name: "device-name"
   friendly_name: "Touch Screen"
   room: "Room Name"
+  initial_brightness_on_boot: "0.8"
+  initial_brightness_on_pres: "1.0"
 
 # Wifi Setup
 wifi:
