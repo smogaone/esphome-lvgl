@@ -61,7 +61,6 @@ touchscreen:
   reset_pin:
     ch422g: ch422g_hub
     number: 1
-  # mode: OUTPUT # Diese Zeile wurde entfernt, da sie ungültig ist
   on_touch:
     - lambda: |-
         ESP_LOGI("Touch", "Touch detected at x=%d, y=%d", touch.x, touch.y);
@@ -150,8 +149,3 @@ light:
         - number.set:
             id: display_brightness_number
             value: 0
-    on_level_change:
-      then:
-        - number.set:
-            id: display_brightness_number
-            value: !lambda "return round(id(display_backlight_led).current_values.get_brightness() * 100.0);"
