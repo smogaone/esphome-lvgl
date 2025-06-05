@@ -1,8 +1,26 @@
 # Backlight
+# NEU: PWM Output für die Helligkeitssteuerung - GPIO16
+output:
+  - platform: ledc
+    pin: GPIO16
+    id: lcd_backlight_pwm
+    frequency: 1000 Hz
+
+# NEU: Light (für Dimmung)
+light:
+  - platform: monochromatic
+    name: "${friendly_name} Backlight" # Name aus main: sub
+    output: lcd_backlight_pwm
+    id: lcd_backlight_brightness
+    restore_mode: ALWAYS_ON
+    default_transition_length: 0s
+    gamma_correct: 0
+
 switch:
   - platform: gpio
-    id: backlight
-    pin: 
+    name: "Backlight"
+    id: backlight_main_power_switch # Umbenannt für mehr Klarheit
+    pin:
       ch422g: ch422g_hub
       number: 2
     restore_mode: ALWAYS_ON
@@ -16,11 +34,44 @@ binary_sensor:
     on_press:
       - lvgl.resume:
       - delay: 10ms
-      - switch.turn_on: backlight
-      - logger.log: "Screensaver is turned off"
-
+      # - switch.turn_on: backlight # Ersetzt durch light.turn_on
+      - logger.log: "Screensaver is turned off, setting backlight brightness."
+      - switch.turn_on: backlight_main_power_switch # Main Power muss auch an sein
+      - light.turn_on:
+          id: lcd_backlight_brightness
+          brightness: !lambda 'return ${initial_brightness_on_pres};'
     on_release:
-      - switch.turn_off: backlight
+      # - switch.turn_off: backlight # Ersetzt durch light.turn_off
+      - logger.log: "Screensaver is turned on, turning off brightness."
+      - light.turn_off:
+          id: lcd_backlight_brightness
       - lvgl.pause:
           show_snow: true
-      - logger.log: "Screensaver is turned on"
+    #  - logger.log: "Screensaver is turned on"
+
+# Antiburn switch hierher verschoben aus office/lvgl.yaml
+switch:
+  - platform: template
+    name: "${friendly_name} Antiburn"
+    id: antiburn_switch
+    icon: mdi:television-shimmer
+    optimistic: true
+    entity_category: config
+    turn_on_action:
+      - logger.log: "Starting Antiburn"
+      - if:
+          condition:
+            not:
+              lvgl.is_paused:
+          then:
+            - lvgl.pause:
+                show_snow: true
+    turn_off_action:
+      - logger.log: "Stopping Antiburn"
+      - if:
+          condition:
+            lvgl.is_paused:
+          then:
+            - lvgl.resume:
+            - delay: 20ms
+            - lvgl.widget.redraw:
