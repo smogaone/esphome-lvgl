@@ -26,12 +26,11 @@ packages:
       - office/lvgl.yaml
     refresh: 1sec
 
-# Automation für level change
 automation:
   - id: sync_brightness_to_number
     trigger:
       - platform: state
-        entity_id: light.display_backlight_led # ID Ihrer light-Entität
+        entity_id: light.display_backlight_led
     then:
       - number.set:
           id: display_brightness_number
