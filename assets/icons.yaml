@@ -39,7 +39,6 @@ font:
       "\U000F1818",  # mdi-bathtub
       "\U000F1A43",  # mdi-heat-pump
       "\U000F0336",  # mdi-lightbulb-off
-      "\U000F0769",  # mdi-ceiling-light
       "\U000F0FA6",  # mdi-car-seat-heater
       "\U000F1054",  # mdi-outdoor-lamp
       "\U000F1A85",  # mdi-water-thermometer
@@ -122,7 +121,6 @@ substitutions:
   bathtub:             "\U000F1818"
   heat_pump:           "\U000F1A43"
   lightbulb_off:       "\U000F0336"
-  ceiling_light:       "\U000F0769"
   car_seat_heater:     "\U000F0FA6"
   outdoor_lamp:        "\U000F1054"
   water_thermometer:   "\U000F1A85"
