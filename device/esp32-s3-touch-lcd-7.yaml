@@ -141,7 +141,7 @@ light:
     id: display_backlight_led
     name: "${friendly_name} Helligkeit"
     output: backlight_pwm_output
-    restore_mode: ALWAYS_ON # Wird durch on_boot der number entity auf 60% gesetzt
+    restore_mode: ALWAYS_ON
     default_transition_length: 0s
     effects:
       - pulse:
