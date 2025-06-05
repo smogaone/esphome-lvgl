@@ -1,69 +1,26 @@
-# addon/backlight.yaml
-esphome:
-  on_boot:
-    priority: -100.0
-    then:
-      - number.set:
-          id: display_brightness_number
-          value: 60
+# Backlight
+switch:
+  - platform: gpio
+    id: backlight
+    pin: 
+      ch422g: ch422g_hub
+      number: 2
+    restore_mode: ALWAYS_ON
+    internal: true
 
-# switch:
-# - platform: gpio
-#   id: backlight
-#   pin:
-#     ch422g: ch422g_hub
-#     number: 2
-#   restore_mode: ALWAYS_ON
-#   internal: true
-
-number:
-  - platform: template
-    id: display_brightness_number
-    name: "${friendly_name} Display Helligkeit" # Stellt sicher, dass die Substitution hier verwendet wird, falls sie in der Hauptdatei definiert ist.
-    # optimistic: True # Diese Zeile wurde entfernt
-    min_value: 0
-    max_value: 100
-    step: 1
-    mode: slider
-    unit_of_measurement: "%"
-    icon: "mdi:brightness-6"
-    set_action:
-      - if:
-          condition:
-            lambda: 'return x > 0;'
-          then:
-            - light.turn_on:
-                id: display_backlight_led
-                brightness: !lambda "return x / 100.0;"
-          else:
-            - light.turn_off:
-                id: display_backlight_led
-    lambda: |-
-      if (id(display_backlight_led).current_values.is_on()) {
-        return round(id(display_backlight_led).current_values.get_brightness() * 100.0);
-      } else {
-        return 0.0;
-      }
-
+# Screensaver Presence Trigger
 binary_sensor:
-- platform: homeassistant
-  id: presence
-  entity_id: binary_sensor.wz_presence # Ihre Home Assistant Präsenz-Entität
-  on_press:
-    then:
+  - platform: homeassistant
+    id: presence
+    entity_id: binary_sensor.wz_presence
+    on_press:
       - lvgl.resume:
       - delay: 10ms
-      - number.set:
-          id: display_brightness_number
-          value: 60
-      # - switch.turn_on: backlight # Auskommentierter alter Code
-      - logger.log: "Screensaver is turned off, Backlight set to 60%"
-  on_release:
-    then:
-      - number.set:
-          id: display_brightness_number
-          value: 0
-      # - switch.turn_off: backlight # Auskommentierter alter Code
+      - switch.turn_on: backlight
+      - logger.log: "Screensaver is turned off"
+
+    on_release:
+      - switch.turn_off: backlight
       - lvgl.pause:
           show_snow: true
-      - logger.log: "Screensaver is turned on, Backlight OFF"
+      - logger.log: "Screensaver is turned on"
