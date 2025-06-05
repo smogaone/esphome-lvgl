@@ -66,6 +66,8 @@ font:
       "\U000F08DD",  # mdi:floor-lamp
       "\U000F1041",  # mdi:floor-lamp-torchiere-variant
       "\U000F17CF",  # mdi:floor-lamp-torchiere-variant-outline
+      "\U000F18DE",  # mdi:ceiling-light-multiple-outline
+      "\U000F18DD",  # mdi:ceiling-light-multiple
       
       
     ]
@@ -142,3 +144,5 @@ substitutions:
   floor_lamp_on:       "\U000F08DD"
   floor_lamp_variant_on:  "\U000F1041"
   floor_lamp_variant_off:  "\U000F17CF"
+  ceiling_group_off:    "\U000F18DE"
+  ceiling_group_on:     "\U000F18DD"
