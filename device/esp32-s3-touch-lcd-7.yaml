@@ -61,7 +61,7 @@ touchscreen:
   reset_pin:
     ch422g: ch422g_hub
     number: 1
-  mode: OUTPUT
+  # mode: OUTPUT # Diese Zeile wurde entfernt, da sie ungültig ist
   on_touch:
     - lambda: |-
         ESP_LOGI("Touch", "Touch detected at x=%d, y=%d", touch.x, touch.y);
