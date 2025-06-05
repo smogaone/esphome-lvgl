@@ -19,8 +19,8 @@ esphome:
 number:
   - platform: template
     id: display_brightness_number
-    name: "${friendly_name} Display Helligkeit"
-    optimistic: true
+    name: "${friendly_name} Display Helligkeit" # Stellt sicher, dass die Substitution hier verwendet wird, falls sie in der Hauptdatei definiert ist.
+    # optimistic: True # Diese Zeile wurde entfernt
     min_value: 0
     max_value: 100
     step: 1
@@ -48,7 +48,7 @@ number:
 binary_sensor:
 - platform: homeassistant
   id: presence
-  entity_id: binary_sensor.wz_presence
+  entity_id: binary_sensor.wz_presence # Ihre Home Assistant Präsenz-Entität
   on_press:
     then:
       - lvgl.resume:
