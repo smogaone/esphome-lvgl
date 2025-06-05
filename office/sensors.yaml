@@ -338,11 +338,11 @@ binary_sensor:
           then:
             - lvgl.label.update:
                 id: wz_lichtschalter_icon
-                text: $lightbulb
+                text: $ceiling_on
           else:
             - lvgl.label.update:
                 id: wz_lichtschalter_icon
-                text: $lightbulb_off
+                text: $ceiling_off
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
