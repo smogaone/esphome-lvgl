@@ -50,7 +50,7 @@ text_sensor:
     id: cover_wohnzimmer_links_state_tracker # Eindeutige ID
     entity_id: cover.wohnzimmer_links
     internal: true
-    on_state:
+    on_value:
       - if:
           condition:
             lambda: 'return x == "open";'
