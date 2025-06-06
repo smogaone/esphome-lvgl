@@ -344,20 +344,20 @@ binary_sensor:
                 id: wz_lichtschalter_icon
                 text: $ceiling_group_off
   - platform: homeassistant
-    id: esszimmer_stehlampe_status
+    id: esszimmer_stehlampe_status # Dies ist der relevante Sensor
     entity_id: light.esszimmer_stehlampe
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: esszimmer_stehlampe_button
+          id: esszimmer_stehlampe_button # Stellt sicher, dass diese ID mit dem Button in lvgl.yaml übereinstimmt
           state:
             checked: !lambda 'return x;'
       - if:
           condition:
-            lambda: 'return x;'
+            lambda: 'return x;' # x ist true, wenn das Licht an ist
           then:
             - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
+                id: esszimmer_stehlampe_icon # Stellt sicher, dass diese ID mit dem Icon-Label in lvgl.yaml übereinstimmt
                 text: $floor_lamp_variant_on
           else:
             - lvgl.label.update:
