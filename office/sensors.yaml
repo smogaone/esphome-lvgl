@@ -1,6 +1,6 @@
 # sensors.yaml
 globals:
-  - id: innen_temp_wert # Geändert von flur_temp_wert zur Konsistenz mit LVGL label id flur_temp_value_label
+  - id: innen_temp_wert
     type: float
     restore_value: no
     initial_value: 'NAN'
@@ -8,14 +8,14 @@ globals:
     type: float
     restore_value: no
     initial_value: 'NAN'
-  - id: flur_humidity_wert # Beibehalten, da in LVGL so verwendet
+  - id: flur_humidity_wert
     type: float
     restore_value: no
     initial_value: 'NAN'
 
 sensor:
   - platform: homeassistant
-    id: ha_aussen_temp_sensor # Umbenannt für Klarheit
+    id: ha_aussen_temp_sensor
     entity_id: sensor.outside_temperature_filtered
     internal: true
     on_value:
@@ -23,15 +23,15 @@ sensor:
       - script.execute: update_temperatur_anzeige
 
   - platform: homeassistant
-    id: ha_innen_temp_sensor # Umbenannt für Klarheit
+    id: ha_innen_temp_sensor
     entity_id: sensor.ble_temperature_erdgeschoss
     internal: true
     on_value:
-      - lambda: id(innen_temp_wert) = x; # Setzt jetzt innen_temp_wert
+      - lambda: id(innen_temp_wert) = x;
       - script.execute: update_temperatur_anzeige
 
   - platform: homeassistant
-    id: ha_flur_humidity_sensor # Umbenannt für Klarheit
+    id: ha_flur_humidity_sensor
     entity_id: sensor.ble_humidity_erdgeschoss
     internal: true
     on_value:
@@ -39,18 +39,18 @@ sensor:
       - script.execute: update_temperatur_anzeige
 
   - platform: wifi_signal
-    name: "WiFi Signal Sensor" # Name für HA Entität, falls nicht internal
-    id: wifi_signal_sensor # Eindeutige ID
+    name: "WiFi Signal Sensor"
+    id: wifi_signal_sensor
     update_interval: 60s
     on_value:
       - script.execute: update_wifi_icon_display
 
 text_sensor:
   - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker # Eindeutige ID
+    id: cover_wohnzimmer_links_state_tracker
     entity_id: cover.wohnzimmer_links
     internal: true
-    on_value:
+    on_value: # Korrektur: on_value statt on_state für text_sensor wenn der reine Wert (Text) verarbeitet wird
       - if:
           condition:
             lambda: 'return x == "open";'
@@ -75,7 +75,7 @@ text_sensor:
                 id: wz_blind_close_button
                 state:
                   checked: true
-      - if: # Zustand für "opening" und "closing" (beide Buttons nicht aktiv)
+      - if:
           condition:
             or:
               - lambda: 'return x == "opening";'
@@ -91,12 +91,10 @@ text_sensor:
                   checked: false
 
   - platform: homeassistant
-    id: esphome_wetter_png_icon_id # ID für den Text-Sensor der das Wetter-Icon bestimmt
-    entity_id: sensor.wetter_icon # Die HA Entität die den Icon-Namen liefert
+    id: esphome_wetter_png_icon_id
+    entity_id: sensor.wetter_icon
     internal: true
     on_value:
-      # Diese lange if/else if Kette ist funktional, aber etwas unübersichtlich.
-      # Eine Map oder Switch-Case (falls in Lambdas möglich) wäre eleganter.
       - lambda: |-
           if (x == "clear-night") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_clear_night)); }
           else if (x == "cloudy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_cloudy)); }
@@ -113,34 +111,34 @@ text_sensor:
           else if (x == "sunny") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); }
           else if (x == "windy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_windy)); }
           else if (x == "windy-variant") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_windy_variant)); }
-          else { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); } // Fallback
+          else { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); }
 
   - platform: homeassistant
-    id: esphome_weather_forecast_home # ID des Text-Sensors für die Wetterbeschreibung
-    entity_id: weather.forecast_home # Die HA Wetter-Entität
-    attribute: condition # Holt den aktuellen Zustand (z.B. "sonnig", "bewölkt")
+    id: esphome_weather_forecast_home
+    entity_id: weather.forecast_home
+    attribute: condition
     internal: true
     on_value:
       - lvgl.label.update:
-          id: weather_description # ID des LVGL Labels für die Wetterbeschreibung
-          text: !lambda 'return x;' # Zeigt den Text des Zustands an
+          id: weather_description
+          text: !lambda 'return x;'
 
 binary_sensor:
   - platform: homeassistant
-    id: wz_lichtschalter_state_esphome # ID für den WZ Lichtschalter Status
-    entity_id: light.wz_lichtschalter # Die HA Entität
+    id: wz_lichtschalter_state_esphome
+    entity_id: light.wz_lichtschalter
     publish_initial_state: true
-    on_state:
+    on_state: # on_state ist korrekt für binary_sensor, da x true/false ist
       - lvgl.widget.update:
-          id: wz_lichtschalter_button # ID des LVGL Buttons
+          id: wz_lichtschalter_button
           state:
-            checked: !lambda 'return x;' # x ist true wenn an, false wenn aus
+            checked: !lambda 'return x;'
       - if:
           condition:
-            lambda: 'return x;' # true wenn an
+            lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wz_lichtschalter_icon # ID des Icon Labels im Button
+                id: wz_lichtschalter_icon
                 text: $ceiling_group_on
           else:
             - lvgl.label.update:
@@ -204,7 +202,7 @@ binary_sensor:
           then:
             - lvgl.label.update:
                 id: esszimmertisch_icon
-                text: $ceiling_on # Annahme, dass es dasselbe Icon wie Deckenlampe ist
+                text: $ceiling_on
           else:
             - lvgl.label.update:
                 id: esszimmertisch_icon
@@ -232,35 +230,12 @@ binary_sensor:
                 text: $floor_lamp_variant_off
 
   - platform: homeassistant
-    id: office_3d_printer_power # Korrekte ID für den 3D Drucker Schalter
-    entity_id: switch.office_3d_printer_power # Die HA Entität
+    id: office_3d_printer_power
+    entity_id: switch.office_3d_printer_power
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: printer_power_button # Annahme: ID des LVGL Buttons für den Drucker
-          state:
-            checked: !lambda 'return x;' # x ist true wenn an, false wenn aus
-      - if:
-          condition:
-            lambda: 'return x;' # true wenn an
-          then:
-            - lvgl.label.update:
-                id: printer_power_icon # Annahme: ID des Icon Labels im Drucker Button
-                text: $printer # Icon für Drucker AN (oder generisch)
-          else:
-            - lvgl.label.update:
-                id: printer_power_icon
-                text: $printer # Icon für Drucker AUS (oder generisch)
-
-  - platform: homeassistant
-    id: wz_lichtschalter # ID für den zweiten WZ Lichtschalter Status (für wz_button)
-    entity_id: light.wz_lichtschalter
-    # Beachte: Diese ID ist identisch mit der entity_id des vorherigen Sensors. Das könnte zu Konflikten führen.
-    # Antwort: Ist okay, da die ESPHome IDs unterschiedlich sind und sie unterschiedliche LVGL Widgets steuern.
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wz_button # ID des LVGL Buttons
+          id: printer_power_button
           state:
             checked: !lambda 'return x;'
       - if:
@@ -268,12 +243,33 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wz_button_icon # ID des Icon-Labels für wz_button (muss in LVGL existieren)
-                text: $lightbulb # Oder ein spezifisches "AN" Icon
+                id: printer_power_icon
+                text: $printer
+          else:
+            - lvgl.label.update:
+                id: printer_power_icon
+                text: $printer
+
+  - platform: homeassistant
+    id: wz_lichtschalter
+    entity_id: light.wz_lichtschalter
+    publish_initial_state: true
+    on_state:
+      - lvgl.widget.update:
+          id: wz_button
+          state:
+            checked: !lambda 'return x;'
+      - if:
+          condition:
+            lambda: 'return x;'
+          then:
+            - lvgl.label.update:
+                id: wz_button_icon
+                text: $lightbulb
           else:
             - lvgl.label.update:
                 id: wz_button_icon
-                text: $lightbulb # Oder ein spezifisches "AUS" Icon
+                text: $lightbulb
 
 script:
   - id: update_temperatur_anzeige
@@ -282,9 +278,8 @@ script:
           id: temperatures
           text: !lambda |-
             char buffer[20];
-            // Sicherstellen, dass die globalen Variablen gültige Werte haben
-            float innen = id(innen_temp_wert);
-            float aussen = id(aussen_temp_wert);
+            float innen = id(innen_temp_wert).state; // .state verwenden um den Wert der globalen Variable zu bekommen
+            float aussen = id(aussen_temp_wert).state;
             if (isnan(innen) && isnan(aussen)) {
               sprintf(buffer, "--° / --°");
             } else if (isnan(innen)) {
@@ -295,27 +290,27 @@ script:
               sprintf(buffer, "%.0f° / %.0f°", round(innen), round(aussen));
             }
             return buffer;
-      - lvgl.label.update: # Aktualisiert das separate "Außen" Label auf der Wetterseite
+      - lvgl.label.update:
           id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(aussen_temp_wert);
+            float temp_val = id(aussen_temp_wert).state;
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update: # Aktualisiert das separate "Innen" (Flur) Label auf der Wetterseite
+      - lvgl.label.update:
           id: flur_temp_value_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(innen_temp_wert); // Verwendet jetzt innen_temp_wert
+            float temp_val = id(innen_temp_wert).state;
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update: # Aktualisiert das "Flur Feuchtigkeit" Label auf der Wetterseite
+      - lvgl.label.update:
           id: flur_humidity_value_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(flur_humidity_wert);
+            float temp_val = id(flur_humidity_wert).state;
             if (isnan(temp_val)) { return std::string("--.-%"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
             return std::string(temp_buf);
@@ -323,17 +318,17 @@ script:
   - id: update_wifi_icon_display
     then:
       - lambda: |-
-          auto rssi = id(wifi_signal_sensor).state; // Zugriff auf den Zustand des wifi_signal_sensor
-          if (id(wifi_icon_label).is_valid()) { // Prüfen ob das Label existiert
+          auto rssi = id(wifi_signal_sensor).state;
+          if (id(wifi_icon_label).is_valid()) {
             if (isnan(rssi)) {
-              id(wifi_icon_label).set_text(id(wifi_off).c_str());
+              id(wifi_icon_label).set_text($wifi_off); // KORREKTUR: Direkte Verwendung der Substitution
             } else if (rssi > -67) {
-              id(wifi_icon_label).set_text(id(wifi_strength_4).c_str());
+              id(wifi_icon_label).set_text($wifi_strength_4); // KORREKTUR
             } else if (rssi > -70) {
-              id(wifi_icon_label).set_text(id(wifi_strength_3).c_str());
+              id(wifi_icon_label).set_text($wifi_strength_3); // KORREKTUR
             } else if (rssi > -80) {
-              id(wifi_icon_label).set_text(id(wifi_strength_2).c_str());
+              id(wifi_icon_label).set_text($wifi_strength_2); // KORREKTUR
             } else {
-              id(wifi_icon_label).set_text(id(wifi_strength_1).c_str());
+              id(wifi_icon_label).set_text($wifi_strength_1); // KORREKTUR
             }
           }
