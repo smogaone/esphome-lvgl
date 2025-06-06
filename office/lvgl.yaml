@@ -329,28 +329,28 @@ lvgl:
                   data:
                     entity_id: light.esszimmer_esstisch
         - button:
-            grid_cell_column_pos: 4
-            grid_cell_row_pos: 0
-            height: 100px
-            checkable: true
-            id: printer_power_button
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: printer_power_icon
-                  text: $printer
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  id: printer_power_label
-                  text: "Printer"
-            on_click:
-              - homeassistant.service:
-                  service: switch.toggle
-                  data:
-                    entity_id: switch.office_3d_printer_power
+        grid_cell_column_pos: 4
+        grid_cell_row_pos: 0
+        height: 100px
+        checkable: true
+        styles: control
+        id: esszimmer_stehlampe_button
+        widgets:
+        - label:
+            text_font: $icon_font
+            align: top_left
+            id: esszimmer_stehlampe_icon
+            text: $floor_lamp_variant_off
+        - label:
+            text_font: $text_font
+            align: bottom_left
+            id: esszimmer_stehlampe_label
+            text: "Stehlampe"
+        on_click:
+        - homeassistant.service:
+            service: light.toggle
+            data:
+              entity_id: light.esszimmer_stehlampe
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
