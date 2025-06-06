@@ -146,3 +146,7 @@ substitutions:
   floor_lamp_variant_off:  "\U000F17CF"
   ceiling_group_off:    "\U000F18DE"
   ceiling_group_on:     "\U000F18DD"
+  wifi-strength-1:      "\U000F091C"
+  wifi-strength-2:      "\U000F091D"
+  wifi-strength-3:      "\U000F091E"
+  wifi-strength-4:      "\U000F091F"
