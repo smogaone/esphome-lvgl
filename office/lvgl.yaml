@@ -345,7 +345,7 @@ lvgl:
                   text_font: $text_font
                   align: bottom_left
                   id: esszimmer_stehlampe_label
-                  text: "Esszimmer<br>Stehlampe"
+                  text: "Esszimmer\nStehlampe"
             on_click:
               - homeassistant.service:
                   service: light.toggle
