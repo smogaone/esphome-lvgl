@@ -50,17 +50,17 @@ text_sensor:
     id: cover_wohnzimmer_links_state_tracker
     entity_id: cover.wohnzimmer_links
     internal: true
-    on_value: # Korrektur: on_value statt on_state für text_sensor wenn der reine Wert (Text) verarbeitet wird
+    on_value: # War on_state, on_value ist für text_sensor passender
       - if:
           condition:
             lambda: 'return x == "open";'
           then:
             - lvgl.widget.update:
-                id: wz_blind_open_button
+                id: wz_blind_open_button # Diese ID muss in lvgl.yaml existieren
                 state:
                   checked: true
             - lvgl.widget.update:
-                id: wz_blind_close_button
+                id: wz_blind_close_button # Diese ID muss in lvgl.yaml existieren
                 state:
                   checked: false
       - if:
@@ -120,7 +120,7 @@ text_sensor:
     internal: true
     on_value:
       - lvgl.label.update:
-          id: weather_description
+          id: weather_description # Diese ID muss in lvgl.yaml existieren
           text: !lambda 'return x;'
 
 binary_sensor:
@@ -128,9 +128,9 @@ binary_sensor:
     id: wz_lichtschalter_state_esphome
     entity_id: light.wz_lichtschalter
     publish_initial_state: true
-    on_state: # on_state ist korrekt für binary_sensor, da x true/false ist
+    on_state:
       - lvgl.widget.update:
-          id: wz_lichtschalter_button
+          id: wz_lichtschalter_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -138,7 +138,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wz_lichtschalter_icon
+                id: wz_lichtschalter_icon # Diese ID muss in lvgl.yaml existieren
                 text: $ceiling_group_on
           else:
             - lvgl.label.update:
@@ -151,7 +151,7 @@ binary_sensor:
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wohnzimmer_stehlampe_button
+          id: wohnzimmer_stehlampe_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -159,7 +159,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
+                id: wohnzimmer_stehlampe_icon # Diese ID muss in lvgl.yaml existieren
                 text: $floor_lamp_on
           else:
             - lvgl.label.update:
@@ -172,7 +172,7 @@ binary_sensor:
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wohnzimmer_deckenlampe_button
+          id: wohnzimmer_deckenlampe_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -180,7 +180,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
+                id: wohnzimmer_deckenlampe_icon # Diese ID muss in lvgl.yaml existieren
                 text: $ceiling_on
           else:
             - lvgl.label.update:
@@ -193,7 +193,7 @@ binary_sensor:
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: esszimmertisch_button
+          id: esszimmertisch_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -201,7 +201,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: esszimmertisch_icon
+                id: esszimmertisch_icon # Diese ID muss in lvgl.yaml existieren
                 text: $ceiling_on
           else:
             - lvgl.label.update:
@@ -214,7 +214,7 @@ binary_sensor:
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: esszimmer_stehlampe_button
+          id: esszimmer_stehlampe_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -222,7 +222,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
+                id: esszimmer_stehlampe_icon # Diese ID muss in lvgl.yaml existieren
                 text: $floor_lamp_variant_on
           else:
             - lvgl.label.update:
@@ -235,7 +235,7 @@ binary_sensor:
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: printer_power_button
+          id: printer_power_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -243,7 +243,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: printer_power_icon
+                id: printer_power_icon # Diese ID muss in lvgl.yaml existieren
                 text: $printer
           else:
             - lvgl.label.update:
@@ -251,12 +251,12 @@ binary_sensor:
                 text: $printer
 
   - platform: homeassistant
-    id: wz_lichtschalter
+    id: wz_lichtschalter # Zweiter Sensor für light.wz_lichtschalter, steuert wz_button
     entity_id: light.wz_lichtschalter
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wz_button
+          id: wz_button # Diese ID muss in lvgl.yaml existieren
           state:
             checked: !lambda 'return x;'
       - if:
@@ -264,7 +264,7 @@ binary_sensor:
             lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wz_button_icon
+                id: wz_button_icon # Diese ID muss in lvgl.yaml existieren
                 text: $lightbulb
           else:
             - lvgl.label.update:
@@ -275,10 +275,10 @@ script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures
+          id: temperatures # Diese ID muss in lvgl.yaml existieren
           text: !lambda |-
             char buffer[20];
-            float innen = id(innen_temp_wert).state; // .state verwenden um den Wert der globalen Variable zu bekommen
+            float innen = id(innen_temp_wert).state;
             float aussen = id(aussen_temp_wert).state;
             if (isnan(innen) && isnan(aussen)) {
               sprintf(buffer, "--° / --°");
@@ -291,7 +291,7 @@ script:
             }
             return buffer;
       - lvgl.label.update:
-          id: outdoor_temp_large_label
+          id: outdoor_temp_large_label # Diese ID muss in lvgl.yaml existieren
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(aussen_temp_wert).state;
@@ -299,7 +299,7 @@ script:
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
       - lvgl.label.update:
-          id: flur_temp_value_label
+          id: flur_temp_value_label # Diese ID muss in lvgl.yaml existieren
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(innen_temp_wert).state;
@@ -307,7 +307,7 @@ script:
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
       - lvgl.label.update:
-          id: flur_humidity_value_label
+          id: flur_humidity_value_label # Diese ID muss in lvgl.yaml existieren
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(flur_humidity_wert).state;
@@ -319,16 +319,16 @@ script:
     then:
       - lambda: |-
           auto rssi = id(wifi_signal_sensor).state;
-          if (id(wifi_icon_label).is_valid()) {
+          if (id(wifi_icon_label).is_valid()) { // Diese ID muss in lvgl.yaml existieren
             if (isnan(rssi)) {
-              id(wifi_icon_label).set_text($wifi_off); // KORREKTUR: Direkte Verwendung der Substitution
+              id(wifi_icon_label).set_text($wifi_off);
             } else if (rssi > -67) {
-              id(wifi_icon_label).set_text($wifi_strength_4); // KORREKTUR
+              id(wifi_icon_label).set_text($wifi_strength_4);
             } else if (rssi > -70) {
-              id(wifi_icon_label).set_text($wifi_strength_3); // KORREKTUR
+              id(wifi_icon_label).set_text($wifi_strength_3);
             } else if (rssi > -80) {
-              id(wifi_icon_label).set_text($wifi_strength_2); // KORREKTUR
+              id(wifi_icon_label).set_text($wifi_strength_2);
             } else {
-              id(wifi_icon_label).set_text($wifi_strength_1); // KORREKTUR
+              id(wifi_icon_label).set_text($wifi_strength_1);
             }
           }
