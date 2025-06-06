@@ -344,15 +344,25 @@ binary_sensor:
                 id: wz_lichtschalter_icon
                 text: $ceiling_group_off
   - platform: homeassistant
-    id: office_3d_printer_power
-    entity_id: switch.office_3d_printer_power
+    id: esszimmer_stehlampe_status
+    entity_id: light.esszimmer_stehlampe
     publish_initial_state: true
     on_state:
-      then:
-        lvgl.widget.update:
-          id: printer_power_button
+      - lvgl.widget.update:
+          id: esszimmer_stehlampe_button
           state:
-            checked: !lambda return x;
+            checked: !lambda 'return x;'
+      - if:
+          condition:
+            lambda: 'return x;'
+          then:
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_on
+          else:
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_off
   - platform: homeassistant
     id: wz_lichtschalter # Beachte: Diese ID ist identisch mit der entity_id des vorherigen Sensors. Das könnte zu Konflikten führen.
     entity_id: light.wz_lichtschalter # Wenn wz_button (aus lvgl.yaml) light.wz_lichtschalter steuert.
