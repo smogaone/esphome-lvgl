@@ -303,6 +303,26 @@ binary_sensor:
             - lvgl.label.update:
                 id: esszimmertisch_icon
                 text: $ceiling_off
+   - platform: homeassistant
+    id: esszimmer_stehlampe_status
+    entity_id: light.esszimmer_stehlampe
+    publish_initial_state: true
+    on_state:
+      - lvgl.widget.update:
+          id: esszimmer_stehlampe_button
+          state:
+            checked: !lambda return x;
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_on
+          else:
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_off             
   - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
