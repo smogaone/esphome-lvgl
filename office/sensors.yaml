@@ -1,328 +1,152 @@
 # sensors.yaml
 globals:
-  - id: innen_temp_wert
+  - id: innen_temp_wert # Geändert von flur_temp_wert zur Konsistenz mit LVGL label id flur_temp_value_label
     type: float
-    initial_value: '0.0'
+    restore_value: no
+    initial_value: 'NAN'
   - id: aussen_temp_wert
     type: float
-    initial_value: '0.0'
-  - id: flur_temp_wert
+    restore_value: no
+    initial_value: 'NAN'
+  - id: flur_humidity_wert # Beibehalten, da in LVGL so verwendet
     type: float
-    initial_value: '0.0'
-  - id: flur_humidity_wert
-    type: float
-    initial_value: '0.0'
+    restore_value: no
+    initial_value: 'NAN'
 
 sensor:
   - platform: homeassistant
-    entity_id: sensor.environment_sensor_temperature_sensor
-    id: wz_temperature
-    on_value:
-      then:
-        - lambda: |-
-            id(innen_temp_wert) = x;
-        - script.execute: update_temperatur_anzeige
-  - platform: homeassistant
-    entity_id: sensor.aussentemperatur
-    id: outdoor_temperature
-    on_value:
-      then:
-        - lambda: |-
-            id(aussen_temp_wert) = x;
-        - script.execute: update_temperatur_anzeige
-  - platform: homeassistant
-    entity_id: sensor.flur_temperatur_temperature
-    id: flur_temperature_sensor
-    on_value:
-      then:
-        - lambda: |-
-            id(flur_temp_wert) = x;
-        - script.execute: update_temperatur_anzeige
-  - platform: homeassistant
-    entity_id: sensor.flur_temperatur_humidity
-    id: flur_humidity_sensor
-    on_value:
-      then:
-        - lambda: |-
-            id(flur_humidity_wert) = x;
-        - script.execute: update_temperatur_anzeige
-  - platform: wifi_signal
-    name: "Wifi Signal Strength Icon"
-    id: wifi_signal_sensor
-    update_interval: 15s
-    entity_category: "diagnostic"
+    id: ha_aussen_temp_sensor # Umbenannt für Klarheit
+    entity_id: sensor.outside_temperature_filtered
     internal: true
     on_value:
-      then:
-        - script.execute: update_wifi_icon_display
+      - lambda: id(aussen_temp_wert) = x;
+      - script.execute: update_temperatur_anzeige
+
+  - platform: homeassistant
+    id: ha_innen_temp_sensor # Umbenannt für Klarheit
+    entity_id: sensor.ble_temperature_erdgeschoss
+    internal: true
+    on_value:
+      - lambda: id(innen_temp_wert) = x; # Setzt jetzt innen_temp_wert
+      - script.execute: update_temperatur_anzeige
+
+  - platform: homeassistant
+    id: ha_flur_humidity_sensor # Umbenannt für Klarheit
+    entity_id: sensor.ble_humidity_erdgeschoss
+    internal: true
+    on_value:
+      - lambda: id(flur_humidity_wert) = x;
+      - script.execute: update_temperatur_anzeige
+
+  - platform: wifi_signal
+    name: "WiFi Signal Sensor" # Name für HA Entität, falls nicht internal
+    id: wifi_signal_sensor # Eindeutige ID
+    update_interval: 60s
+    on_value:
+      - script.execute: update_wifi_icon_display
 
 text_sensor:
   - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker # Deine bestehende ID
-    entity_id: cover.wohnzimmer_links # Der Rollladen, dessen Zustand überwacht wird
+    id: cover_wohnzimmer_links_state_tracker # Eindeutige ID
+    entity_id: cover.wohnzimmer_links
     internal: true
-    on_value:
-      then:
-        - if:
-            condition:
-              lambda: 'return x == "open";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: true
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: false
-        - if:
-            condition:
-              lambda: 'return x == "closed";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: false
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: true
-        - if:
-            condition:
-              lambda: 'return x == "opening";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: true
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: false
-        - if:
-            condition:
-              lambda: 'return x == "closing";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: false
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: true
-        - if: # Fallback für unbekannte Zustände
-            condition:
-              lambda: 'return x != "open" && x != "closed" && x != "opening" && x != "closing";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: false
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: false
+    on_state:
+      - if:
+          condition:
+            lambda: 'return x == "open";'
+          then:
+            - lvgl.widget.update:
+                id: wz_blind_open_button
+                state:
+                  checked: true
+            - lvgl.widget.update:
+                id: wz_blind_close_button
+                state:
+                  checked: false
+      - if:
+          condition:
+            lambda: 'return x == "closed";'
+          then:
+            - lvgl.widget.update:
+                id: wz_blind_open_button
+                state:
+                  checked: false
+            - lvgl.widget.update:
+                id: wz_blind_close_button
+                state:
+                  checked: true
+      - if: # Zustand für "opening" und "closing" (beide Buttons nicht aktiv)
+          condition:
+            or:
+              - lambda: 'return x == "opening";'
+              - lambda: 'return x == "closing";'
+          then:
+            - lvgl.widget.update:
+                id: wz_blind_open_button
+                state:
+                  checked: false
+            - lvgl.widget.update:
+                id: wz_blind_close_button
+                state:
+                  checked: false
+
   - platform: homeassistant
-    id: esphome_wetter_png_icon_id
-    entity_id: sensor.wetter_icon
+    id: esphome_wetter_png_icon_id # ID für den Text-Sensor der das Wetter-Icon bestimmt
+    entity_id: sensor.wetter_icon # Die HA Entität die den Icon-Namen liefert
     internal: true
     on_value:
-      then:
-        - if:
-            condition:
-              lambda: return x == "icon_png_clear_night";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_clear_night
-            else:
-              - if:
-                  condition:
-                    lambda: return x == "icon_png_cloudy";
-                  then:
-                    - lvgl.image.update:
-                        id: lvgl_weather_image_widget
-                        src: icon_png_cloudy
-                  else:
-                    - if:
-                        condition:
-                          lambda: return x == "icon_png_exceptional";
-                        then:
-                          - lvgl.image.update:
-                              id: lvgl_weather_image_widget
-                              src: icon_png_exceptional
-                        else:
-                          - if:
-                              condition:
-                                lambda: return x == "icon_png_fog";
-                              then:
-                                - lvgl.image.update:
-                                    id: lvgl_weather_image_widget
-                                    src: icon_png_fog
-                              else:
-                                - if:
-                                    condition:
-                                      lambda: return x == "icon_png_hail";
-                                    then:
-                                      - lvgl.image.update:
-                                          id: lvgl_weather_image_widget
-                                          src: icon_png_hail
-                                    else:
-                                      - if:
-                                          condition:
-                                            lambda: return x == "icon_png_lightning";
-                                          then:
-                                            - lvgl.image.update:
-                                                id: lvgl_weather_image_widget
-                                                src: icon_png_lightning
-                                          else:
-                                            - if:
-                                                condition:
-                                                  lambda: return x == "icon_png_lightning_rainy";
-                                                then:
-                                                  - lvgl.image.update:
-                                                      id: lvgl_weather_image_widget
-                                                      src: icon_png_lightning_rainy
-                                                else:
-                                                  - if:
-                                                      condition:
-                                                        lambda: return x == "icon_png_partlycloudy";
-                                                      then:
-                                                        - lvgl.image.update:
-                                                            id: lvgl_weather_image_widget
-                                                            src: icon_png_partlycloudy
-                                                      else:
-                                                        - if:
-                                                            condition:
-                                                              lambda: return x == "icon_png_pouring";
-                                                            then:
-                                                              - lvgl.image.update:
-                                                                  id: lvgl_weather_image_widget
-                                                                  src: icon_png_pouring
-                                                            else:
-                                                              - if:
-                                                                  condition:
-                                                                    lambda: return x == "icon_png_rainy";
-                                                                  then:
-                                                                    - lvgl.image.update:
-                                                                        id: lvgl_weather_image_widget
-                                                                        src: icon_png_rainy
-                                                                  else:
-                                                                    - if:
-                                                                        condition:
-                                                                          lambda: return x == "icon_png_snowy";
-                                                                        then:
-                                                                          - lvgl.image.update:
-                                                                              id: lvgl_weather_image_widget
-                                                                              src: icon_png_snowy
-                                                                        else:
-                                                                          - if:
-                                                                              condition:
-                                                                                lambda: return x == "icon_png_snowy_rainy";
-                                                                              then:
-                                                                                - lvgl.image.update:
-                                                                                    id: lvgl_weather_image_widget
-                                                                                    src: icon_png_snowy_rainy
-                                                                              else:
-                                                                                - if:
-                                                                                    condition:
-                                                                                      lambda: return x == "icon_png_sunny";
-                                                                                    then:
-                                                                                      - lvgl.image.update:
-                                                                                          id: lvgl_weather_image_widget
-                                                                                          src: icon_png_sunny
-                                                                                    else:
-                                                                                      - if:
-                                                                                          condition:
-                                                                                            lambda: return x == "icon_png_windy";
-                                                                                          then:
-                                                                                            - lvgl.image.update:
-                                                                                                id: lvgl_weather_image_widget
-                                                                                                src: icon_png_windy
-                                                                                          else:
-                                                                                            - if:
-                                                                                                condition:
-                                                                                                  lambda: return x == "icon_png_windy_variant";
-                                                                                                then:
-                                                                                                  - lvgl.image.update:
-                                                                                                      id: lvgl_weather_image_widget
-                                                                                                      src: icon_png_windy_variant
+      # Diese lange if/else if Kette ist funktional, aber etwas unübersichtlich.
+      # Eine Map oder Switch-Case (falls in Lambdas möglich) wäre eleganter.
+      - lambda: |-
+          if (x == "clear-night") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_clear_night)); }
+          else if (x == "cloudy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_cloudy)); }
+          else if (x == "exceptional") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_exceptional)); }
+          else if (x == "fog") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_fog)); }
+          else if (x == "hail") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_hail)); }
+          else if (x == "lightning") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_lightning)); }
+          else if (x == "lightning-rainy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_lightning_rainy)); }
+          else if (x == "partlycloudy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_partlycloudy)); }
+          else if (x == "pouring") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_pouring)); }
+          else if (x == "rainy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_rainy)); }
+          else if (x == "snowy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_snowy)); }
+          else if (x == "snowy-rainy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_snowy_rainy)); }
+          else if (x == "sunny") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); }
+          else if (x == "windy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_windy)); }
+          else if (x == "windy-variant") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_windy_variant)); }
+          else { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); } // Fallback
+
   - platform: homeassistant
-    id: esphome_weather_forecast_home
-    entity_id: sensor.wetter_deutsch
+    id: esphome_weather_forecast_home # ID des Text-Sensors für die Wetterbeschreibung
+    entity_id: weather.forecast_home # Die HA Wetter-Entität
+    attribute: condition # Holt den aktuellen Zustand (z.B. "sonnig", "bewölkt")
     internal: true
     on_value:
-      then:
-        - if:
-            condition:
-              lambda: return !x.empty();
-            then:
-              - lvgl.label.update:
-                  id: weather_description
-                  text: !lambda return x.c_str();
+      - lvgl.label.update:
+          id: weather_description # ID des LVGL Labels für die Wetterbeschreibung
+          text: !lambda 'return x;' # Zeigt den Text des Zustands an
 
 binary_sensor:
   - platform: homeassistant
-    id: wohnzimmer_deckenlampe_status
-    entity_id: light.wohnzimmer_deckenlampe
+    id: wz_lichtschalter_state_esphome # ID für den WZ Lichtschalter Status
+    entity_id: light.wz_lichtschalter # Die HA Entität
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wohnzimmer_deckenlampe_button
+          id: wz_lichtschalter_button # ID des LVGL Buttons
           state:
-            checked: !lambda return x;
+            checked: !lambda 'return x;' # x ist true wenn an, false wenn aus
       - if:
           condition:
-            lambda: return x;
+            lambda: 'return x;' # true wenn an
           then:
             - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
-                text: $ceiling_on
+                id: wz_lichtschalter_icon # ID des Icon Labels im Button
+                text: $ceiling_group_on
           else:
             - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
-                text: $ceiling_off
-  - platform: homeassistant
-    id: esszimmertisch_status
-    entity_id: light.esszimmer_esstisch
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: esszimmertisch_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: esszimmertisch_icon
-                text: $ceiling_on
-          else:
-            - lvgl.label.update:
-                id: esszimmertisch_icon
-                text: $ceiling_off
-   - platform: homeassistant
-    id: esszimmer_stehlampe_status
-    entity_id: light.esszimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: esszimmer_stehlampe_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_on
-          else:
-            - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_off             
+                id: wz_lichtschalter_icon
+                text: $ceiling_group_off
+
   - platform: homeassistant
     id: wohnzimmer_stehlampe_status
     entity_id: light.wohnzimmer_stehlampe
@@ -331,10 +155,10 @@ binary_sensor:
       - lvgl.widget.update:
           id: wohnzimmer_stehlampe_button
           state:
-            checked: !lambda return x;
+            checked: !lambda 'return x;'
       - if:
           condition:
-            lambda: return x;
+            lambda: 'return x;'
           then:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
@@ -343,58 +167,135 @@ binary_sensor:
             - lvgl.label.update:
                 id: wohnzimmer_stehlampe_icon
                 text: $floor_lamp_off
+
   - platform: homeassistant
-    id: wz_lichtschalter_state_esphome
-    entity_id: light.wz_lichtschalter
+    id: wohnzimmer_deckenlampe_status
+    entity_id: light.wohnzimmer_deckenlampe
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wz_lichtschalter_button
+          id: wohnzimmer_deckenlampe_button
           state:
-            checked: !lambda return x;
+            checked: !lambda 'return x;'
       - if:
           condition:
-            lambda: return x;
+            lambda: 'return x;'
           then:
             - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_on
+                id: wohnzimmer_deckenlampe_icon
+                text: $ceiling_on
           else:
             - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_off
+                id: wohnzimmer_deckenlampe_icon
+                text: $ceiling_off
+
   - platform: homeassistant
-    id: office_3d_printer_power
-    entity_id: switch.office_3d_printer_power
+    id: esszimmertisch_status
+    entity_id: light.esszimmer_esstisch
     publish_initial_state: true
     on_state:
-      then:
-        lvgl.widget.update:
-          id: printer_power_button
+      - lvgl.widget.update:
+          id: esszimmertisch_button
           state:
-            checked: !lambda return x;
+            checked: !lambda 'return x;'
+      - if:
+          condition:
+            lambda: 'return x;'
+          then:
+            - lvgl.label.update:
+                id: esszimmertisch_icon
+                text: $ceiling_on # Annahme, dass es dasselbe Icon wie Deckenlampe ist
+          else:
+            - lvgl.label.update:
+                id: esszimmertisch_icon
+                text: $ceiling_off
+
   - platform: homeassistant
-    id: wz_lichtschalter # Beachte: Diese ID ist identisch mit der entity_id des vorherigen Sensors. Das könnte zu Konflikten führen.
-    entity_id: light.wz_lichtschalter # Wenn wz_button (aus lvgl.yaml) light.wz_lichtschalter steuert.
+    id: esszimmer_stehlampe_status
+    entity_id: light.esszimmer_stehlampe
     publish_initial_state: true
     on_state:
-      then:
-        lvgl.widget.update:
-          id: wz_button # Annahme: Dies ist der Button, der mit light.wz_lichtschalter verbunden ist.
+      - lvgl.widget.update:
+          id: esszimmer_stehlampe_button
           state:
-            checked: !lambda return x;
+            checked: !lambda 'return x;'
+      - if:
+          condition:
+            lambda: 'return x;'
+          then:
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_on
+          else:
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_off
+
+  - platform: homeassistant
+    id: office_3d_printer_power # Korrekte ID für den 3D Drucker Schalter
+    entity_id: switch.office_3d_printer_power # Die HA Entität
+    publish_initial_state: true
+    on_state:
+      - lvgl.widget.update:
+          id: printer_power_button # Annahme: ID des LVGL Buttons für den Drucker
+          state:
+            checked: !lambda 'return x;' # x ist true wenn an, false wenn aus
+      - if:
+          condition:
+            lambda: 'return x;' # true wenn an
+          then:
+            - lvgl.label.update:
+                id: printer_power_icon # Annahme: ID des Icon Labels im Drucker Button
+                text: $printer # Icon für Drucker AN (oder generisch)
+          else:
+            - lvgl.label.update:
+                id: printer_power_icon
+                text: $printer # Icon für Drucker AUS (oder generisch)
+
+  - platform: homeassistant
+    id: wz_lichtschalter # ID für den zweiten WZ Lichtschalter Status (für wz_button)
+    entity_id: light.wz_lichtschalter
+    # Beachte: Diese ID ist identisch mit der entity_id des vorherigen Sensors. Das könnte zu Konflikten führen.
+    # Antwort: Ist okay, da die ESPHome IDs unterschiedlich sind und sie unterschiedliche LVGL Widgets steuern.
+    publish_initial_state: true
+    on_state:
+      - lvgl.widget.update:
+          id: wz_button # ID des LVGL Buttons
+          state:
+            checked: !lambda 'return x;'
+      - if:
+          condition:
+            lambda: 'return x;'
+          then:
+            - lvgl.label.update:
+                id: wz_button_icon # ID des Icon-Labels für wz_button (muss in LVGL existieren)
+                text: $lightbulb # Oder ein spezifisches "AN" Icon
+          else:
+            - lvgl.label.update:
+                id: wz_button_icon
+                text: $lightbulb # Oder ein spezifisches "AUS" Icon
 
 script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
           id: temperatures
-          text:
-            format: "%d° / %d°"
-            args:
-              - '(int)round(id(innen_temp_wert))'
-              - '(int)round(id(aussen_temp_wert))'
-      - lvgl.label.update:
+          text: !lambda |-
+            char buffer[20];
+            // Sicherstellen, dass die globalen Variablen gültige Werte haben
+            float innen = id(innen_temp_wert);
+            float aussen = id(aussen_temp_wert);
+            if (isnan(innen) && isnan(aussen)) {
+              sprintf(buffer, "--° / --°");
+            } else if (isnan(innen)) {
+              sprintf(buffer, "--° / %.0f°", round(aussen));
+            } else if (isnan(aussen)) {
+              sprintf(buffer, "%.0f° / --°", round(innen));
+            } else {
+              sprintf(buffer, "%.0f° / %.0f°", round(innen), round(aussen));
+            }
+            return buffer;
+      - lvgl.label.update: # Aktualisiert das separate "Außen" Label auf der Wetterseite
           id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
@@ -402,34 +303,37 @@ script:
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update:
+      - lvgl.label.update: # Aktualisiert das separate "Innen" (Flur) Label auf der Wetterseite
           id: flur_temp_value_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(flur_temp_wert);
+            float temp_val = id(innen_temp_wert); // Verwendet jetzt innen_temp_wert
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
-      - lvgl.label.update:
+      - lvgl.label.update: # Aktualisiert das "Flur Feuchtigkeit" Label auf der Wetterseite
           id: flur_humidity_value_label
           text: !lambda |-
             char temp_buf[20];
             float temp_val = id(flur_humidity_wert);
-            if (isnan(temp_val)) { return std::string("--.-%%"); }
+            if (isnan(temp_val)) { return std::string("--.-%"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
             return std::string(temp_buf);
+
   - id: update_wifi_icon_display
     then:
-      - lvgl.label.update:
-          id: wifi_icon_label
-          text: !lambda |-
-            if (!network::is_connected()) { return std::string("\U000F092E"); }
-            if (id(wifi_signal_sensor).has_state()) {
-              float rssi = id(wifi_signal_sensor).state;
-              if (rssi >= -55) { return std::string("\U000F091F"); }
-              else if (rssi >= -65) { return std::string("\U000F091E"); }
-              else if (rssi >= -75) { return std::string("\U000F091D"); }
-              else if (rssi >= -85) { return std::string("\U000F091C"); }
-              else { return std::string("\U000F091B"); }
+      - lambda: |-
+          auto rssi = id(wifi_signal_sensor).state; // Zugriff auf den Zustand des wifi_signal_sensor
+          if (id(wifi_icon_label).is_valid()) { // Prüfen ob das Label existiert
+            if (isnan(rssi)) {
+              id(wifi_icon_label).set_text(id(wifi_off).c_str());
+            } else if (rssi > -67) {
+              id(wifi_icon_label).set_text(id(wifi_strength_4).c_str());
+            } else if (rssi > -70) {
+              id(wifi_icon_label).set_text(id(wifi_strength_3).c_str());
+            } else if (rssi > -80) {
+              id(wifi_icon_label).set_text(id(wifi_strength_2).c_str());
+            } else {
+              id(wifi_icon_label).set_text(id(wifi_strength_1).c_str());
             }
-            return std::string("\U000F092E");
+          }
