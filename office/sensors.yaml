@@ -2,94 +2,127 @@
 globals:
   - id: innen_temp_wert
     type: float
-    restore_value: no
-    initial_value: 'NAN'
+    initial_value: '0.0'
   - id: aussen_temp_wert
     type: float
-    restore_value: no
-    initial_value: 'NAN'
+    initial_value: '0.0'
+  - id: flur_temp_wert
+    type: float
+    initial_value: '0.0'
   - id: flur_humidity_wert
     type: float
-    restore_value: no
-    initial_value: 'NAN'
+    initial_value: '0.0'
 
 sensor:
   - platform: homeassistant
-    id: ha_aussen_temp_sensor
-    entity_id: sensor.outside_temperature_filtered
-    internal: true
+    entity_id: sensor.environment_sensor_temperature_sensor
+    id: wz_temperature
     on_value:
-      - lambda: id(aussen_temp_wert) = x;
-      - script.execute: update_temperatur_anzeige
-
+      then:
+        - lambda: |-
+            id(innen_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
   - platform: homeassistant
-    id: ha_innen_temp_sensor
-    entity_id: sensor.ble_temperature_erdgeschoss
-    internal: true
+    entity_id: sensor.aussentemperatur
+    id: outdoor_temperature
     on_value:
-      - lambda: id(innen_temp_wert) = x;
-      - script.execute: update_temperatur_anzeige
-
+      then:
+        - lambda: |-
+            id(aussen_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
   - platform: homeassistant
-    id: ha_flur_humidity_sensor
-    entity_id: sensor.ble_humidity_erdgeschoss
-    internal: true
+    entity_id: sensor.flur_temperatur_temperature
+    id: flur_temperature_sensor
     on_value:
-      - lambda: id(flur_humidity_wert) = x;
-      - script.execute: update_temperatur_anzeige
-
+      then:
+        - lambda: |-
+            id(flur_temp_wert) = x;
+        - script.execute: update_temperatur_anzeige
+  - platform: homeassistant
+    entity_id: sensor.flur_temperatur_humidity
+    id: flur_humidity_sensor
+    on_value:
+      then:
+        - lambda: |-
+            id(flur_humidity_wert) = x;
+        - script.execute: update_temperatur_anzeige
   - platform: wifi_signal
-    name: "WiFi Signal Sensor"
+    name: "Wifi Signal Strength Icon"
     id: wifi_signal_sensor
-    update_interval: 60s
+    update_interval: 15s
+    entity_category: "diagnostic"
+    internal: true
     on_value:
-      - script.execute: update_wifi_icon_display
+      then:
+        - script.execute: update_wifi_icon_display
 
 text_sensor:
   - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker
-    entity_id: cover.wohnzimmer_links
+    id: cover_wohnzimmer_links_state_tracker # Deine bestehende ID
+    entity_id: cover.wohnzimmer_links # Der Rollladen, dessen Zustand überwacht wird
     internal: true
-    on_value: # War on_state, on_value ist für text_sensor passender
-      - if:
-          condition:
-            lambda: 'return x == "open";'
-          then:
-            - lvgl.widget.update:
-                id: wz_blind_open_button # Diese ID muss in lvgl.yaml existieren
-                state:
-                  checked: true
-            - lvgl.widget.update:
-                id: wz_blind_close_button # Diese ID muss in lvgl.yaml existieren
-                state:
-                  checked: false
-      - if:
-          condition:
-            lambda: 'return x == "closed";'
-          then:
-            - lvgl.widget.update:
-                id: wz_blind_open_button
-                state:
-                  checked: false
-            - lvgl.widget.update:
-                id: wz_blind_close_button
-                state:
-                  checked: true
-      - if:
-          condition:
-            or:
-              - lambda: 'return x == "opening";'
-              - lambda: 'return x == "closing";'
-          then:
-            - lvgl.widget.update:
-                id: wz_blind_open_button
-                state:
-                  checked: false
-            - lvgl.widget.update:
-                id: wz_blind_close_button
-                state:
-                  checked: false
-
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return x == "open";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: true
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: false
+        - if:
+            condition:
+              lambda: 'return x == "closed";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: false
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: true
+        - if:
+            condition:
+              lambda: 'return x == "opening";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: true
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: false
+        - if:
+            condition:
+              lambda: 'return x == "closing";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: false
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: true
+        - if: # Fallback für unbekannte Zustände
+            condition:
+              lambda: 'return x != "open" && x != "closed" && x != "opening" && x != "closing";'
+            then:
+              - lvgl.widget.update:
+                  id: wz_blind_open_button
+                  state:
+                    checked: false
+              - lvgl.widget.update:
+                  id: wz_blind_close_button
+                  state:
+                    checked: false
   - platform: homeassistant
     id: esphome_wetter_png_icon_id
     entity_id: sensor.wetter_icon
@@ -228,212 +261,155 @@ text_sensor:
               - lvgl.label.update:
                   id: weather_description
                   text: !lambda return x.c_str();
+
 binary_sensor:
-  - platform: homeassistant
-    id: wz_lichtschalter_state_esphome
-    entity_id: light.wz_lichtschalter
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wz_lichtschalter_button # Diese ID muss in lvgl.yaml existieren
-          state:
-            checked: !lambda 'return x;'
-      - if:
-          condition:
-            lambda: 'return x;'
-          then:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon # Diese ID muss in lvgl.yaml existieren
-                text: $ceiling_group_on
-          else:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_off
-
-  - platform: homeassistant
-    id: wohnzimmer_stehlampe_status
-    entity_id: light.wohnzimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wohnzimmer_stehlampe_button # Diese ID muss in lvgl.yaml existieren
-          state:
-            checked: !lambda 'return x;'
-      - if:
-          condition:
-            lambda: 'return x;'
-          then:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon # Diese ID muss in lvgl.yaml existieren
-                text: $floor_lamp_on
-          else:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $floor_lamp_off
-
   - platform: homeassistant
     id: wohnzimmer_deckenlampe_status
     entity_id: light.wohnzimmer_deckenlampe
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: wohnzimmer_deckenlampe_button # Diese ID muss in lvgl.yaml existieren
+          id: wohnzimmer_deckenlampe_button
           state:
-            checked: !lambda 'return x;'
+            checked: !lambda return x;
       - if:
           condition:
-            lambda: 'return x;'
+            lambda: return x;
           then:
             - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon # Diese ID muss in lvgl.yaml existieren
+                id: wohnzimmer_deckenlampe_icon
                 text: $ceiling_on
           else:
             - lvgl.label.update:
                 id: wohnzimmer_deckenlampe_icon
                 text: $ceiling_off
-
   - platform: homeassistant
     id: esszimmertisch_status
     entity_id: light.esszimmer_esstisch
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: esszimmertisch_button # Diese ID muss in lvgl.yaml existieren
+          id: esszimmertisch_button
           state:
-            checked: !lambda 'return x;'
+            checked: !lambda return x;
       - if:
           condition:
-            lambda: 'return x;'
+            lambda: return x;
           then:
             - lvgl.label.update:
-                id: esszimmertisch_icon # Diese ID muss in lvgl.yaml existieren
+                id: esszimmertisch_icon
                 text: $ceiling_on
           else:
             - lvgl.label.update:
                 id: esszimmertisch_icon
                 text: $ceiling_off
-
   - platform: homeassistant
-    id: esszimmer_stehlampe_status
-    entity_id: light.esszimmer_stehlampe
+    id: wohnzimmer_stehlampe_status
+    entity_id: light.wohnzimmer_stehlampe
     publish_initial_state: true
     on_state:
       - lvgl.widget.update:
-          id: esszimmer_stehlampe_button # Diese ID muss in lvgl.yaml existieren
+          id: wohnzimmer_stehlampe_button
           state:
-            checked: !lambda 'return x;'
+            checked: !lambda return x;
       - if:
           condition:
-            lambda: 'return x;'
+            lambda: return x;
           then:
             - lvgl.label.update:
-                id: esszimmer_stehlampe_icon # Diese ID muss in lvgl.yaml existieren
-                text: $floor_lamp_variant_on
+                id: wohnzimmer_stehlampe_icon
+                text: $floor_lamp_on
           else:
             - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_off
-
+                id: wohnzimmer_stehlampe_icon
+                text: $floor_lamp_off
+  - platform: homeassistant
+    id: wz_lichtschalter_state_esphome
+    entity_id: light.wz_lichtschalter
+    publish_initial_state: true
+    on_state:
+      - lvgl.widget.update:
+          id: wz_lichtschalter_button
+          state:
+            checked: !lambda return x;
+      - if:
+          condition:
+            lambda: return x;
+          then:
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $ceiling_group_on
+          else:
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $ceiling_group_off
   - platform: homeassistant
     id: office_3d_printer_power
     entity_id: switch.office_3d_printer_power
     publish_initial_state: true
     on_state:
-      - lvgl.widget.update:
-          id: printer_power_button # Diese ID muss in lvgl.yaml existieren
+      then:
+        lvgl.widget.update:
+          id: printer_power_button
           state:
-            checked: !lambda 'return x;'
-      - if:
-          condition:
-            lambda: 'return x;'
-          then:
-            - lvgl.label.update:
-                id: printer_power_icon # Diese ID muss in lvgl.yaml existieren
-                text: $printer
-          else:
-            - lvgl.label.update:
-                id: printer_power_icon
-                text: $printer
-
+            checked: !lambda return x;
   - platform: homeassistant
-    id: wz_lichtschalter # Zweiter Sensor für light.wz_lichtschalter, steuert wz_button
-    entity_id: light.wz_lichtschalter
+    id: wz_lichtschalter # Beachte: Diese ID ist identisch mit der entity_id des vorherigen Sensors. Das könnte zu Konflikten führen.
+    entity_id: light.wz_lichtschalter # Wenn wz_button (aus lvgl.yaml) light.wz_lichtschalter steuert.
     publish_initial_state: true
     on_state:
-      - lvgl.widget.update:
-          id: wz_button # Diese ID muss in lvgl.yaml existieren
+      then:
+        lvgl.widget.update:
+          id: wz_button # Annahme: Dies ist der Button, der mit light.wz_lichtschalter verbunden ist.
           state:
-            checked: !lambda 'return x;'
-      - if:
-          condition:
-            lambda: 'return x;'
-          then:
-            - lvgl.label.update:
-                id: wz_button_icon # Diese ID muss in lvgl.yaml existieren
-                text: $lightbulb
-          else:
-            - lvgl.label.update:
-                id: wz_button_icon
-                text: $lightbulb
+            checked: !lambda return x;
 
 script:
   - id: update_temperatur_anzeige
     then:
       - lvgl.label.update:
-          id: temperatures # Diese ID muss in lvgl.yaml existieren
-          text: !lambda |-
-            char buffer[20];
-            float innen = id(innen_temp_wert).state;
-            float aussen = id(aussen_temp_wert).state;
-            if (isnan(innen) && isnan(aussen)) {
-              sprintf(buffer, "--° / --°");
-            } else if (isnan(innen)) {
-              sprintf(buffer, "--° / %.0f°", round(aussen));
-            } else if (isnan(aussen)) {
-              sprintf(buffer, "%.0f° / --°", round(innen));
-            } else {
-              sprintf(buffer, "%.0f° / %.0f°", round(innen), round(aussen));
-            }
-            return buffer;
+          id: temperatures
+          text:
+            format: "%d° / %d°"
+            args:
+              - '(int)round(id(innen_temp_wert))'
+              - '(int)round(id(aussen_temp_wert))'
       - lvgl.label.update:
-          id: outdoor_temp_large_label # Diese ID muss in lvgl.yaml existieren
+          id: outdoor_temp_large_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(aussen_temp_wert).state;
+            float temp_val = id(aussen_temp_wert);
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
       - lvgl.label.update:
-          id: flur_temp_value_label # Diese ID muss in lvgl.yaml existieren
+          id: flur_temp_value_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(innen_temp_wert).state;
+            float temp_val = id(flur_temp_wert);
             if (isnan(temp_val)) { return std::string("--.-°C"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
             return std::string(temp_buf);
       - lvgl.label.update:
-          id: flur_humidity_value_label # Diese ID muss in lvgl.yaml existieren
+          id: flur_humidity_value_label
           text: !lambda |-
             char temp_buf[20];
-            float temp_val = id(flur_humidity_wert).state;
-            if (isnan(temp_val)) { return std::string("--.-%"); }
+            float temp_val = id(flur_humidity_wert);
+            if (isnan(temp_val)) { return std::string("--.-%%"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
             return std::string(temp_buf);
-
   - id: update_wifi_icon_display
     then:
-      - lambda: |-
-          auto rssi = id(wifi_signal_sensor).state;
-          if (id(wifi_icon_label).is_valid()) { // Diese ID muss in lvgl.yaml existieren
-            if (isnan(rssi)) {
-              id(wifi_icon_label).set_text($wifi_off);
-            } else if (rssi > -67) {
-              id(wifi_icon_label).set_text($wifi_strength_4);
-            } else if (rssi > -70) {
-              id(wifi_icon_label).set_text($wifi_strength_3);
-            } else if (rssi > -80) {
-              id(wifi_icon_label).set_text($wifi_strength_2);
-            } else {
-              id(wifi_icon_label).set_text($wifi_strength_1);
+      - lvgl.label.update:
+          id: wifi_icon_label
+          text: !lambda |-
+            if (!network::is_connected()) { return std::string("\U000F092E"); }
+            if (id(wifi_signal_sensor).has_state()) {
+              float rssi = id(wifi_signal_sensor).state;
+              if (rssi >= -55) { return std::string("\U000F091F"); }
+              else if (rssi >= -65) { return std::string("\U000F091E"); }
+              else if (rssi >= -75) { return std::string("\U000F091D"); }
+              else if (rssi >= -85) { return std::string("\U000F091C"); }
+              else { return std::string("\U000F091B"); }
             }
-          }
+            return std::string("\U000F092E");
