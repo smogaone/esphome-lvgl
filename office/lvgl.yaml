@@ -171,20 +171,20 @@ lvgl:
           snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
           return std::string(temp_buf);
     - image:
-        id: lvgl_weather_image_widget # Wird durch text_sensor esphome_wetter_png_icon_id in sensors.yaml aktualisiert
-        x: 28
-        y: 55
-        width: 100
-        height: 100
-        src: icon_png_sunny # Standardbild
-    - label:
-        id: weather_description # Wird durch text_sensor esphome_weather_forecast_home in sensors.yaml aktualisiert
-        x: 138
-        y: 87
-        text_font: roboto36_font
-        text_color: 16777215
-        text: !lambda |-
-          return id(esphome_weather_forecast_home).state;
+            id: lvgl_weather_image_widget
+            x: 28
+            y: 55
+            width: 100
+            height: 100
+            src: icon_png_sunny
+        - label:
+            id: weather_description
+            x: 138
+            y: 87
+            text_font: roboto36_font
+            text_color: 16777215
+            text: !lambda |-
+              return id(esphome_weather_forecast_home).state;
     - image:
         id: flur_temp_png_icon
         x: 28
