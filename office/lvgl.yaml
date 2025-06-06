@@ -340,7 +340,7 @@ lvgl:
                   text_font: $icon_font
                   align: top_left
                   id: esszimmer_stehlampe_icon
-                  text: $ceiling_off
+                  text: $floor_lamp_variant_off
               - label:
                   text_font: $text_font
                   align: bottom_left
