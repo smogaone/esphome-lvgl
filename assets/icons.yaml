@@ -150,4 +150,4 @@ substitutions:
   wifi_strength_2:      "\U000F091D"
   wifi_strength_3:      "\U000F091E"
   wifi_strength_4:      "\U000F091F"
-  wifi_strength_outline:   "\U000F091B"
+  wifi_off:             "\U000F091B"
