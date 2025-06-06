@@ -333,24 +333,24 @@ lvgl:
             grid_cell_row_pos: 0
             height: 100px
             checkable: true
-            id: printer_power_button
             styles: control
+            id: esszimmer_stehlampe_button
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  id: printer_power_icon
-                  text: $printer
+                  id: esszimmer_stehlampe_icon
+                  text: $ceiling_off
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  id: printer_power_label
-                  text: "Printer"
+                  id: esszimmer_stehlampe_label
+                  text: "Esszimmer<br>Stehlampe"
             on_click:
               - homeassistant.service:
-                  service: switch.toggle
+                  service: light.toggle
                   data:
-                    entity_id: switch.office_3d_printer_power
+                    entity_id: light.esszimmer_stehlampe
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
