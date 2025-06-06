@@ -95,34 +95,139 @@ text_sensor:
     entity_id: sensor.wetter_icon
     internal: true
     on_value:
-      - lambda: |-
-          if (x == "clear-night") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_clear_night)); }
-          else if (x == "cloudy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_cloudy)); }
-          else if (x == "exceptional") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_exceptional)); }
-          else if (x == "fog") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_fog)); }
-          else if (x == "hail") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_hail)); }
-          else if (x == "lightning") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_lightning)); }
-          else if (x == "lightning-rainy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_lightning_rainy)); }
-          else if (x == "partlycloudy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_partlycloudy)); }
-          else if (x == "pouring") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_pouring)); }
-          else if (x == "rainy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_rainy)); }
-          else if (x == "snowy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_snowy)); }
-          else if (x == "snowy-rainy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_snowy_rainy)); }
-          else if (x == "sunny") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); }
-          else if (x == "windy") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_windy)); }
-          else if (x == "windy-variant") { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_windy_variant)); }
-          else { if(id(lvgl_weather_image_widget).is_valid()) id(lvgl_weather_image_widget).set_src(id(icon_png_sunny)); }
-
+      then:
+        - if:
+            condition:
+              lambda: return x == "icon_png_clear_night";
+            then:
+              - lvgl.image.update:
+                  id: lvgl_weather_image_widget
+                  src: icon_png_clear_night
+            else:
+              - if:
+                  condition:
+                    lambda: return x == "icon_png_cloudy";
+                  then:
+                    - lvgl.image.update:
+                        id: lvgl_weather_image_widget
+                        src: icon_png_cloudy
+                  else:
+                    - if:
+                        condition:
+                          lambda: return x == "icon_png_exceptional";
+                        then:
+                          - lvgl.image.update:
+                              id: lvgl_weather_image_widget
+                              src: icon_png_exceptional
+                        else:
+                          - if:
+                              condition:
+                                lambda: return x == "icon_png_fog";
+                              then:
+                                - lvgl.image.update:
+                                    id: lvgl_weather_image_widget
+                                    src: icon_png_fog
+                              else:
+                                - if:
+                                    condition:
+                                      lambda: return x == "icon_png_hail";
+                                    then:
+                                      - lvgl.image.update:
+                                          id: lvgl_weather_image_widget
+                                          src: icon_png_hail
+                                    else:
+                                      - if:
+                                          condition:
+                                            lambda: return x == "icon_png_lightning";
+                                          then:
+                                            - lvgl.image.update:
+                                                id: lvgl_weather_image_widget
+                                                src: icon_png_lightning
+                                          else:
+                                            - if:
+                                                condition:
+                                                  lambda: return x == "icon_png_lightning_rainy";
+                                                then:
+                                                  - lvgl.image.update:
+                                                      id: lvgl_weather_image_widget
+                                                      src: icon_png_lightning_rainy
+                                                else:
+                                                  - if:
+                                                      condition:
+                                                        lambda: return x == "icon_png_partlycloudy";
+                                                      then:
+                                                        - lvgl.image.update:
+                                                            id: lvgl_weather_image_widget
+                                                            src: icon_png_partlycloudy
+                                                      else:
+                                                        - if:
+                                                            condition:
+                                                              lambda: return x == "icon_png_pouring";
+                                                            then:
+                                                              - lvgl.image.update:
+                                                                  id: lvgl_weather_image_widget
+                                                                  src: icon_png_pouring
+                                                            else:
+                                                              - if:
+                                                                  condition:
+                                                                    lambda: return x == "icon_png_rainy";
+                                                                  then:
+                                                                    - lvgl.image.update:
+                                                                        id: lvgl_weather_image_widget
+                                                                        src: icon_png_rainy
+                                                                  else:
+                                                                    - if:
+                                                                        condition:
+                                                                          lambda: return x == "icon_png_snowy";
+                                                                        then:
+                                                                          - lvgl.image.update:
+                                                                              id: lvgl_weather_image_widget
+                                                                              src: icon_png_snowy
+                                                                        else:
+                                                                          - if:
+                                                                              condition:
+                                                                                lambda: return x == "icon_png_snowy_rainy";
+                                                                              then:
+                                                                                - lvgl.image.update:
+                                                                                    id: lvgl_weather_image_widget
+                                                                                    src: icon_png_snowy_rainy
+                                                                              else:
+                                                                                - if:
+                                                                                    condition:
+                                                                                      lambda: return x == "icon_png_sunny";
+                                                                                    then:
+                                                                                      - lvgl.image.update:
+                                                                                          id: lvgl_weather_image_widget
+                                                                                          src: icon_png_sunny
+                                                                                    else:
+                                                                                      - if:
+                                                                                          condition:
+                                                                                            lambda: return x == "icon_png_windy";
+                                                                                          then:
+                                                                                            - lvgl.image.update:
+                                                                                                id: lvgl_weather_image_widget
+                                                                                                src: icon_png_windy
+                                                                                          else:
+                                                                                            - if:
+                                                                                                condition:
+                                                                                                  lambda: return x == "icon_png_windy_variant";
+                                                                                                then:
+                                                                                                  - lvgl.image.update:
+                                                                                                      id: lvgl_weather_image_widget
+                                                                                                      src: icon_png_windy_variant
   - platform: homeassistant
     id: esphome_weather_forecast_home
-    entity_id: weather.forecast_home
-    attribute: condition
+    entity_id: sensor.wetter_deutsch
     internal: true
     on_value:
-      - lvgl.label.update:
-          id: weather_description # Diese ID muss in lvgl.yaml existieren
-          text: !lambda 'return x;'
-
+      then:
+        - if:
+            condition:
+              lambda: return !x.empty();
+            then:
+              - lvgl.label.update:
+                  id: weather_description
+                  text: !lambda return x.c_str();
 binary_sensor:
   - platform: homeassistant
     id: wz_lichtschalter_state_esphome
