@@ -339,3 +339,73 @@ script:
               bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_windy_variant"; } return true; }); return r;
           then:
             - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy_variant }
+      - lvgl.label.update:
+          id: main_page_media_title
+          text: !lambda |-
+            std::string result;
+            json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+              if (root.containsKey("media_title")) {
+                result = root["media_title"].as<std::string>();
+              }
+              return true;
+            });
+            return result;
+      - lvgl.label.update:
+          id: main_page_media_artist
+          text: !lambda |-
+            std::string result;
+            json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+              if (root.containsKey("media_artist")) {
+                result = root["media_artist"].as<std::string>();
+              }
+              return true;
+            });
+            return result;
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("media_state")) {
+                  auto state = root["media_state"].as<std::string>();
+                  result = (state == "playing" || state == "on");
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.label.update: { id: main_page_media_play_pause_icon, text: $pause }
+            - lvgl.widget.update: { id: main_page_media_container, bg_color: $button_on_color }
+          else:
+            - lvgl.label.update: { id: main_page_media_play_pause_icon, text: $play }
+            - lvgl.widget.update: { id: main_page_media_container, bg_color: $button_control_color }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("media_image_url")) {
+                  result = !root["media_image_url"].as<std::string>().empty();
+                }
+                return true;
+              });
+              return result;
+          then:
+            - online_image.set_url:
+                id: album_art_online_image
+                url: !lambda |-
+                  std::string img_url;
+                  json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                    if (root.containsKey("media_image_url")) {
+                      img_url = root["media_image_url"].as<std::string>();
+                    }
+                    return true;
+                  });
+                  return "http://192.168.178.122:8123" + img_url;
+            - lvgl.image.update:
+                id: main_page_media_image
+                src: album_art_online_image
+          else:
+            - lvgl.image.update:
+                id: main_page_media_image
+                src: apple_tv_logo_png
