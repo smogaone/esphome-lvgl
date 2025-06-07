@@ -468,7 +468,7 @@ lvgl:
               height: 80
               src: apple_tv_logo_png
           - obj:
-              width: LV_PCT(60)
+              width: LV_PCT(55)
               height: LV_PCT(100)
               layout:
                 type: flex
@@ -493,12 +493,12 @@ lvgl:
                     extra_styles:
                       - lambda: 'lv_label_set_long_mode(obj, LV_LABEL_LONG_DOT);'
           - obj:
-              width: LV_PCT(20)
+              width: LV_PCT(30)
               height: LV_PCT(100)
               layout:
                 type: flex
                 flex_flow: row
-                flex_align_main: space_around
+                flex_align_main: space_between
                 flex_align_cross: center
               widgets:
                 - button:
@@ -508,14 +508,47 @@ lvgl:
                     bg_opa: 0
                     border_width: 0
                     on_click:
-                      - media_player.control:
-                          id: apple_tv_media_player
-                          command: PLAY_PAUSE
+                      - homeassistant.service:
+                          service: media_player.media_previous_track
+                          data:
+                            entity_id: media_player.wohnzimmer_apple_tv
+                    widgets:
+                      - label:
+                          text_font: icon_font_footer
+                          text: $previous_track
+                          text_color: $button_text_color
+                - button:
+                    width: 30
+                    height: 30
+                    bg_color: 0
+                    bg_opa: 0
+                    border_width: 0
+                    on_click:
+                      - homeassistant.service:
+                          service: media_player.media_play_pause
+                          data:
+                            entity_id: media_player.wohnzimmer_apple_tv
                     widgets:
                       - label:
                           id: main_page_media_play_pause_icon
                           text_font: icon_font_footer
                           text: $play
+                          text_color: $button_text_color
+                - button:
+                    width: 30
+                    height: 30
+                    bg_color: 0
+                    bg_opa: 0
+                    border_width: 0
+                    on_click:
+                      - homeassistant.service:
+                          service: media_player.media_next_track
+                          data:
+                            entity_id: media_player.wohnzimmer_apple_tv
+                    widgets:
+                      - label:
+                          text_font: icon_font_footer
+                          text: $next_track
                           text_color: $button_text_color
     - button:
         grid_cell_column_pos: 0
