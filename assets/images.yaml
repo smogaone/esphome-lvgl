@@ -94,6 +94,6 @@ image:
 online_image:
   - id: album_art_online_image
     url: "http://127.0.0.1/image.png"
-    type: RGB565
+    type: PNG
     resize: 80x80
     format: rgb565
