@@ -421,6 +421,8 @@ script:
             return std::string(temp_buf);
   - id: update_wifi_icon_display
     then:
+      - id: update_wifi_icon_display
+    then:
       - lvgl.label.update:
           id: wifi_icon_label
           text: !lambda |-
