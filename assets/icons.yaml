@@ -71,6 +71,7 @@ font:
       "\U000F040E",  # mdi:play-pause
       "\U000F04AE",  # mdi:skip-previous
       "\U000F04AD",  # mdi:skip-next
+      "\U000F040A",  # mdi:play
       
       
     ]
@@ -154,6 +155,7 @@ substitutions:
   wifi_strength_3:      "\U000F091E"
   wifi_strength_4:      "\U000F091F"
   wifi_off:             "\U000F091B"
-  play:                 "\U000F040E"
+  play_pause:           "\U000F040E"
   previous_track:       "\U000F04AE"
   next_track:           "\U000F04AD"
+  play:                 "\U000F040A"
