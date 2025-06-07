@@ -1,71 +1,49 @@
-# addons/media_player.yaml
-
-# 1. Definition des Remote-Image-Widgets, das die Album-Cover lädt
+# addon/mediaplayer.yaml
 remote_image:
   - id: album_art_remote_image
-    url: " " # Startet mit einer leeren URL
-    resize: 32x32 # NEU: Größe für das heruntergeladene Bild festgelegt
+    url: " "
+    resize: 80x80
 
-# 2. Definition des Media-Players, der Home Assistant abonniert
 media_player:
   - platform: homeassistant
     id: apple_tv_media_player
     entity_id: media_player.wohnzimmer_apple_tv
-    on_state: # Dieser Trigger wird bei JEDER Zustandsänderung des Apple TV ausgeführt
+    on_state:
       then:
         - if:
-            # Bedingung: Spielt oder ist pausiert (in beiden Fällen gibt es oft ein Cover)
             condition:
               lambda: 'return x == "playing" || x == "paused";'
             then:
-              # AKTIONEN WENN MUSIK/VIDEO LÄUFT
-              # 1. Album-Cover laden
               - remote.image.set_url:
                   id: album_art_remote_image
                   url: !lambda 'return id(apple_tv_media_player).media_image_url;'
-              # 2. LVGL Widgets aktualisieren
-              - lvgl.widget.update:
-                  id: album_art_lvgl_image # ID des LVGL-Widgets für das Cover
-                  state:
-                    hidden: false # Cover anzeigen
-              - lvgl.widget.update:
-                  id: apple_tv_logo_lvgl_image # ID des LVGL-Widgets für das Logo
-                  state:
-                    hidden: true # Logo ausblenden
-              # 3. Titel und Künstler aktualisieren
+              - lvgl.image.update:
+                  id: main_page_media_image
+                  src: id(album_art_remote_image)
               - lvgl.label.update:
-                  id: media_title_label
+                  id: main_page_media_title
                   text: !lambda 'return id(apple_tv_media_player).media_title;'
               - lvgl.label.update:
-                  id: media_artist_label
+                  id: main_page_media_artist
                   text: !lambda 'return id(apple_tv_media_player).media_artist;'
         - else:
-            # AKTIONEN WENN STANDBY/OFF/IDLE
-            # 1. LVGL Widgets aktualisieren
-            - lvgl.widget.update:
-                id: album_art_lvgl_image # Cover ausblenden
-                state:
-                  hidden: true
-            - lvgl.widget.update:
-                id: apple_tv_logo_lvgl_image # Logo anzeigen
-                state:
-                  hidden: false
-            # 2. Titel und Künstler leeren
+            - lvgl.image.update:
+                id: main_page_media_image
+                src: id(apple_tv_logo_png)
             - lvgl.label.update:
-                id: media_title_label
+                id: main_page_media_title
                 text: "Apple TV"
             - lvgl.label.update:
-                id: media_artist_label
+                id: main_page_media_artist
                 text: "Standby"
-        # 4. Play/Pause Button Icon aktualisieren (immer)
         - if:
             condition:
               lambda: 'return x == "playing";'
             then:
               - lvgl.label.update:
-                  id: media_play_pause_icon
-                  text: $pause # Icon für Pause
+                  id: main_page_media_play_pause_icon
+                  text: $pause
             else:
               - lvgl.label.update:
-                  id: media_play_pause_icon
-                  text: $play # Icon für Play
+                  id: main_page_media_play_pause_icon
+                  text: $play
