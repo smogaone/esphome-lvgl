@@ -291,7 +291,7 @@ text_sensor:
           then:
             - online_image.set_url:
                 id: album_art_online_image
-                url: !lambda 'return x;'
+                url: !lambda 'return "http://192.168.178.122:8123" + x;'
             - lvgl.image.update:
                 id: main_page_media_image
                 src: album_art_online_image
@@ -306,185 +306,23 @@ text_sensor:
     on_value:
       - if:
           condition:
-            lambda: 'return x == "playing";'
+            lambda: 'return x == "playing" || x == "on";'
           then:
             - lvgl.label.update:
                 id: main_page_media_play_pause_icon
                 text: $pause
+            - lvgl.widget.update:
+                id: main_page_media_container
+                bg_color: $button_on_color
           else:
             - lvgl.label.update:
                 id: main_page_media_play_pause_icon
                 text: $play
+            - lvgl.widget.update:
+                id: main_page_media_container
+                bg_color: $button_control_color
 
 binary_sensor:
   - platform: homeassistant
     id: wohnzimmer_deckenlampe_status
-    entity_id: light.wohnzimmer_deckenlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wohnzimmer_deckenlampe_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
-                text: $ceiling_on
-          else:
-            - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
-                text: $ceiling_off
-  - platform: homeassistant
-    id: esszimmertisch_status
-    entity_id: light.esszimmer_esstisch
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: esszimmertisch_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: esszimmertisch_icon
-                text: $ceiling_on
-          else:
-            - lvgl.label.update:
-                id: esszimmertisch_icon
-                text: $ceiling_off
-  - platform: homeassistant
-    id: wohnzimmer_stehlampe_status
-    entity_id: light.wohnzimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wohnzimmer_stehlampe_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $floor_lamp_on
-          else:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $floor_lamp_off
-  - platform: homeassistant
-    id: wz_lichtschalter_state_esphome
-    entity_id: light.wz_lichtschalter
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wz_lichtschalter_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_on
-          else:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_off
-  - platform: homeassistant
-    id: esszimmer_stehlampe_status
-    entity_id: light.esszimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: esszimmer_stehlampe_button
-          state:
-            checked: !lambda 'return x;'
-      - if:
-          condition:
-            lambda: 'return x;'
-          then:
-            - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_on
-          else:
-            - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_off
-  - platform: homeassistant
-    id: wz_lichtschalter
-    entity_id: light.wz_lichtschalter
-    publish_initial_state: true
-    on_state:
-      then:
-        - lvgl.widget.update:
-            id: wz_button
-            state:
-              checked: !lambda return x;
-        - if:
-            condition:
-              lambda: 'return x;'
-            then:
-              - lvgl.label.update:
-                  id: wz_button_icon
-                  text: $lightbulb
-            else:
-              - lvgl.label.update:
-                  id: wz_button_icon
-                  text: $lightbulb_off
-
-script:
-  - id: update_temperatur_anzeige
-    then:
-      - lvgl.label.update:
-          id: temperatures
-          text:
-            format: "%d° / %d°"
-            args:
-              - '(int)round(id(innen_temp_wert))'
-              - '(int)round(id(aussen_temp_wert))'
-      - lvgl.label.update:
-          id: outdoor_temp_large_label
-          text: !lambda |-
-            char temp_buf[20];
-            float temp_val = id(aussen_temp_wert);
-            if (isnan(temp_val)) { return std::string("--.-°C"); }
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
-            return std::string(temp_buf);
-      - lvgl.label.update:
-          id: flur_temp_value_label
-          text: !lambda |-
-            char temp_buf[20];
-            float temp_val = id(flur_temp_wert);
-            if (isnan(temp_val)) { return std::string("--.-°C"); }
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f°C", temp_val);
-            return std::string(temp_buf);
-      - lvgl.label.update:
-          id: flur_humidity_value_label
-          text: !lambda |-
-            char temp_buf[20];
-            float temp_val = id(flur_humidity_wert);
-            if (isnan(temp_val)) { return std::string("--.-%%"); }
-            snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
-            return std::string(temp_buf);
-  - id: update_wifi_icon_display
-    then:
-      - lvgl.label.update:
-          id: wifi_icon_label
-          text: !lambda |-
-            if (!network::is_connected()) { return std::string("\U000F092E"); }
-            if (id(wifi_signal_sensor).has_state()) {
-              float rssi = id(wifi_signal_sensor).state;
-              if (rssi >= -55) { return std::string("\U000F091F"); }
-              else if (rssi >= -65) { return std::string("\U000F091E"); }
-              else if (rssi >= -75) { return std::string("\U000F091D"); }
-              else if (rssi >= -85) { return std::string("\U000F091C"); }
-              else { return std::string("\U000F091B"); }
-            }
-            return std::string("\U000F092E");
+    entity_id
