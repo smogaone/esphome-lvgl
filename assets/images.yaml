@@ -87,7 +87,7 @@ image:
     transparency: alpha_channel
   - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/apple_tv_logo.png"
     id: apple_tv_logo_png
-    resize: 32x32
+    resize: 80x80
     type: RGB565
     transparency: alpha_channel
 
