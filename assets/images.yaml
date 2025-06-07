@@ -96,3 +96,4 @@ online_image:
     url: "http://127.0.0.1/image.png"
     type: RGB565
     resize: 80x80
+    format: rgb565
