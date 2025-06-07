@@ -470,7 +470,6 @@ lvgl:
               - obj:
                   on_all_events:
                     - lambda: |-
-                        auto* obj = lv_event_get_target(event);
                         lv_event_code_t code = lv_event_get_code(event);
                         if (code == LV_EVENT_DRAW_POST_BEGIN) {
                           lv_obj_set_width(obj, lv_pct(55));
@@ -489,7 +488,6 @@ lvgl:
                         text_color: $button_text_color
                         on_all_events:
                           - lambda: |-
-                              auto* obj = lv_event_get_target(event);
                               lv_event_code_t code = lv_event_get_code(event);
                               if (code == LV_EVENT_DRAW_POST_BEGIN) {
                                 lv_obj_set_width(obj, lv_pct(100));
@@ -502,7 +500,6 @@ lvgl:
                         text_color: $button_text_color
                         on_all_events:
                           - lambda: |-
-                              auto* obj = lv_event_get_target(event);
                               lv_event_code_t code = lv_event_get_code(event);
                               if (code == LV_EVENT_DRAW_POST_BEGIN) {
                                 lv_obj_set_width(obj, lv_pct(100));
@@ -511,7 +508,6 @@ lvgl:
               - obj:
                   on_all_events:
                     - lambda: |-
-                        auto* obj = lv_event_get_target(event);
                         lv_event_code_t code = lv_event_get_code(event);
                         if (code == LV_EVENT_DRAW_POST_BEGIN) {
                           lv_obj_set_width(obj, lv_pct(30));
