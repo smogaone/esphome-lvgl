@@ -470,6 +470,7 @@ lvgl:
                   src: apple_tv_logo_png
               - obj:
                   flex_grow: 1
+                  height: 100%
                   pad_hor: 8px
                   layout:
                     type: flex
@@ -492,6 +493,7 @@ lvgl:
                         long_mode: DOT
               - obj:
                   width: 90px
+                  height: 100%
                   layout:
                     type: flex
                     flex_flow: row
