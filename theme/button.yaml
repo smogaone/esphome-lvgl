@@ -35,6 +35,7 @@ lvgl:
       scroll_on_focus: false 
       radius: $radius
       width: $button_width
+      with_double: $button_width_double
       height: $button_height_single
       pad_all: $padding
       shadow_width: 0
