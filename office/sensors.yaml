@@ -58,332 +58,11 @@ sensor:
 
 text_sensor:
   - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker
-    entity_id: cover.wohnzimmer_links
-    internal: true
+    id: ha_display_data_sensor
+    entity_id: sensor.esphome_display_data
     on_value:
       then:
-        - if:
-            condition:
-              lambda: 'return x == "open";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: true
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: false
-        - if:
-            condition:
-              lambda: 'return x == "closed";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: false
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: true
-        - if:
-            condition:
-              lambda: 'return x == "opening";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: true
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: false
-        - if:
-            condition:
-              lambda: 'return x == "closing";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: false
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: true
-        - if:
-            condition:
-              lambda: 'return x != "open" && x != "closed" && x != "opening" && x != "closing";'
-            then:
-              - lvgl.widget.update:
-                  id: wz_blind_open_button
-                  state:
-                    checked: false
-              - lvgl.widget.update:
-                  id: wz_blind_close_button
-                  state:
-                    checked: false
-  - platform: homeassistant
-    id: esphome_wetter_png_icon_id
-    entity_id: sensor.wetter_icon
-    internal: true
-    on_value:
-      then:
-        - if:
-            condition:
-              lambda: return x == "icon_png_clear_night";
-            then:
-              - lvgl.image.update:
-                  id: lvgl_weather_image_widget
-                  src: icon_png_clear_night
-            else:
-              - if:
-                  condition:
-                    lambda: return x == "icon_png_cloudy";
-                  then:
-                    - lvgl.image.update:
-                        id: lvgl_weather_image_widget
-                        src: icon_png_cloudy
-                  else:
-                    - if:
-                        condition:
-                          lambda: return x == "icon_png_exceptional";
-                        then:
-                          - lvgl.image.update:
-                              id: lvgl_weather_image_widget
-                              src: icon_png_exceptional
-                        else:
-                          - if:
-                              condition:
-                                lambda: return x == "icon_png_fog";
-                              then:
-                                - lvgl.image.update:
-                                    id: lvgl_weather_image_widget
-                                    src: icon_png_fog
-                              else:
-                                - if:
-                                    condition:
-                                      lambda: return x == "icon_png_hail";
-                                    then:
-                                      - lvgl.image.update:
-                                          id: lvgl_weather_image_widget
-                                          src: icon_png_hail
-                                    else:
-                                      - if:
-                                          condition:
-                                            lambda: return x == "icon_png_lightning";
-                                          then:
-                                            - lvgl.image.update:
-                                                id: lvgl_weather_image_widget
-                                                src: icon_png_lightning
-                                          else:
-                                            - if:
-                                                condition:
-                                                  lambda: return x == "icon_png_lightning_rainy";
-                                                then:
-                                                  - lvgl.image.update:
-                                                      id: lvgl_weather_image_widget
-                                                      src: icon_png_lightning_rainy
-                                                else:
-                                                  - if:
-                                                      condition:
-                                                        lambda: return x == "icon_png_partlycloudy";
-                                                      then:
-                                                        - lvgl.image.update:
-                                                            id: lvgl_weather_image_widget
-                                                            src: icon_png_partlycloudy
-                                                      else:
-                                                        - if:
-                                                            condition:
-                                                              lambda: return x == "icon_png_pouring";
-                                                            then:
-                                                              - lvgl.image.update:
-                                                                  id: lvgl_weather_image_widget
-                                                                  src: icon_png_pouring
-                                                            else:
-                                                              - if:
-                                                                  condition:
-                                                                    lambda: return x == "icon_png_rainy";
-                                                                  then:
-                                                                    - lvgl.image.update:
-                                                                        id: lvgl_weather_image_widget
-                                                                        src: icon_png_rainy
-                                                                  else:
-                                                                    - if:
-                                                                        condition:
-                                                                          lambda: return x == "icon_png_snowy";
-                                                                        then:
-                                                                          - lvgl.image.update:
-                                                                              id: lvgl_weather_image_widget
-                                                                              src: icon_png_snowy
-                                                                        else:
-                                                                          - if:
-                                                                              condition:
-                                                                                lambda: return x == "icon_png_snowy_rainy";
-                                                                              then:
-                                                                                - lvgl.image.update:
-                                                                                    id: lvgl_weather_image_widget
-                                                                                    src: icon_png_snowy_rainy
-                                                                              else:
-                                                                                - if:
-                                                                                    condition:
-                                                                                      lambda: return x == "icon_png_sunny";
-                                                                                    then:
-                                                                                      - lvgl.image.update:
-                                                                                          id: lvgl_weather_image_widget
-                                                                                          src: icon_png_sunny
-                                                                                    else:
-                                                                                      - if:
-                                                                                          condition:
-                                                                                            lambda: return x == "icon_png_windy";
-                                                                                          then:
-                                                                                            - lvgl.image.update:
-                                                                                                id: lvgl_weather_image_widget
-                                                                                                src: icon_png_windy
-                                                                                          else:
-                                                                                            - if:
-                                                                                                condition:
-                                                                                                  lambda: return x == "icon_png_windy_variant";
-                                                                                                then:
-                                                                                                  - lvgl.image.update:
-                                                                                                      id: lvgl_weather_image_widget
-                                                                                                      src: icon_png_windy_variant
-  - platform: homeassistant
-    id: esphome_weather_forecast_home
-    entity_id: sensor.wetter_deutsch
-    internal: true
-    on_value:
-      then:
-        - if:
-            condition:
-              lambda: return !x.empty();
-            then:
-              - lvgl.label.update:
-                  id: weather_description
-                  text: !lambda return x.c_str();
-
-binary_sensor:
-  - platform: homeassistant
-    id: wohnzimmer_deckenlampe_status
-    entity_id: light.wohnzimmer_deckenlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wohnzimmer_deckenlampe_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
-                text: $ceiling_on
-          else:
-            - lvgl.label.update:
-                id: wohnzimmer_deckenlampe_icon
-                text: $ceiling_off
-  - platform: homeassistant
-    id: esszimmertisch_status
-    entity_id: light.esszimmer_esstisch
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: esszimmertisch_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: esszimmertisch_icon
-                text: $ceiling_on
-          else:
-            - lvgl.label.update:
-                id: esszimmertisch_icon
-                text: $ceiling_off
-  - platform: homeassistant
-    id: wohnzimmer_stehlampe_status
-    entity_id: light.wohnzimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wohnzimmer_stehlampe_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $floor_lamp_on
-          else:
-            - lvgl.label.update:
-                id: wohnzimmer_stehlampe_icon
-                text: $floor_lamp_off
-  - platform: homeassistant
-    id: wz_lichtschalter_state_esphome
-    entity_id: light.wz_lichtschalter
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: wz_lichtschalter_button
-          state:
-            checked: !lambda return x;
-      - if:
-          condition:
-            lambda: return x;
-          then:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_on
-          else:
-            - lvgl.label.update:
-                id: wz_lichtschalter_icon
-                text: $ceiling_group_off
-  - platform: homeassistant
-    id: esszimmer_stehlampe_status
-    entity_id: light.esszimmer_stehlampe
-    publish_initial_state: true
-    on_state:
-      - lvgl.widget.update:
-          id: esszimmer_stehlampe_button
-          state:
-            checked: !lambda 'return x;'
-      - if:
-          condition:
-            lambda: 'return x;'
-          then:
-            - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_on
-          else:
-            - lvgl.label.update:
-                id: esszimmer_stehlampe_icon
-                text: $floor_lamp_variant_off
-  - platform: homeassistant
-    id: wz_lichtschalter
-    entity_id: light.wz_lichtschalter
-    publish_initial_state: true
-    on_state:
-      then:
-        - lvgl.widget.update:
-            id: wz_button
-            state:
-              checked: !lambda return x;
-        - if:
-            condition:
-              lambda: 'return x;'
-            then:
-              - lvgl.label.update:
-                  id: wz_button_icon
-                  text: $lightbulb
-            else:
-              - lvgl.label.update:
-                  id: wz_button_icon
-                  text: $lightbulb_off
+        - script.execute: update_ui_from_json
 
 script:
   - id: update_temperatur_anzeige
@@ -434,3 +113,57 @@ script:
               else { return std::string("\U000F091B"); }
             }
             return std::string("\U000F092E");
+  - id: update_ui_from_json
+    then:
+      - lambda: |-
+          #include "esphome/components/json/json_util.h"
+          #include <string>
+          #include <map>
+          auto data = esphome::json::parse_json(id(ha_display_data_sensor).state);
+          if (!data.success()) {
+            ESP_LOGW("json", "JSON parsing failed for UI update.");
+            return;
+          }
+          JsonObject root = data.get_data();
+          bool wz_licht_on = root["wz_lichtschalter"].as<std::string>() == "on";
+          id(wz_lichtschalter_button).set_checked(wz_licht_on);
+          id(wz_lichtschalter_icon).set_text(wz_licht_on ? $ceiling_group_on : $ceiling_group_off);
+          id(wz_button).set_checked(wz_licht_on);
+          id(wz_button_icon).set_text(wz_licht_on ? $lightbulb : $lightbulb_off);
+          bool wz_steh_on = root["wz_stehlampe"].as<std::string>() == "on";
+          id(wohnzimmer_stehlampe_button).set_checked(wz_steh_on);
+          id(wohnzimmer_stehlampe_icon).set_text(wz_steh_on ? $floor_lamp_on : $floor_lamp_off);
+          bool wz_decke_on = root["wz_decke"].as<std::string>() == "on";
+          id(wohnzimmer_deckenlampe_button).set_checked(wz_decke_on);
+          id(wohnzimmer_deckenlampe_icon).set_text(wz_decke_on ? $ceiling_on : $ceiling_off);
+          bool ez_tisch_on = root["ez_tisch"].as<std::string>() == "on";
+          id(esszimmertisch_button).set_checked(ez_tisch_on);
+          id(esszimmertisch_icon).set_text(ez_tisch_on ? $ceiling_on : $ceiling_off);
+          bool ez_steh_on = root["ez_stehlampe"].as<std::string>() == "on";
+          id(esszimmer_stehlampe_button).set_checked(ez_steh_on);
+          id(esszimmer_stehlampe_icon).set_text(ez_steh_on ? $floor_lamp_variant_on : $floor_lamp_variant_off);
+          std::string cover_state = root["cover_wz_links"];
+          id(wz_blind_open_button).set_checked(cover_state == "open");
+          id(wz_blind_close_button).set_checked(cover_state == "closed");
+          id(weather_description).set_text(root["wetter_zustand"].as<const char*>());
+          static const std::map<std::string, lv_img_dsc_t*> icon_map = {
+            {"icon_png_clear_night", id(icon_png_clear_night)},
+            {"icon_png_cloudy", id(icon_png_cloudy)},
+            {"icon_png_exceptional", id(icon_png_exceptional)},
+            {"icon_png_fog", id(icon_png_fog)},
+            {"icon_png_hail", id(icon_png_hail)},
+            {"icon_png_lightning", id(icon_png_lightning)},
+            {"icon_png_lightning_rainy", id(icon_png_lightning_rainy)},
+            {"icon_png_partlycloudy", id(icon_png_partlycloudy)},
+            {"icon_png_pouring", id(icon_png_pouring)},
+            {"icon_png_rainy", id(icon_png_rainy)},
+            {"icon_png_snowy", id(icon_png_snowy)},
+            {"icon_png_snowy_rainy", id(icon_png_snowy_rainy)},
+            {"icon_png_sunny", id(icon_png_sunny)},
+            {"icon_png_windy", id(icon_png_windy)},
+            {"icon_png_windy_variant", id(icon_png_windy_variant)}
+          };
+          auto it = icon_map.find(root["wetter_icon"].as<std::string>());
+          if (it != icon_map.end()) {
+            id(lvgl_weather_image_widget).set_src(it->second);
+          }
