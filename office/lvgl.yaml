@@ -455,7 +455,8 @@ lvgl:
               - obj:
                   flex_grow: 1
                   height: 100%
-                  pad_hor: 8px
+                  pad_left: 8px
+                  pad_right: 8px
                   layout:
                     type: flex
                     flex_flow: column
