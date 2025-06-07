@@ -188,13 +188,9 @@ text_sensor:
           - online_image.set_url:
               id: album_art_online_image
               url: !lambda 'return x;'
-          - lvgl.image.update:
-              id: main_page_media_image
-              src: id(album_art_online_image)
+          - lambda: 'id(main_page_media_image).set_src(id(album_art_online_image));'
         else:
-          - lvgl.image.update:
-              id: main_page_media_image
-              src: id(apple_tv_logo_png)
+          - lambda: 'id(main_page_media_image).set_src(id(apple_tv_logo_png));'
 - platform: homeassistant
   id: apple_tv_state_sensor
   entity_id: media_player.wohnzimmer_apple_tv
