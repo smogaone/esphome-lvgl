@@ -1,5 +1,5 @@
 # addon/mediaplayer.yaml
-remote_image:
+online_image:
   - id: album_art_remote_image
     url: " "
     resize: 80x80
@@ -14,7 +14,7 @@ media_player:
             condition:
               lambda: 'return x == "playing" || x == "paused";'
             then:
-              - remote.image.set_url:
+              - online_image.set_url:
                   id: album_art_remote_image
                   url: !lambda 'return id(apple_tv_media_player).media_image_url;'
               - lvgl.image.update:
