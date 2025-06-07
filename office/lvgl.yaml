@@ -536,7 +536,7 @@ lvgl:
                             entity_id: media_player.wohnzimmer_apple_tv
                     widgets:
                       - label:
-                          text_font: icon_font_footer
+                          text_font: icon_font
                           text: $previous_track
                           text_color: $button_text_color
                 - button:
@@ -553,7 +553,7 @@ lvgl:
                     widgets:
                       - label:
                           id: main_page_media_play_pause_icon
-                          text_font: icon_font_footer
+                          text_font: icon_font
                           text: $play
                           text_color: $button_text_color
                 - button:
@@ -569,7 +569,7 @@ lvgl:
                             entity_id: media_player.wohnzimmer_apple_tv
                     widgets:
                       - label:
-                          text_font: icon_font_footer
+                          text_font: icon_font
                           text: $next_track
                           text_color: $button_text_color
     - button:
