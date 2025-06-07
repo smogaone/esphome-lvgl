@@ -5,6 +5,7 @@ binary_sensor:
     id: ink_ha_connected
     icon: mdi:check-network
 
+http_request:
 
 sensor:
 # Uptime
