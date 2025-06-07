@@ -68,6 +68,9 @@ font:
       "\U000F17CF",  # mdi:floor-lamp-torchiere-variant-outline
       "\U000F18DE",  # mdi:ceiling-light-multiple-outline
       "\U000F18DD",  # mdi:ceiling-light-multiple
+      "\U000F040E",  # mdi:play-pause
+      "\U000F04AE",  # mdi:skip-previous
+      "\U000F04AD",  # mdi:skip-next
       
       
     ]
@@ -151,3 +154,6 @@ substitutions:
   wifi_strength_3:      "\U000F091E"
   wifi_strength_4:      "\U000F091F"
   wifi_off:             "\U000F091B"
+  play:                 "\U000F040E"
+  previous_track:       "\U000F04AE"
+  next_track:           "\U000F04AD"
