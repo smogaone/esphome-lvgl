@@ -468,11 +468,9 @@ lvgl:
               height: 80
               src: apple_tv_logo_png
           - obj:
-              on_event:
-                - event: LV_EVENT_DRAW_POST
-                  then:
-                    - lambda: 'lv_obj_set_width(obj, lv_pct(55));'
-                    - lambda: 'lv_obj_set_height(obj, lv_pct(100));'
+              lambda: |-
+                lv_obj_set_width(it, lv_pct(55));
+                lv_obj_set_height(it, lv_pct(100));
               layout:
                 type: flex
                 flex_flow: column
@@ -484,27 +482,21 @@ lvgl:
                     text: "Apple TV"
                     text_font: $text_font
                     text_color: $button_text_color
-                    on_event:
-                      - event: LV_EVENT_DRAW_POST
-                        then:
-                          - lambda: 'lv_obj_set_width(obj, lv_pct(100));'
-                          - lambda: 'lv_label_set_long_mode(obj, LV_LABEL_LONG_DOT);'
+                    lambda: |-
+                      lv_obj_set_width(it, lv_pct(100));
+                      lv_label_set_long_mode(it, LV_LABEL_LONG_DOT);
                 - label:
                     id: main_page_media_artist
                     text: "Standby"
                     text_font: roboto15_font
                     text_color: $button_text_color
-                    on_event:
-                      - event: LV_EVENT_DRAW_POST
-                        then:
-                          - lambda: 'lv_obj_set_width(obj, lv_pct(100));'
-                          - lambda: 'lv_label_set_long_mode(obj, LV_LABEL_LONG_DOT);'
+                    lambda: |-
+                      lv_obj_set_width(it, lv_pct(100));
+                      lv_label_set_long_mode(it, LV_LABEL_LONG_DOT);
           - obj:
-              on_event:
-                - event: LV_EVENT_DRAW_POST
-                  then:
-                    - lambda: 'lv_obj_set_width(obj, lv_pct(30));'
-                    - lambda: 'lv_obj_set_height(obj, lv_pct(100));'
+              lambda: |-
+                lv_obj_set_width(it, lv_pct(30));
+                lv_obj_set_height(it, lv_pct(100));
               layout:
                 type: flex
                 flex_flow: row
