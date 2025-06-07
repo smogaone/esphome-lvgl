@@ -114,56 +114,371 @@ script:
             }
             return std::string("\U000F092E");
   - id: update_ui_from_json
+    mode: parallel
     then:
-      - lambda: |-
-          #include "esphome/components/json/json_util.h"
-          #include <string>
-          #include <map>
-          auto data = esphome::json::parse_json(id(ha_display_data_sensor).state);
-          if (!data.success()) {
-            ESP_LOGW("json", "JSON parsing failed for UI update.");
-            return;
-          }
-          JsonObject root = data.get_data();
-          bool wz_licht_on = root["wz_lichtschalter"].as<std::string>() == "on";
-          id(wz_lichtschalter_button).set_checked(wz_licht_on);
-          id(wz_lichtschalter_icon).set_text(wz_licht_on ? $ceiling_group_on : $ceiling_group_off);
-          id(wz_button).set_checked(wz_licht_on);
-          id(wz_button_icon).set_text(wz_licht_on ? $lightbulb : $lightbulb_off);
-          bool wz_steh_on = root["wz_stehlampe"].as<std::string>() == "on";
-          id(wohnzimmer_stehlampe_button).set_checked(wz_steh_on);
-          id(wohnzimmer_stehlampe_icon).set_text(wz_steh_on ? $floor_lamp_on : $floor_lamp_off);
-          bool wz_decke_on = root["wz_decke"].as<std::string>() == "on";
-          id(wohnzimmer_deckenlampe_button).set_checked(wz_decke_on);
-          id(wohnzimmer_deckenlampe_icon).set_text(wz_decke_on ? $ceiling_on : $ceiling_off);
-          bool ez_tisch_on = root["ez_tisch"].as<std::string>() == "on";
-          id(esszimmertisch_button).set_checked(ez_tisch_on);
-          id(esszimmertisch_icon).set_text(ez_tisch_on ? $ceiling_on : $ceiling_off);
-          bool ez_steh_on = root["ez_stehlampe"].as<std::string>() == "on";
-          id(esszimmer_stehlampe_button).set_checked(ez_steh_on);
-          id(esszimmer_stehlampe_icon).set_text(ez_steh_on ? $floor_lamp_variant_on : $floor_lamp_variant_off);
-          std::string cover_state = root["cover_wz_links"];
-          id(wz_blind_open_button).set_checked(cover_state == "open");
-          id(wz_blind_close_button).set_checked(cover_state == "closed");
-          id(weather_description).set_text(root["wetter_zustand"].as<const char*>());
-          static const std::map<std::string, lv_img_dsc_t*> icon_map = {
-            {"icon_png_clear_night", id(icon_png_clear_night)},
-            {"icon_png_cloudy", id(icon_png_cloudy)},
-            {"icon_png_exceptional", id(icon_png_exceptional)},
-            {"icon_png_fog", id(icon_png_fog)},
-            {"icon_png_hail", id(icon_png_hail)},
-            {"icon_png_lightning", id(icon_png_lightning)},
-            {"icon_png_lightning_rainy", id(icon_png_lightning_rainy)},
-            {"icon_png_partlycloudy", id(icon_png_partlycloudy)},
-            {"icon_png_pouring", id(icon_png_pouring)},
-            {"icon_png_rainy", id(icon_png_rainy)},
-            {"icon_png_snowy", id(icon_png_snowy)},
-            {"icon_png_snowy_rainy", id(icon_png_snowy_rainy)},
-            {"icon_png_sunny", id(icon_png_sunny)},
-            {"icon_png_windy", id(icon_png_windy)},
-            {"icon_png_windy_variant", id(icon_png_windy_variant)}
-          };
-          auto it = icon_map.find(root["wetter_icon"].as<std::string>());
-          if (it != icon_map.end()) {
-            id(lvgl_weather_image_widget).set_src(it->second);
-          }
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wz_lichtschalter"].as<std::string>() == "on";
+              });
+              return result;
+          then:
+            - lvgl.widget.update:
+                id: wz_lichtschalter_button
+                state:
+                  checked: true
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $ceiling_group_on
+            - lvgl.widget.update:
+                id: wz_button
+                state:
+                  checked: true
+            - lvgl.label.update:
+                id: wz_button_icon
+                text: $lightbulb
+          else:
+            - lvgl.widget.update:
+                id: wz_lichtschalter_button
+                state:
+                  checked: false
+            - lvgl.label.update:
+                id: wz_lichtschalter_icon
+                text: $ceiling_group_off
+            - lvgl.widget.update:
+                id: wz_button
+                state:
+                  checked: false
+            - lvgl.label.update:
+                id: wz_button_icon
+                text: $lightbulb_off
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wz_stehlampe"].as<std::string>() == "on";
+              });
+              return result;
+          then:
+            - lvgl.widget.update:
+                id: wohnzimmer_stehlampe_button
+                state:
+                  checked: true
+            - lvgl.label.update:
+                id: wohnzimmer_stehlampe_icon
+                text: $floor_lamp_on
+          else:
+            - lvgl.widget.update:
+                id: wohnzimmer_stehlampe_button
+                state:
+                  checked: false
+            - lvgl.label.update:
+                id: wohnzimmer_stehlampe_icon
+                text: $floor_lamp_off
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wz_decke"].as<std::string>() == "on";
+              });
+              return result;
+          then:
+            - lvgl.widget.update:
+                id: wohnzimmer_deckenlampe_button
+                state:
+                  checked: true
+            - lvgl.label.update:
+                id: wohnzimmer_deckenlampe_icon
+                text: $ceiling_on
+          else:
+            - lvgl.widget.update:
+                id: wohnzimmer_deckenlampe_button
+                state:
+                  checked: false
+            - lvgl.label.update:
+                id: wohnzimmer_deckenlampe_icon
+                text: $ceiling_off
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["ez_tisch"].as<std::string>() == "on";
+              });
+              return result;
+          then:
+            - lvgl.widget.update:
+                id: esszimmertisch_button
+                state:
+                  checked: true
+            - lvgl.label.update:
+                id: esszimmertisch_icon
+                text: $ceiling_on
+          else:
+            - lvgl.widget.update:
+                id: esszimmertisch_button
+                state:
+                  checked: false
+            - lvgl.label.update:
+                id: esszimmertisch_icon
+                text: $ceiling_off
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["ez_stehlampe"].as<std::string>() == "on";
+              });
+              return result;
+          then:
+            - lvgl.widget.update:
+                id: esszimmer_stehlampe_button
+                state:
+                  checked: true
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_on
+          else:
+            - lvgl.widget.update:
+                id: esszimmer_stehlampe_button
+                state:
+                  checked: false
+            - lvgl.label.update:
+                id: esszimmer_stehlampe_icon
+                text: $floor_lamp_variant_off
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["cover_wz_links"].as<std::string>() == "open";
+              });
+              return result;
+          then:
+            - lvgl.widget.update:
+                id: wz_blind_open_button
+                state:
+                  checked: true
+            - lvgl.widget.update:
+                id: wz_blind_close_button
+                state:
+                  checked: false
+          else:
+            - if:
+                condition:
+                  lambda: |-
+                    bool result;
+                    esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                      result = root["cover_wz_links"].as<std::string>() == "closed";
+                    });
+                    return result;
+                then:
+                  - lvgl.widget.update:
+                      id: wz_blind_open_button
+                      state:
+                        checked: false
+                  - lvgl.widget.update:
+                      id: wz_blind_close_button
+                      state:
+                        checked: true
+                else:
+                  - lvgl.widget.update:
+                      id: wz_blind_open_button
+                      state:
+                        checked: false
+                  - lvgl.widget.update:
+                      id: wz_blind_close_button
+                      state:
+                        checked: false
+      - lvgl.label.update:
+          id: weather_description
+          text: !lambda |-
+            std::string result;
+            esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+              result = root["wetter_zustand"].as<std::string>();
+            });
+            return result;
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_clear_night";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_clear_night
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_cloudy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_cloudy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_exceptional";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_exceptional
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_fog";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_fog
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_hail";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_hail
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_lightning";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_lightning
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_lightning_rainy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_lightning_rainy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_partlycloudy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_partlycloudy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_pouring";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_pouring
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_rainy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_rainy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_snowy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_snowy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_snowy_rainy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_snowy_rainy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_sunny";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_sunny
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_windy";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_windy
+      - if:
+          condition:
+            lambda: |-
+              bool result;
+              esphome::json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root){
+                result = root["wetter_icon"].as<std::string>() == "icon_png_windy_variant";
+              });
+              return result;
+          then:
+            - lvgl.image.update:
+                id: lvgl_weather_image_widget
+                src: icon_png_windy_variant
