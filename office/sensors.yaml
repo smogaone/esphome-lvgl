@@ -103,46 +103,6 @@ text_sensor:
     internal: true
     on_value:
       - lvgl.label.update: { id: weather_description, text: !lambda "return x;" }
-  - platform: homeassistant
-    id: apple_tv_media_title_sensor
-    entity_id: media_player.wohnzimmer_apple_tv
-    attribute: media_title
-    internal: true
-    on_value:
-      - lvgl.label.update: { id: main_page_media_title, text: !lambda 'return x.empty() ? "Apple TV" : x;' }
-  - platform: homeassistant
-    id: apple_tv_media_artist_sensor
-    entity_id: media_player.wohnzimmer_apple_tv
-    attribute: media_artist
-    internal: true
-    on_value:
-      - lvgl.label.update: { id: main_page_media_artist, text: !lambda 'return x.empty() ? "Standby" : x;' }
-  - platform: homeassistant
-    id: apple_tv_media_image_url_sensor
-    entity_id: media_player.wohnzimmer_apple_tv
-    attribute: entity_picture
-    internal: true
-    on_value:
-      - if:
-          condition: { lambda: 'return x.length() > 0;' }
-          then:
-            - online_image.set_url: { id: album_art_online_image, url: !lambda 'return "http://192.168.178.122:8123" + x;' }
-            - lvgl.image.update: { id: main_page_media_image, src: album_art_online_image }
-          else:
-            - lvgl.image.update: { id: main_page_media_image, src: apple_tv_logo_png }
-  - platform: homeassistant
-    id: apple_tv_state_sensor
-    entity_id: media_player.wohnzimmer_apple_tv
-    internal: true
-    on_value:
-      - if:
-          condition: { lambda: 'return x == "playing" || x == "on";' }
-          then:
-            - lvgl.label.update: { id: main_page_media_play_pause_icon, text: $pause }
-            - lvgl.widget.update: { id: main_page_media_container, bg_color: $button_on_color }
-          else:
-            - lvgl.label.update: { id: main_page_media_play_pause_icon, text: $play }
-            - lvgl.widget.update: { id: main_page_media_container, bg_color: $button_control_color }
 
 binary_sensor:
   - platform: homeassistant
