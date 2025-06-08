@@ -19,7 +19,7 @@ sensor:
     on_value:
       if:
         condition:
-          lambda: 'return x != "unavailable" && x != "unknown";'
+          lambda: 'return !isnan(x);'
         then:
           - lambda: 'id(innen_temp_wert) = x;'
           - script.execute: update_temperatur_anzeige
@@ -30,7 +30,7 @@ sensor:
     on_value:
       if:
         condition:
-          lambda: 'return x != "unavailable" && x != "unknown";'
+          lambda: 'return !isnan(x);'
         then:
           - lambda: 'id(aussen_temp_wert) = x;'
           - script.execute: update_temperatur_anzeige
@@ -41,7 +41,7 @@ sensor:
     on_value:
       if:
         condition:
-          lambda: 'return x != "unavailable" && x != "unknown";'
+          lambda: 'return !isnan(x);'
         then:
           - lambda: 'id(flur_temp_wert) = x;'
           - script.execute: update_temperatur_anzeige
@@ -52,7 +52,7 @@ sensor:
     on_value:
       if:
         condition:
-          lambda: 'return x != "unavailable" && x != "unknown";'
+          lambda: 'return !isnan(x);'
         then:
           - lambda: 'id(flur_humidity_wert) = x;'
           - script.execute: update_temperatur_anzeige
