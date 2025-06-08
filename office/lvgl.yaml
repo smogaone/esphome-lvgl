@@ -362,75 +362,59 @@ lvgl:
             grid_cell_row_pos: 1
             height: 100px
             checkable: true
-            id: wz_blind_open_button
+            id: wz_blinds_toggle_button
             styles: control
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $blinds_open
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Auf"
-            on_click:
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.wohnzimmer_links
-                    position: "83"
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.wohnzimmer_rechts
-                    position: "78"
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.esszimmer_links
-                    position: "68"
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.esszimmer_rechts
-                    position: "70"
-        - button:
-            grid_cell_column_pos: 2
-            grid_cell_row_pos: 1
-            height: 100px
-            checkable: true
-            id: wz_blind_close_button
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
+                  id: wz_blinds_toggle_icon
                   text: $blinds_closed
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Zu"
+                  id: wz_blinds_toggle_label
+                  text: "Jalousien"
             on_click:
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.wohnzimmer_links
-                    position: "0"
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.wohnzimmer_rechts
-                    position: "0"
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.esszimmer_links
-                    position: "0"
-              - homeassistant.service:
-                  service: cover.set_cover_position
-                  data:
-                    entity_id: cover.esszimmer_rechts
-                    position: "0"
+              - if:
+                  condition:
+                    lambda: |-
+                      bool is_closed = false;
+                      json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                        if (root.containsKey("cover_wz_links") && root["cover_wz_links"].as<std::string>() == "closed") {
+                          is_closed = true;
+                        }
+                        return true;
+                      });
+                      return is_closed;
+                  then:
+                    - homeassistant.service:
+                        service: cover.open_cover
+                        data:
+                          entity_id: 
+                            - cover.wohnzimmer_links
+                            - cover.wohnzimmer_rechts
+                            - cover.esszimmer_links
+                            - cover.esszimmer_rechts
+                  else:
+                    - homeassistant.service:
+                        service: cover.close_cover
+                        data:
+                          entity_id: 
+                            - cover.wohnzimmer_links
+                            - cover.wohnzimmer_rechts
+                            - cover.esszimmer_links
+                            - cover.esszimmer_rechts
+        - button:
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 1
+            height: 100px
+            id: placeholder_button_1
+            styles: control
+            widgets:
+              - label:
+                  align: center
+                  text: ""
         - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
