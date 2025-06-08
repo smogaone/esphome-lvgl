@@ -246,52 +246,6 @@ lvgl:
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
-            id: wohnzimmer_stehlampe_button
-            height: 100px
-            checkable: true
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: wohnzimmer_stehlampe_icon
-                  text: $floor_lamp_off
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  id: wohnzimmer_stehlampe_label
-                  text: "Stehlampe"
-            on_click:
-              - homeassistant.service:
-                  service: light.toggle
-                  data:
-                    entity_id: light.wohnzimmer_stehlampe
-        - button:
-            grid_cell_column_pos: 2
-            grid_cell_row_pos: 0
-            height: 100px
-            checkable: true
-            styles: control
-            id: wohnzimmer_deckenlampe_button
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: wohnzimmer_deckenlampe_icon
-                  text: $ceiling_off
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  id: wohnzimmer_deckenlampe_label
-                  text: "Deckenlampe"
-            on_click:
-              - homeassistant.service:
-                  service: light.toggle
-                  data:
-                    entity_id: light.wohnzimmer_deckenlampe
-        - button:
-            grid_cell_column_pos: 3
-            grid_cell_row_pos: 0
             height: 100px
             checkable: true
             styles: control
@@ -315,51 +269,6 @@ lvgl:
         - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
-            height: 100px
-            checkable: true
-            styles: control
-            id: esszimmer_stehlampe_button
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: esszimmer_stehlampe_icon
-                  text: $floor_lamp_variant_off
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  id: esszimmer_stehlampe_label
-                  text: "Stehlampe"
-            on_click:
-              - homeassistant.service:
-                  service: light.toggle
-                  data:
-                    entity_id: light.esszimmer_stehlampe
-        - button:
-            grid_cell_column_pos: 0
-            grid_cell_row_pos: 1
-            height: 100px
-            checkable: true
-            id: wz_button
-            styles: control
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  id: wz_button_icon
-                  text: $lightbulb
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Wohnzimmer"
-            on_click:
-              - homeassistant.service:
-                  service: light.toggle
-                  data:
-                    entity_id: light.wz_lichtschalter
-        - button:
-            grid_cell_column_pos: 1
-            grid_cell_row_pos: 1
             height: 100px
             checkable: true
             id: wz_blinds_toggle_button
@@ -391,166 +300,95 @@ lvgl:
                   then:
                     - homeassistant.service:
                         service: cover.set_cover_position
-                        data:
-                          entity_id: cover.wohnzimmer_links
-                          position: "83"
+                        data: { entity_id: cover.wohnzimmer_links, position: "83" }
                     - homeassistant.service:
                         service: cover.set_cover_position
-                        data:
-                          entity_id: cover.wohnzimmer_rechts
-                          position: "78"
+                        data: { entity_id: cover.wohnzimmer_rechts, position: "78" }
                     - homeassistant.service:
                         service: cover.set_cover_position
-                        data:
-                          entity_id: cover.esszimmer_links
-                          position: "68"
+                        data: { entity_id: cover.esszimmer_links, position: "68" }
                     - homeassistant.service:
                         service: cover.set_cover_position
-                        data:
-                          entity_id: cover.esszimmer_rechts
-                          position: "70"
+                        data: { entity_id: cover.esszimmer_rechts, position: "70" }
                   else:
-                    # HIER IST DIE KORREKTUR: Der Dienst wird für jede Entität einzeln aufgerufen.
                     - homeassistant.service:
                         service: cover.close_cover
-                        data:
-                          entity_id: cover.wohnzimmer_links
+                        data: { entity_id: cover.wohnzimmer_links }
                     - homeassistant.service:
                         service: cover.close_cover
-                        data:
-                          entity_id: cover.wohnzimmer_rechts
+                        data: { entity_id: cover.wohnzimmer_rechts }
                     - homeassistant.service:
                         service: cover.close_cover
-                        data:
-                          entity_id: cover.esszimmer_links
+                        data: { entity_id: cover.esszimmer_links }
                     - homeassistant.service:
                         service: cover.close_cover
-                        data:
-                          entity_id: cover.esszimmer_rechts
+                        data: { entity_id: cover.esszimmer_rechts }
         - button:
-            grid_cell_column_pos: 2
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 1
+            id: wohnzimmer_stehlampe_button
+            height: 100px
+            checkable: true
+            styles: control
+            widgets:
+              - label:
+                  text_font: $icon_font
+                  align: top_left
+                  id: wohnzimmer_stehlampe_icon
+                  text: $floor_lamp_off
+              - label:
+                  text_font: $text_font
+                  align: bottom_left
+                  id: wohnzimmer_stehlampe_label
+                  text: "Stehlampe"
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.wohnzimmer_stehlampe
+        - button:
+            grid_cell_column_pos: 1
             grid_cell_row_pos: 1
             height: 100px
-            id: placeholder_button_1
+            checkable: true
             styles: control
+            id: esszimmer_stehlampe_button
             widgets:
               - label:
-                  align: center
-                  text: ""
-        - button:
-            grid_cell_column_pos: 3
-            grid_cell_row_pos: 1
-            grid_cell_column_span: 2
-            id: placeholder_media_button
-            styles: control
-            width: $button_width_double
-            height: $button_height_single
-            widgets:
+                  text_font: $icon_font
+                  align: top_left
+                  id: esszimmer_stehlampe_icon
+                  text: $floor_lamp_variant_off
               - label:
-                  align: center
-                  text: "Media"
+                  text_font: $text_font
+                  align: bottom_left
+                  id: esszimmer_stehlampe_label
+                  text: "Stehlampe"
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.esszimmer_stehlampe
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             height: 100px
-            checkable: false
-            id: webhook_meet_button
-            styles: webhook
+            checkable: true
+            styles: control
+            id: wohnzimmer_deckenlampe_button
             widgets:
               - label:
                   text_font: $icon_font
                   align: top_left
-                  text: $lightbulb
+                  id: wohnzimmer_deckenlampe_icon
+                  text: $ceiling_off
               - label:
                   text_font: $text_font
                   align: bottom_left
-                  text: "Meet"
+                  id: wohnzimmer_deckenlampe_label
+                  text: "Deckenlampe"
             on_click:
               - homeassistant.service:
-                  service: button.press
+                  service: light.toggle
                   data:
-                    entity_id: button.webhook_meet
-        - button:
-            grid_cell_column_pos: 1
-            grid_cell_row_pos: 2
-            height: 100px
-            checkable: false
-            id: webhook_figma_button
-            styles: webhook
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  text: $lightbulb
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Figma"
-            on_click:
-              - homeassistant.service:
-                  service: button.press
-                  data:
-                    entity_id: button.webhook_figma
-        - button:
-            grid_cell_column_pos: 2
-            grid_cell_row_pos: 2
-            height: 100px
-            checkable: false
-            id: webhook_forklift_button
-            styles: webhook
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  text: $forklift
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Forklift"
-            on_click:
-              - homeassistant.service:
-                  service: button.press
-                  data:
-                    entity_id: button.webhook_forklift
-        - button:
-            grid_cell_column_pos: 3
-            grid_cell_row_pos: 2
-            height: 100px
-            checkable: false
-            id: webhook_iawriter_button
-            styles: webhook
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  text: $command
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Ia Writer"
-            on_click:
-              - homeassistant.service:
-                  service: button.press
-                  data:
-                    entity_id: button.webhook_iawriter
-        - button:
-            grid_cell_column_pos: 4
-            grid_cell_row_pos: 2
-            height: 100px
-            checkable: false
-            id: webhook_mainsail_button
-            styles: webhook
-            widgets:
-              - label:
-                  text_font: $icon_font
-                  align: top_left
-                  text: $lightbulb
-              - label:
-                  text_font: $text_font
-                  align: bottom_left
-                  text: "Mainsail"
-            on_click:
-              - homeassistant.service:
-                  service: button.press
-                  data:
-                    entity_id: button.webhook_mainsail
+                    entity_id: light.wohnzimmer_deckenlampe
