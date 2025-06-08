@@ -431,106 +431,18 @@ lvgl:
                   data:
                     entity_id: cover.esszimmer_rechts
                     position: "0"
-        - obj:
-            id: main_page_media_container
+        - button:
             grid_cell_column_pos: 3
             grid_cell_row_pos: 1
             grid_cell_column_span: 2
+            id: placeholder_media_button
+            styles: control
             width: $button_width_double
             height: $button_height_single
-            bg_color: $button_control_color
-            radius: $radius
-            pad_all: 8px
-            layout:
-              type: flex
-              flex_flow: row
-              flex_align_main: space_between
-              flex_align_cross: center
             widgets:
-              - image:
-                  id: main_page_media_image
-                  width: 80
-                  height: 80
-                  src: apple_tv_logo_png
-              - obj:
-                  flex_grow: 1
-                  height: 100%
-                  pad_left: 8px
-                  pad_right: 8px
-                  layout:
-                    type: flex
-                    flex_flow: column
-                    flex_align_main: center
-                  widgets:
-                    - label:
-                        id: main_page_media_title
-                        text: "Apple TV"
-                        text_font: $text_font
-                        text_color: $button_text_color
-                        width: 100%
-                        long_mode: DOT
-                    - label:
-                        id: main_page_media_artist
-                        text: "Standby"
-                        text_font: roboto15_font
-                        text_color: $button_text_color
-                        width: 100%
-                        long_mode: DOT
-              - obj:
-                  width: 90px
-                  height: 100%
-                  layout:
-                    type: flex
-                    flex_flow: row
-                    flex_align_main: space_between
-                    flex_align_cross: center
-                  widgets:
-                    - button:
-                        width: 30
-                        height: 30
-                        bg_color: 0
-                        bg_opa: 0
-                        border_width: 0
-                        on_click:
-                          - homeassistant.service:
-                              service: media_player.media_previous_track
-                              data: { entity_id: media_player.wohnzimmer_apple_tv }
-                        widgets:
-                          - label:
-                              text_font: icon_font
-                              text: $previous_track
-                              text_color: $button_text_color
-                    - button:
-                        width: 30
-                        height: 30
-                        bg_color: 0
-                        bg_opa: 0
-                        border_width: 0
-                        on_click:
-                          - homeassistant.service:
-                              service: media_player.media_play_pause
-                              data: { entity_id: media_player.wohnzimmer_apple_tv }
-                        widgets:
-                          - label:
-                              id: main_page_media_play_pause_icon
-                              text_font: icon_font
-                              text: $play
-                              text_color: $button_text_color
-                    - button:
-                        width: 30
-                        height: 30
-                        bg_color: 0
-                        bg_opa: 0
-                        border_width: 0
-                        on_click:
-                          - homeassistant.service:
-                              service: media_player.media_next_track
-                              data: { entity_id: media_player.wohnzimmer_apple_tv }
-                        widgets:
-                          - label:
-                              text_font: icon_font
-                              text: $next_track
-                              text_color: $button_text_color
+              - label:
+                  align: center
+                  text: "Media"
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
