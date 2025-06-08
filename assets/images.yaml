@@ -90,10 +90,4 @@ image:
     resize: 32x32
     type: RGB565
     transparency: alpha_channel
-
-online_image:
-  - id: album_art_online_image
-    url: "http://127.0.0.1/image.png"
-    type: RGB565
-    resize: 32x32
-    format: PNG
+    
