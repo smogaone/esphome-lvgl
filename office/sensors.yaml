@@ -58,111 +58,11 @@ sensor:
 
 text_sensor:
   - platform: homeassistant
-    id: cover_wohnzimmer_links_state_tracker
-    entity_id: cover.wohnzimmer_links
-    internal: true
+    id: ha_display_data_sensor
+    entity_id: sensor.esphome_display_data
     on_value:
       then:
-        - if:
-            condition: { lambda: 'return x == "open";' }
-            then:
-              - lvgl.widget.update: { id: wz_blind_open_button, state: { checked: true } }
-              - lvgl.widget.update: { id: wz_blind_close_button, state: { checked: false } }
-            else:
-              - if:
-                  condition: { lambda: 'return x == "closed";' }
-                  then:
-                    - lvgl.widget.update: { id: wz_blind_open_button, state: { checked: false } }
-                    - lvgl.widget.update: { id: wz_blind_close_button, state: { checked: true } }
-                  else:
-                    - lvgl.widget.update: { id: wz_blind_open_button, state: { checked: false } }
-                    - lvgl.widget.update: { id: wz_blind_close_button, state: { checked: false } }
-  - platform: homeassistant
-    id: esphome_wetter_png_icon_id
-    entity_id: sensor.wetter_icon
-    internal: true
-    on_value:
-      - if: { condition: { lambda: 'return x == "icon_png_clear_night";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_clear_night } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_cloudy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_cloudy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_exceptional";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_exceptional } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_fog";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_fog } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_hail";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_hail } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_lightning";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_lightning } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_lightning_rainy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_lightning_rainy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_partlycloudy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_partlycloudy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_pouring";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_pouring } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_rainy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_rainy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_snowy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_snowy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_snowy_rainy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_snowy_rainy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_sunny";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_sunny } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_windy";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy } ] }
-      - if: { condition: { lambda: 'return x == "icon_png_windy_variant";' }, then: [ lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy_variant } ] }
-  - platform: homeassistant
-    id: esphome_weather_forecast_home
-    entity_id: sensor.wetter_deutsch
-    internal: true
-    on_value:
-      - lvgl.label.update: { id: weather_description, text: !lambda "return x;" }
-
-binary_sensor:
-  - platform: homeassistant
-    id: wz_lichtschalter_state_esphome
-    entity_id: light.wz_lichtschalter
-    on_state:
-      - lvgl.widget.update: { id: wz_lichtschalter_button, state: { checked: !lambda "return x;" } }
-      - lvgl.widget.update: { id: wz_button, state: { checked: !lambda "return x;" } }
-      - if:
-          condition: { lambda: "return x;" }
-          then:
-            - lvgl.label.update: { id: wz_lichtschalter_icon, text: $ceiling_group_on }
-            - lvgl.label.update: { id: wz_button_icon, text: $lightbulb }
-          else:
-            - lvgl.label.update: { id: wz_lichtschalter_icon, text: $ceiling_group_off }
-            - lvgl.label.update: { id: wz_button_icon, text: $lightbulb_off }
-  - platform: homeassistant
-    id: wohnzimmer_stehlampe_status
-    entity_id: light.wohnzimmer_stehlampe
-    on_state:
-      - lvgl.widget.update: { id: wohnzimmer_stehlampe_button, state: { checked: !lambda "return x;" } }
-      - if:
-          condition: { lambda: "return x;" }
-          then:
-            - lvgl.label.update: { id: wohnzimmer_stehlampe_icon, text: $floor_lamp_on }
-          else:
-            - lvgl.label.update: { id: wohnzimmer_stehlampe_icon, text: $floor_lamp_off }
-  - platform: homeassistant
-    id: wohnzimmer_deckenlampe_status
-    entity_id: light.wohnzimmer_deckenlampe
-    on_state:
-      - lvgl.widget.update: { id: wohnzimmer_deckenlampe_button, state: { checked: !lambda "return x;" } }
-      - if:
-          condition: { lambda: "return x;" }
-          then:
-            - lvgl.label.update: { id: wohnzimmer_deckenlampe_icon, text: $ceiling_on }
-          else:
-            - lvgl.label.update: { id: wohnzimmer_deckenlampe_icon, text: $ceiling_off }
-  - platform: homeassistant
-    id: esszimmertisch_status
-    entity_id: light.esszimmer_esstisch
-    on_state:
-      - lvgl.widget.update: { id: esszimmertisch_button, state: { checked: !lambda "return x;" } }
-      - if:
-          condition: { lambda: "return x;" }
-          then:
-            - lvgl.label.update: { id: esszimmertisch_icon, text: $ceiling_on }
-          else:
-            - lvgl.label.update: { id: esszimmertisch_icon, text: $ceiling_off }
-  - platform: homeassistant
-    id: esszimmer_stehlampe_status
-    entity_id: light.esszimmer_stehlampe
-    on_state:
-      - lvgl.widget.update: { id: esszimmer_stehlampe_button, state: { checked: !lambda "return x;" } }
-      - if:
-          condition: { lambda: "return x;" }
-          then:
-            - lvgl.label.update: { id: esszimmer_stehlampe_icon, text: $floor_lamp_variant_on }
-          else:
-            - lvgl.label.update: { id: esszimmer_stehlampe_icon, text: $floor_lamp_variant_off }
+        - script.execute: update_ui_from_json
 
 script:
   - id: update_temperatur_anzeige
@@ -213,3 +113,228 @@ script:
               else { return std::string("\U000F091B"); }
             }
             return std::string("\U000F092E");
+  - id: update_ui_from_json
+    mode: parallel
+    then:
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("wz_lichtschalter")) {
+                  result = root["wz_lichtschalter"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: wz_lichtschalter_button, state: { checked: true } }
+            - lvgl.label.update: { id: wz_lichtschalter_icon, text: $ceiling_group_on }
+            - lvgl.widget.update: { id: wz_button, state: { checked: true } }
+            - lvgl.label.update: { id: wz_button_icon, text: $lightbulb }
+          else:
+            - lvgl.widget.update: { id: wz_lichtschalter_button, state: { checked: false } }
+            - lvgl.label.update: { id: wz_lichtschalter_icon, text: $ceiling_group_off }
+            - lvgl.widget.update: { id: wz_button, state: { checked: false } }
+            - lvgl.label.update: { id: wz_button_icon, text: $lightbulb_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("wz_stehlampe")) {
+                  result = root["wz_stehlampe"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: wohnzimmer_stehlampe_button, state: { checked: true } }
+            - lvgl.label.update: { id: wohnzimmer_stehlampe_icon, text: $floor_lamp_on }
+          else:
+            - lvgl.widget.update: { id: wohnzimmer_stehlampe_button, state: { checked: false } }
+            - lvgl.label.update: { id: wohnzimmer_stehlampe_icon, text: $floor_lamp_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("wz_decke")) {
+                  result = root["wz_decke"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: wohnzimmer_deckenlampe_button, state: { checked: true } }
+            - lvgl.label.update: { id: wohnzimmer_deckenlampe_icon, text: $ceiling_on }
+          else:
+            - lvgl.widget.update: { id: wohnzimmer_deckenlampe_button, state: { checked: false } }
+            - lvgl.label.update: { id: wohnzimmer_deckenlampe_icon, text: $ceiling_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("ez_tisch")) {
+                  result = root["ez_tisch"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: esszimmertisch_button, state: { checked: true } }
+            - lvgl.label.update: { id: esszimmertisch_icon, text: $ceiling_on }
+          else:
+            - lvgl.widget.update: { id: esszimmertisch_button, state: { checked: false } }
+            - lvgl.label.update: { id: esszimmertisch_icon, text: $ceiling_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("ez_stehlampe")) {
+                  result = root["ez_stehlampe"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: esszimmer_stehlampe_button, state: { checked: true } }
+            - lvgl.label.update: { id: esszimmer_stehlampe_icon, text: $floor_lamp_variant_on }
+          else:
+            - lvgl.widget.update: { id: esszimmer_stehlampe_button, state: { checked: false } }
+            - lvgl.label.update: { id: esszimmer_stehlampe_icon, text: $floor_lamp_variant_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("cover_wz_links")) {
+                  result = root["cover_wz_links"].as<std::string>() == "open";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: wz_blind_open_button, state: { checked: true } }
+            - lvgl.widget.update: { id: wz_blind_close_button, state: { checked: false } }
+          else:
+            - if:
+                condition:
+                  lambda: |-
+                    bool result = false;
+                    json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                      if (root.containsKey("cover_wz_links")) {
+                        result = root["cover_wz_links"].as<std::string>() == "closed";
+                      }
+                      return true;
+                    });
+                    return result;
+                then:
+                  - lvgl.widget.update: { id: wz_blind_open_button, state: { checked: false } }
+                  - lvgl.widget.update: { id: wz_blind_close_button, state: { checked: true } }
+                else:
+                  - lvgl.widget.update: { id: wz_blind_open_button, state: { checked: false } }
+                  - lvgl.widget.update: { id: wz_blind_close_button, state: { checked: false } }
+      - lvgl.label.update:
+          id: weather_description
+          text: !lambda |-
+            std::string result;
+            json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+              if (root.containsKey("wetter_zustand")) {
+                result = root["wetter_zustand"].as<std::string>();
+              }
+              return true;
+            });
+            return result;
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_clear_night"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_clear_night }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_cloudy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_cloudy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_exceptional"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_exceptional }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_fog"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_fog }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_hail"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_hail }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_lightning"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_lightning }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_lightning_rainy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_lightning_rainy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_partlycloudy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_partlycloudy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_pouring"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_pouring }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_rainy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_rainy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_snowy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_snowy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_snowy_rainy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_snowy_rainy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_sunny"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_sunny }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_windy"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy }
+      - if:
+          condition:
+            lambda: |-
+              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_windy_variant"; } return true; }); return r;
+          then:
+            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy_variant }
