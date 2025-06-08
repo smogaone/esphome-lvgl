@@ -381,22 +381,37 @@ lvgl:
                     lambda: |-
                       bool is_closed = false;
                       json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
-                        if (root.containsKey("cover_wz_links") && root["cover_wz_links"].as<std::string>() == "closed") {
+                        if ((root.containsKey("cover_wz_links") && root["cover_wz_links"].as<std::string>() == "closed") &&
+                            (root.containsKey("cover_wz_rechts") && root["cover_wz_rechts"].as<std::string>() == "closed")) {
                           is_closed = true;
                         }
                         return true;
                       });
                       return is_closed;
                   then:
+                    # HIER IST DIE KORREKTUR: Die spezifischen Positionen werden wieder verwendet.
                     - homeassistant.service:
-                        service: cover.open_cover
+                        service: cover.set_cover_position
                         data:
-                          entity_id: 
-                            - cover.wohnzimmer_links
-                            - cover.wohnzimmer_rechts
-                            - cover.esszimmer_links
-                            - cover.esszimmer_rechts
+                          entity_id: cover.wohnzimmer_links
+                          position: "83"
+                    - homeassistant.service:
+                        service: cover.set_cover_position
+                        data:
+                          entity_id: cover.wohnzimmer_rechts
+                          position: "78"
+                    - homeassistant.service:
+                        service: cover.set_cover_position
+                        data:
+                          entity_id: cover.esszimmer_links
+                          position: "68"
+                    - homeassistant.service:
+                        service: cover.set_cover_position
+                        data:
+                          entity_id: cover.esszimmer_rechts
+                          position: "70"
                   else:
+                    # Der "Schließen"-Befehl bleibt generisch, da er auf 0% geht.
                     - homeassistant.service:
                         service: cover.close_cover
                         data:
