@@ -389,7 +389,6 @@ lvgl:
                       });
                       return is_closed;
                   then:
-                    # HIER IST DIE KORREKTUR: Die spezifischen Positionen werden wieder verwendet.
                     - homeassistant.service:
                         service: cover.set_cover_position
                         data:
@@ -411,15 +410,23 @@ lvgl:
                           entity_id: cover.esszimmer_rechts
                           position: "70"
                   else:
-                    # Der "Schließen"-Befehl bleibt generisch, da er auf 0% geht.
+                    # HIER IST DIE KORREKTUR: Der Dienst wird für jede Entität einzeln aufgerufen.
                     - homeassistant.service:
                         service: cover.close_cover
                         data:
-                          entity_id: 
-                            - cover.wohnzimmer_links
-                            - cover.wohnzimmer_rechts
-                            - cover.esszimmer_links
-                            - cover.esszimmer_rechts
+                          entity_id: cover.wohnzimmer_links
+                    - homeassistant.service:
+                        service: cover.close_cover
+                        data:
+                          entity_id: cover.wohnzimmer_rechts
+                    - homeassistant.service:
+                        service: cover.close_cover
+                        data:
+                          entity_id: cover.esszimmer_links
+                    - homeassistant.service:
+                        service: cover.close_cover
+                        data:
+                          entity_id: cover.esszimmer_rechts
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 1
