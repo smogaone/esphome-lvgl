@@ -12,40 +12,50 @@ globals:
   - id: flur_humidity_wert
     type: float
     initial_value: '0.0'
-
 sensor:
   - platform: homeassistant
     entity_id: sensor.environment_sensor_temperature_sensor
     id: wz_temperature
     on_value:
-      then:
-        - lambda: |-
-            id(innen_temp_wert) = x;
-        - script.execute: update_temperatur_anzeige
+      if:
+        condition:
+          lambda: 'return x != "unavailable" && x != "unknown";'
+        then:
+          - lambda: 'id(innen_temp_wert) = x;'
+          - script.execute: update_temperatur_anzeige
+
   - platform: homeassistant
     entity_id: sensor.aussentemperatur
     id: outdoor_temperature
     on_value:
-      then:
-        - lambda: |-
-            id(aussen_temp_wert) = x;
-        - script.execute: update_temperatur_anzeige
+      if:
+        condition:
+          lambda: 'return x != "unavailable" && x != "unknown";'
+        then:
+          - lambda: 'id(aussen_temp_wert) = x;'
+          - script.execute: update_temperatur_anzeige
+
   - platform: homeassistant
     entity_id: sensor.flur_temperatur_temperature
     id: flur_temperature_sensor
     on_value:
-      then:
-        - lambda: |-
-            id(flur_temp_wert) = x;
-        - script.execute: update_temperatur_anzeige
+      if:
+        condition:
+          lambda: 'return x != "unavailable" && x != "unknown";'
+        then:
+          - lambda: 'id(flur_temp_wert) = x;'
+          - script.execute: update_temperatur_anzeige
+
   - platform: homeassistant
     entity_id: sensor.flur_temperatur_humidity
     id: flur_humidity_sensor
     on_value:
-      then:
-        - lambda: |-
-            id(flur_humidity_wert) = x;
-        - script.execute: update_temperatur_anzeige
+      if:
+        condition:
+          lambda: 'return x != "unavailable" && x != "unknown";'
+        then:
+          - lambda: 'id(flur_humidity_wert) = x;'
+          - script.execute: update_temperatur_anzeige
   - platform: wifi_signal
     name: "Wifi Signal Strength Icon"
     id: wifi_signal_sensor
