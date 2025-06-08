@@ -59,7 +59,7 @@ sensor:
 text_sensor:
   - platform: homeassistant
     id: ha_display_data_sensor
-    entity_id: sensor.esphome_display_data
+    entity_id: sensor.esphome_display_data_2
     on_value:
       then:
         - script.execute: update_ui_from_json
