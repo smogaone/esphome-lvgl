@@ -219,7 +219,7 @@ lvgl:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
         grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
-        pad_row: 14px
+        pad_row: 10px
       widgets:
         - button:
             grid_cell_column_pos: 0
