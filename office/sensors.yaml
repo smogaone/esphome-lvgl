@@ -1,3 +1,4 @@
+# sensors.yaml
 globals:
   - id: innen_temp_wert
     type: float
