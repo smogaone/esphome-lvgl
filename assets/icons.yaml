@@ -100,7 +100,7 @@ substitutions:
   lightbulb:           "\U000F0335"
   printer:             "\U000F042B"
   aircon:              "\U000F0D43"
-  ledstrip_on:         "\U000F1051"
+  ledstripe_on:         "\U000F1051"
   ledstripe_off:       "\U000F1A4B"
   package:             "\U000F03D7"
   lights:              "\U000F07D6"
