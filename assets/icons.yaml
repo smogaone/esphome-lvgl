@@ -74,6 +74,8 @@ font:
       "\U000F04AD",  # mdi:skip-next
       "\U000F040A",  # mdi:play
       "\U000F03E4",  # mdi:pause
+      "\U000F0766",  # mdi:circle-outline
+      "\U000F0765",  # mdi:circle
       
       
     ]
@@ -163,3 +165,5 @@ substitutions:
   next_track:           "\U000F04AD"
   play:                 "\U000F040A"
   pause:                "\U000F03E4"
+  kugel_off:            "\U000F0766"
+  kugel_on:             "\U000F0765"
