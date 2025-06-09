@@ -218,6 +218,40 @@ script:
           else:
             - lvgl.widget.update: { id: wohnzimmer_stehlampe_button, state: { checked: false } }
             - lvgl.label.update: { id: wohnzimmer_stehlampe_icon, text: $floor_lamp_off }
+     - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("light_esszimmer_nische")) {
+                  result = root["light_esszimmer_nische"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: nische_button, state: { checked: true } }
+            - lvgl.label.update: { id: nische_icon, text: $ledstripe_on }
+          else:
+            - lvgl.widget.update: { id: nische_button, state: { checked: false } }
+            - lvgl.label.update: { id: nische_icon, text: $$ledstripe_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("light_shapes_8363")) {
+                  result = root["light_shapes_8363"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: sideboard_button, state: { checked: true } }
+            - lvgl.label.update: { id: sideboard, text: $ledstripe_on }
+          else:
+            - lvgl.widget.update: { id: sideboard_button, state: { checked: false } }
+            - lvgl.label.update: { id: sideboard_icon, text: $$ledstripe_off }      
       - if:
           condition:
             lambda: |-
