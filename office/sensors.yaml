@@ -168,7 +168,6 @@ script:
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_open }
-            - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Öffnen..." }
       - if:
           condition:
             lambda: |-
@@ -176,7 +175,6 @@ script:
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_closed }
-            - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Schließen..." }
       - if:
           condition:
             lambda: |-
@@ -184,7 +182,6 @@ script:
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: true } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_open }
-            - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Auf" }
       - if:
           condition:
             lambda: |-
@@ -192,7 +189,6 @@ script:
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_closed }
-            - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Zu" }
       - if:
           condition:
             lambda: |-
@@ -200,7 +196,6 @@ script:
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_open }
-            - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Teilweise" }
       - if:
           condition:
             lambda: |-
@@ -366,53 +361,3 @@ script:
           condition:
             lambda: |-
               bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_lightning_rainy"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_lightning_rainy }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_partlycloudy"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_partlycloudy }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_pouring"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_pouring }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_rainy"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_rainy }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_snowy"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_snowy }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_snowy_rainy"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_snowy_rainy }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_sunny"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_sunny }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_windy"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy }
-      - if:
-          condition:
-            lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_windy_variant"; } return true; }); return r;
-          then:
-            - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_windy_variant }
