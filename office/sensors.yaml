@@ -1,4 +1,3 @@
-# sensor.yaml
 globals:
   - id: innen_temp_wert
     type: float
@@ -188,7 +187,15 @@ script:
       - if:
           condition:
             lambda: |-
-              bool r = true; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if (!root.containsKey("cover_wz_links") || root["cover_wz_links"].as<std::string>() != "closed") r = false; if (!root.containsKey("cover_wz_rechts") || root["cover_wz_rechts"].as<std::string>() != "closed") r = false; if (!root.containsKey("cover_ez_links") || root["cover_ez_links"].as<std::string>() != "closed") r = false; if (!root.containsKey("cover_ez_rechts") || root["cover_ez_rechts"].as<std::string>() != "closed") r = false; return true; }); return r;
+              bool r = true;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (!root.containsKey("cover_wz_links") || root["cover_wz_links"].as<std::string>() != "closed") r = false;
+                if (!root.containsKey("cover_wz_rechts") || root["cover_wz_rechts"].as<std::string>() != "closed") r = false;
+                if (!root.containsKey("cover_ez_links") || root["cover_ez_links"].as<std::string>() != "closed") r = false;
+                if (!root.containsKey("cover_ez_rechts") || root["cover_ez_rechts"].as<std::string>() != "closed") r = false;
+                return true;
+              });
+              return r;
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_closed }
@@ -218,7 +225,7 @@ script:
           else:
             - lvgl.widget.update: { id: wohnzimmer_stehlampe_button, state: { checked: false } }
             - lvgl.label.update: { id: wohnzimmer_stehlampe_icon, text: $floor_lamp_off }
-     - if:
+      - if:
           condition:
             lambda: |-
               bool result = false;
@@ -234,7 +241,7 @@ script:
             - lvgl.label.update: { id: nische_icon, text: $ledstripe_on }
           else:
             - lvgl.widget.update: { id: nische_button, state: { checked: false } }
-            - lvgl.label.update: { id: nische_icon, text: $$ledstripe_off }
+            - lvgl.label.update: { id: nische_icon, text: $ledstripe_off }
       - if:
           condition:
             lambda: |-
@@ -248,10 +255,10 @@ script:
               return result;
           then:
             - lvgl.widget.update: { id: sideboard_button, state: { checked: true } }
-            - lvgl.label.update: { id: sideboard, text: $ledstripe_on }
+            - lvgl.label.update: { id: sideboard_icon, text: $ledstripe_on }
           else:
             - lvgl.widget.update: { id: sideboard_button, state: { checked: false } }
-            - lvgl.label.update: { id: sideboard_icon, text: $$ledstripe_off }      
+            - lvgl.label.update: { id: sideboard_icon, text: $ledstripe_off }
       - if:
           condition:
             lambda: |-
@@ -342,7 +349,14 @@ script:
       - if:
           condition:
             lambda: |-
-              bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if(root.containsKey("wetter_icon")) { r = root["wetter_icon"].as<std::string>() == "icon_png_partlycloudy"; } return true; }); return r;
+              bool r = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if(root.containsKey("wetter_icon")) {
+                  r = root["wetter_icon"].as<std::string>() == "icon_png_partlycloudy";
+                }
+                return true;
+              });
+              return r;
           then:
             - lvgl.image.update: { id: lvgl_weather_image_widget, src: icon_png_partlycloudy }
       - if:
