@@ -218,7 +218,7 @@ lvgl:
       layout:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
-        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
+        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT, CONTENT]
       widgets:
         - button:
             grid_cell_column_pos: 0
@@ -392,3 +392,75 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_deckenlampe
+        - button:
+            grid_cell_column_pos: 0
+            grid_cell_row_pos: 3
+            height: 100px
+            checkable: true
+            id: sideboard_button
+            styles: control
+            widgets:
+              - label:
+                  text_font: $icon_font
+                  align: top_left
+                  id: sideboard_icon
+                  text: $ledstripe_off
+              - label:
+                  text_font: $text_font
+                  align: bottom_left
+                  id: sideboard_label
+                  text: "Sideboard"
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.shapes_8363
+        - button:
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 3
+            height: 100px
+            checkable: true
+            styles: control
+            id: nische_button
+            widgets:
+              - label:
+                  text_font: $icon_font
+                  align: top_left
+                  id: nische_icon
+                  text: $ledstripe_off
+              - label:
+                  text_font: $text_font
+                  align: bottom_left
+                  id: nische_label
+                  text: "Nische"
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.esszimmer_nische
+        - button:
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 3
+            grid_cell_column_span: 2
+            height: 100px
+            width: $button_width_double
+            checkable: true
+            styles: control
+            id: apple_tv_button
+            widgets:
+              - image:
+                  id: apple_tv_icon
+                  src: appletv_logo_32
+                  align: left_mid
+                  x: 10
+              - label:
+                  text_font: $text_font
+                  align: center
+                  text_align: center
+                  id: apple_tv_media_title
+                  text: "Apple TV"
+            on_click:
+              - homeassistant.service:
+                  service: automation.trigger
+                  data:
+                    entity_id: automation.apple_tv_an
