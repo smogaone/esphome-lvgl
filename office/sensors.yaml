@@ -294,6 +294,23 @@ script:
           else:
             - lvgl.widget.update: { id: wohnzimmer_deckenlampe_button, state: { checked: false } }
             - lvgl.label.update: { id: wohnzimmer_deckenlampe_icon, text: $ceiling_off }
+      - if:
+          condition:
+            lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("esszimmer_kugellampe")) {
+                  result = root["esszimmer_kugellampe"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: esszimmer_kugellampe_button, state: { checked: true } }
+            - lvgl.label.update: { id: esszimmer_kugellampe_icon, text: $kugel_on }
+          else:
+            - lvgl.widget.update: { id: esszimmer_kugellampe_button, state: { checked: false } }
+            - lvgl.label.update: { id: esszimmer_kugellampe_icon, text: $kugel_off }
       - lvgl.label.update:
           id: weather_description
           text: !lambda |-
