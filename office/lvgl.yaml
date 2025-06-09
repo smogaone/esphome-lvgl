@@ -393,6 +393,29 @@ lvgl:
                   data:
                     entity_id: light.wohnzimmer_deckenlampe
         - button:
+            grid_cell_column_pos: 1
+            grid_cell_row_pos: 2
+            height: 100px
+            checkable: true
+            styles: control
+            id: esszimmer_kugellampe_button
+            widgets:
+              - label:
+                  text_font: $icon_font
+                  align: top_left
+                  id: esszimmer_kugellampe_icon
+                  text: $kugel_off
+              - label:
+                  text_font: $text_font
+                  align: bottom_left
+                  id: esszimmer_kugellampe_label
+                  text: "Kugellampe"
+            on_click:
+              - homeassistant.service:
+                  service: light.toggle
+                  data:
+                    entity_id: light.esszimmer_kugellampe
+        - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 3
             height: 100px
