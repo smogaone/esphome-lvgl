@@ -392,7 +392,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_deckenlampe
-         - button:
+        - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 3
             height: 100px
@@ -415,7 +415,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.shapes_8363
-         - button:
+        - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 3
             height: 100px
