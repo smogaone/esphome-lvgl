@@ -218,7 +218,8 @@ lvgl:
       layout:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
-        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT, CONTENT]
+        grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
+        pad_row: 14px
       widgets:
         - button:
             grid_cell_column_pos: 0
@@ -394,7 +395,7 @@ lvgl:
                     entity_id: light.wohnzimmer_deckenlampe
         - button:
             grid_cell_column_pos: 0
-            grid_cell_row_pos: 4
+            grid_cell_row_pos: 3
             height: 100px
             checkable: true
             id: sideboard_button
@@ -417,7 +418,7 @@ lvgl:
                     entity_id: light.shapes_8363
         - button:
             grid_cell_column_pos: 1
-            grid_cell_row_pos: 4
+            grid_cell_row_pos: 3
             height: 100px
             checkable: true
             styles: control
@@ -438,29 +439,3 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.esszimmer_nische
-        - button:
-            grid_cell_column_pos: 2
-            grid_cell_row_pos: 4
-            grid_cell_column_span: 2
-            height: 100px
-            width: $button_width_double
-            checkable: true
-            styles: control
-            id: apple_tv_button
-            widgets:
-              - image:
-                  id: apple_tv_icon
-                  src: apple_tv_png
-                  align: left_mid
-                  x: 10
-              - label:
-                  text_font: $text_font
-                  align: center
-                  text_align: center
-                  id: apple_tv_media_title
-                  text: "Apple TV"
-            on_click:
-              - homeassistant.service:
-                  service: automation.trigger
-                  data:
-                    entity_id: automation.apple_tv_an
