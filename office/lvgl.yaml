@@ -267,6 +267,30 @@ lvgl:
                   data:
                     entity_id: light.esszimmer_esstisch
         - button:
+            grid_cell_column_pos: 2
+            grid_cell_row_pos: 0
+            height: 100px
+            checkable: true
+            id: apple_tv_button
+            styles: control
+            widgets:
+              - image:
+                  id: apple_tv_icon
+                  src: apple_tv_off
+                  align: top_left
+                  x: 5
+                  y: 5
+              - label:
+                  text_font: $text_font
+                  align: bottom_left
+                  id: apple_tv_label
+                  text: "Apple TV"
+            on_click:
+              - homeassistant.service:
+                  service: switch.toggle
+                  data:
+                    entity_id: switch.apple_tv_an
+        - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
             height: 100px
