@@ -164,6 +164,23 @@ script:
       - if:
           condition:
             lambda: |-
+              bool result = false;
+              json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
+                if (root.containsKey("apple_tv_switch")) {
+                  result = root["apple_tv_switch"].as<std::string>() == "on";
+                }
+                return true;
+              });
+              return result;
+          then:
+            - lvgl.widget.update: { id: apple_tv_button, state: { checked: true } }
+            - lvgl.image.update: { id: apple_tv_icon, src: apple_tv_on }
+          else:
+            - lvgl.widget.update: { id: apple_tv_button, state: { checked: false } }
+            - lvgl.image.update: { id: apple_tv_icon, src: apple_tv_off }
+      - if:
+          condition:
+            lambda: |-
               bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if ((root.containsKey("cover_wz_links") && root["cover_wz_links"].as<std::string>() == "opening") || (root.containsKey("cover_wz_rechts") && root["cover_wz_rechts"].as<std::string>() == "opening") || (root.containsKey("cover_ez_links") && root["cover_ez_links"].as<std::string>() == "opening") || (root.containsKey("cover_ez_rechts") && root["cover_ez_rechts"].as<std::string>() == "opening")) { r = true; } return true; }); return r;
           then:
             - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
