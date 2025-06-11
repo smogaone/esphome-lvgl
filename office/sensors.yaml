@@ -12,7 +12,6 @@ globals:
   - id: flur_humidity_wert
     type: float
     initial_value: '0.0'
-
 sensor:
   - platform: homeassistant
     entity_id: sensor.environment_sensor_temperature_sensor
@@ -63,7 +62,6 @@ sensor:
     on_value:
       then:
         - script.execute: update_wifi_icon_display
-
 text_sensor:
   - platform: homeassistant
     id: ha_display_data_sensor
@@ -72,7 +70,6 @@ text_sensor:
     on_value:
       then:
         - script.execute: update_ui_from_json
-
 script:
   - id: update_temperatur_anzeige
     then:
@@ -107,7 +104,6 @@ script:
             if (isnan(temp_val)) { return std::string("--.-%%"); }
             snprintf(temp_buf, sizeof(temp_buf), "%.1f%%", temp_val);
             return std::string(temp_buf);
-
   - id: update_wifi_icon_display
     then:
       - lvgl.label.update:
@@ -123,7 +119,6 @@ script:
               else { return std::string("\U000F091B"); }
             }
             return std::string("\U000F092E");
-
   - id: update_ui_from_json
     mode: parallel
     then:
@@ -183,7 +178,7 @@ script:
             lambda: |-
               bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if ((root.containsKey("cover_wz_links") && root["cover_wz_links"].as<std::string>() == "opening") || (root.containsKey("cover_wz_rechts") && root["cover_wz_rechts"].as<std::string>() == "opening") || (root.containsKey("cover_ez_links") && root["cover_ez_links"].as<std::string>() == "opening") || (root.containsKey("cover_ez_rechts") && root["cover_ez_rechts"].as<std::string>() == "opening")) { r = true; } return true; }); return r;
           then:
-            - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
+            - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: true } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_open }
             - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Öffnen..." }
       - if:
@@ -191,7 +186,7 @@ script:
             lambda: |-
               bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { if ((root.containsKey("cover_wz_links") && root["cover_wz_links"].as<std::string>() == "closing") || (root.containsKey("cover_wz_rechts") && root["cover_wz_rechts"].as<std::string>() == "closing") || (root.containsKey("cover_ez_links") && root["cover_ez_links"].as<std::string>() == "closing") || (root.containsKey("cover_ez_rechts") && root["cover_ez_rechts"].as<std::string>() == "closing")) { r = true; } return true; }); return r;
           then:
-            - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
+            - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: true } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_closed }
             - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Schließen..." }
       - if:
@@ -223,7 +218,7 @@ script:
             lambda: |-
               bool r = false; json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool { std::string s = root.containsKey("cover_wz_links") ? root["cover_wz_links"].as<std::string>() : ""; if (s != "open" && s != "closed" && s != "opening" && s != "closing" && !s.empty()) { r = true; } return true; }); return r;
           then:
-            - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
+            - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: true } }
             - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_open }
             - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Teilweise" }
       - if:
