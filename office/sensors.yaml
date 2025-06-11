@@ -161,8 +161,8 @@ script:
             lambda: |-
               bool result = false;
               json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
-                if (root.containsKey("apple_tv_switch")) {
-                  result = root["apple_tv_switch"].as<std::string>() == "on";
+                if (root.containsKey("apple_tv_status")) {
+                  result = root["apple_tv_status"].as<std::string>() != "standby";
                 }
                 return true;
               });
