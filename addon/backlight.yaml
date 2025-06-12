@@ -5,6 +5,8 @@ output:
     pin: GPIO16
     frequency: 1220Hz
     inverted: false
+    min_power: 24%
+    zero_means_zero: true
 
 light:
   - platform: monochromatic
