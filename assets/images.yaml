@@ -94,5 +94,11 @@ image:
     id: apple_tv_on
     resize: 32x32
     type: RGB565
-    transparency: alpha_channel    
+    transparency: alpha_channel
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/display.jpg"
+    id: background
+    #resize: 32x32
+    type: RGB565
+    #transparency: alpha_channel   
+    
     
