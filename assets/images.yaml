@@ -95,7 +95,7 @@ image:
     resize: 32x32
     type: RGB565
     transparency: alpha_channel
-  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/display.png"
+  - file: "https://raw.githubusercontent.com/smogaone/esphome-lvgl/main/assets/images/display.jpg"
     id: background
     resize: 800x480
     type: RGB565
