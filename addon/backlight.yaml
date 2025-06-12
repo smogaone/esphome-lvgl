@@ -2,21 +2,29 @@
 output:
   - platform: ledc
     id: backlight_pwm_output
-    pin: 16  # IMPORTANT: Change this to the GPIO you connected the backlight to.
-    frequency: 1000Hz
-    inverted: true # Most backlight circuits require this. Adjust if your display stays dark.
-# Screensaver Presence Trigger
+    pin: GPIO16
+    frequency: 1220Hz
+    inverted: true
+
+light:
+  - platform: monochromatic
+    name: "${friendly_name} Backlight"
+    id: display_backlight
+    output: backlight_pwm_output
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0.5s
+    gamma_correct: 2.0
+
 binary_sensor:
   - platform: homeassistant
     id: presence
-    entity_id: binary_sensor.wz_presence # This is your existing presence sensor.
+    entity_id: binary_sensor.wz_presence
     on_press:
       - logger.log: "Presence detected. Turning backlight ON."
       - light.turn_on:
           id: display_backlight
           transition_length: 0.5s
       - lvgl.resume:
-
     on_release:
       - logger.log: "Presence lost. Turning backlight OFF."
       - light.turn_off:
