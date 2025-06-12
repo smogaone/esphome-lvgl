@@ -104,6 +104,14 @@ lvgl:
       pad_left: 5px
       pad_right: 5px
       widgets:
+        - image:
+            id: weather_background
+            x: 0
+            y: 0
+            width: 800
+            height: 480
+            src: background
+            align: top_left
         - label:
             id: weekday_label
             align: top_right
@@ -315,8 +323,8 @@ lvgl:
                       bool is_moving = false;
                       json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
                         if (root.containsKey("cover_wz_links")) {
-                           std::string s = root["cover_wz_links"].as<std::string>();
-                           if (s == "opening" || s == "closing") { is_moving = true; }
+                          std::string s = root["cover_wz_links"].as<std::string>();
+                          if (s == "opening" || s == "closing") { is_moving = true; }
                         }
                         return true;
                       });
