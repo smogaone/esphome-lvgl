@@ -10,6 +10,7 @@ light:
   - platform: monochromatic
     name: "${friendly_name} Backlight"
     id: display_backlight
+    entity_id: wz_display_backlight
     output: backlight_pwm_output
     restore_mode: RESTORE_DEFAULT_ON
     default_transition_length: 0.5s
