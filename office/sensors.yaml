@@ -110,49 +110,14 @@ script:
 
 - id: update_wifi_icon_display
   then:
-    - if:
-        condition:
-          lambda: 'return !network::is_connected();'
-        then:
-          - lvgl.label.update:
-              id: wifi_icon_label
-              text: $wifi_strength_off_outline
-        else:
-          - if:
-              condition:
-                lambda: 'return id(wifi_signal_sensor).state >= -55;'
-              then:
-                - lvgl.label.update:
-                    id: wifi_icon_label
-                    text: $wifi_strength_4
-          - if:
-              condition:
-                lambda: 'return id(wifi_signal_sensor).state < -55 && id(wifi_signal_sensor).state >= -65;'
-              then:
-                - lvgl.label.update:
-                    id: wifi_icon_label
-                    text: $wifi_strength_3
-          - if:
-              condition:
-                lambda: 'return id(wifi_signal_sensor).state < -65 && id(wifi_signal_sensor).state >= -75;'
-              then:
-                - lvgl.label.update:
-                    id: wifi_icon_label
-                    text: $wifi_strength_2
-          - if:
-              condition:
-                lambda: 'return id(wifi_signal_sensor).state < -75 && id(wifi_signal_sensor).state >= -85;'
-              then:
-                - lvgl.label.update:
-                    id: wifi_icon_label
-                    text: $wifi_strength_1
-          - if:
-              condition:
-                lambda: 'return id(wifi_signal_sensor).state < -85;'
-              then:
-                - lvgl.label.update:
-                    id: wifi_icon_label
-                    text: $wifi_strength_outline
+    - lvgl.label.update:
+        id: wifi_icon_label
+        text: !lambda |-
+          if (!network::is_connected()) {
+            return std::string($wifi_off);
+          } else {
+            return std::string($wifi_arrow_up_down);
+          }
 
 - id: update_ui_from_json
   mode: parallel
