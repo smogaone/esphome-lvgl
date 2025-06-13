@@ -75,6 +75,7 @@ font:
       "\U000F03E4", # mdi:pause
       "\U000F0766", # mdi:circle-outline
       "\U000F0765"  # mdi:circle
+      "\U000F16BB"  # mdi:wifi-arrow-up-down
     ]
 
 - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
@@ -152,8 +153,8 @@ font:
       "\U000F040A", # mdi-play
       "\U000F03E4", # mdi-pause
       "\U000F0766", # mdi-circle-outline
-      "\U000F0765"  # mdi-circle
-      "\U000F16BB"  # mdi:wifi-arrow-up-down
+      "\U000F0765",  # mdi-circle
+      "\U000F16BB",  # mdi:wifi-arrow-up-down
       
     ]
 
