@@ -120,7 +120,7 @@ script:
         then:
           - lvgl.label.update:
               id: wifi_icon_label
-              text: $wifi_strength_outline
+              text: $wifi_strength_1
         else:
           - if:
               condition:
