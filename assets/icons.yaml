@@ -84,7 +84,6 @@ font:
     bpp: 4
     glyphs: [
       "\U000F050F",  # thermometer
-      "\U000F0734",  # mdi-arrow-right
       "\U000F05AA",  # mdi-wifi-off
       "\U000F091B",  # mdi-wifi-strength-outline
       "\U000F091C",  # mdi-wifi-strength-1
