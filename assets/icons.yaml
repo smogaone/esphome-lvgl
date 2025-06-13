@@ -153,6 +153,8 @@ font:
       "\U000F03E4", # mdi-pause
       "\U000F0766", # mdi-circle-outline
       "\U000F0765"  # mdi-circle
+      "\U000F16BB"  # mdi:wifi-arrow-up-down
+      
     ]
 
 # Map icons to names
@@ -227,3 +229,4 @@ substitutions:
   pause:                "\U000F03E4"
   kugel_off:            "\U000F0766"
   kugel_on:             "\U000F0765"
+  wifi-arrow-up-down:   "\U000F16BB"
