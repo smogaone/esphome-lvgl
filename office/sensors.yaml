@@ -114,19 +114,19 @@ script:
         id: wifi_icon_label
         text: !lambda |-
           if (!network::is_connected()) {
-            return std::string("\U000F05AA");
+            return std::string($wifi_off);
           }
           if (id(wifi_signal_sensor).has_state()) {
             float rssi = id(wifi_signal_sensor).state;
-            if (rssi >= -55) { return std::string("\U000F091F"); }
-            else if (rssi >= -65) { return std::string("\U000F091E"); }
-            else if (rssi >= -75) { return std::string("\U000F091D"); }
-            else if (rssi >= -85) { return std::string("\U000F091C"); }
+            if (rssi >= -55) { return std::string($wifi_strength_4); }
+            else if (rssi >= -65) { return std::string($wifi_strength_3); }
+            else if (rssi >= -75) { return std::string($wifi_strength_2); }
+            else if (rssi >= -85) { return std::string($wifi_strength_1); }
             else {
-              return std::string("\U000F092F");
+              return std::string($wifi_strength_outline);
             }
           }
-          return std::string("\U000F05AA");
+          return std::string($wifi_off);
 
 - id: update_ui_from_json
   mode: parallel
