@@ -85,7 +85,7 @@ font:
     glyphs: [
       "\U000F050F",  # thermometer
       "\U000F05AA",  # mdi-wifi-off
-      "\U000F091B",  # mdi-wifi-strength-outline
+      "\U000F092F",  # mdi-wifi-strength-outline
       "\U000F091C",  # mdi-wifi-strength-1
       "\U000F091D",  # mdi-wifi-strength-2
       "\U000F091E",  # mdi-wifi-strength-3
@@ -157,7 +157,7 @@ substitutions:
   wifi_strength_2:      "\U000F091D"
   wifi_strength_3:      "\U000F091E"
   wifi_strength_4:      "\U000F091F"
-  wifi_off:             "\U000F091B"
+  wifi_off:             "\U000F092F"
   play_pause:           "\U000F040E"
   previous_track:       "\U000F04AE"
   next_track:           "\U000F04AD"
