@@ -58,8 +58,8 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.previous:
-                      #animation: MOVE_RIGHT
-                      #time: 300ms
+                      animation: MOVE_RIGHT
+                      time: 300ms
             - button:
                 id: footer_home_button
                 styles: footer_button_style
@@ -92,8 +92,8 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.next:
-                      #animation: MOVE_LEFT
-                      #time: 300ms
+                      animation: MOVE_LEFT
+                      time: 300ms
   pages:
     - id: weather_page
       width: 100%
@@ -103,15 +103,10 @@ lvgl:
       pad_bottom: 26px
       pad_left: 5px
       pad_right: 5px
+      bg_image_src: background
+      bg_image_opa: cover
+      bg_image_tiled: false
       widgets:
-       # - image:
-       #     id: weather_background
-       #     x: 0
-       #     y: 0
-       #     width: 800
-       #     height: 480
-       #     src: background
-       #     align: top_left
         - label:
             id: weekday_label
             align: top_right
