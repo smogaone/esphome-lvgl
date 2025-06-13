@@ -17,9 +17,10 @@ sensor:
   - platform: wifi_signal
     name: "Wifi Signal dB"
     id: wifi_signal_db
-    update_interval: 60s
+    update_interval: 30s
     entity_category: "diagnostic"
-    internal: true
+    internal: false
+    device_class: ""
 
 # Wifi Signal Strength
   - platform: copy
@@ -30,6 +31,7 @@ sensor:
     unit_of_measurement: "%"
     icon: mdi:wifi
     entity_category: "diagnostic"
+    internal: false
     device_class: ""
 
 
