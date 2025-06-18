@@ -114,11 +114,11 @@ script:
         id: wifi_icon_label
         text: !lambda |-
           if (!network::is_connected()) {
-            return std::string("\U000F05AA");  // wifi_off
+            return std::string("\U000F05AA");
           } else {
-            return std::string("\U000F16BB");  // wifi-arrow-up-down
+            return std::string("\U000F16BB");
           }
-          
+
 - id: update_ui_from_json
   mode: parallel
   then:
