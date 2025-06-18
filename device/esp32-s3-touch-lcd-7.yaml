@@ -58,7 +58,7 @@ ch422g:
 i2c:
   sda: GPIO08
   scl: GPIO09
-  scan: False
+  scan: True
   id: bus_a
 
 # Touch screen
