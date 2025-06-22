@@ -196,7 +196,7 @@ script:
         then:
           - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: true } }
           - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_open }
-          - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Auf" }
+          - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Geöffnet" }
     - if:
         condition:
           lambda: |-
@@ -212,7 +212,7 @@ script:
         then:
           - lvgl.widget.update: { id: wz_blinds_toggle_button, state: { checked: false } }
           - lvgl.label.update: { id: wz_blinds_toggle_icon, text: $blinds_closed }
-          - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Zu" }
+          - lvgl.label.update: { id: wz_blinds_toggle_label, text: "Geschlossen" }
     - if:
         condition:
           lambda: |-
