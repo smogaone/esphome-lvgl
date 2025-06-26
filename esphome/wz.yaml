@@ -17,7 +17,6 @@ packages:
     files: [device/esp32-s3-touch-lcd-7.yaml,
             addon/time.yaml,
             addon/backlight.yaml,
-            addon/mediaplayer.yaml,
             addon/network.yaml,
             assets/fonts.yaml,
             assets/icons.yaml,
