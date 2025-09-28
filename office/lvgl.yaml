@@ -170,50 +170,50 @@ lvgl:
             src: icon_png_outdoor_temp
         - label:
             id: outdoor_temp_large_label
-            x: 138  # X-Position anpassen, damit es rechts vom Icon erscheint
-            y: 42   # Y-Position anpassen für vertikale Zentrierung
+            x: 138
+            y: 42
             text_font: roboto36_font
             text_color: 16777215
             text: " "
         - image:
             id: lvgl_weather_image_widget
             x: 28
-            y: 55
+            y: 120  # Von 55 auf 120 geändert (10 + 100 + 10 Abstand)
             width: 100
             height: 100
             src: icon_png_sunny
         - label:
             id: weather_description
             x: 138
-            y: 87
+            y: 152  # Von 87 auf 152 geändert (120 + 32 für Zentrierung)
             text_font: roboto36_font
             text_color: 16777215
             text: " "
         - image:
             id: flur_temp_png_icon
             x: 28
-            y: 165
+            y: 230  # Von 165 auf 230 geändert (120 + 100 + 10 Abstand)
             width: 100
             height: 100
             src: icon_png_indoor_temp
         - label:
             id: flur_temp_value_label
             x: 138
-            y: 197
+            y: 262  # Von 197 auf 262 geändert (230 + 32 für Zentrierung)
             text_font: roboto36_font
             text_color: 16777215
             text: " "
         - image:
             id: flur_humidity_png_icon
             x: 28
-            y: 275
+            y: 340  # Von 275 auf 340 geändert (230 + 100 + 10 Abstand)
             width: 100
             height: 100
             src: icon_png_humidity
         - label:
             id: flur_humidity_value_label
             x: 138
-            y: 307
+            y: 372  # Von 307 auf 372 geändert (340 + 32 für Zentrierung)
             text_font: roboto36_font
             text_color: 16777215
             text: " "
