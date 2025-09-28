@@ -161,10 +161,17 @@ lvgl:
               } else {
                 return "--:--";
               }
-        - label:
-            id: outdoor_temp_large_label
+        - image:
+            id: outdoor_temp_png_icon
             x: 28
             y: 10
+            width: 100
+            height: 100
+            src: icon_png_outdoor_temp
+        - label:
+            id: outdoor_temp_large_label
+            x: 138  # X-Position anpassen, damit es rechts vom Icon erscheint
+            y: 42   # Y-Position anpassen für vertikale Zentrierung
             text_font: roboto36_font
             text_color: 16777215
             text: " "
