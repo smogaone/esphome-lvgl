@@ -5,25 +5,6 @@ esp32:
   flash_size: 8MB
   framework:
     type: esp-idf
-    #sdkconfig_options:
-    #  COMPILER_OPTIMIZATION_SIZE: y
-    #  CONFIG_ESP32S3_DATA_CACHE_64KB: "y"
-    #  CONFIG_ESPTOOLPY_FLASHSIZE_8MB: "y"
-    #  CONFIG_FREERTOS_HZ: "1000"
-    #  CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_160: y
-    #  CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ_240: n
-    #  CONFIG_ESPTOOLPY_FLASHMODE_QIO: y
-    #  CONFIG_ESPTOOLPY_FLASHFREQ_80M: y
-    #  CONFIG_ESPTOOLPY_FLASHFREQ_120M: n
-    #  CONFIG_SPIRAM_MODE_OCT: y
-    #  CONFIG_IDF_EXPERIMENTAL_FEATURES: y
-    #  CONFIG_SPIRAM_SPEED_80M: y
-    #  CONFIG_SPIRAM_SPEED_120M: n
-    #  CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
-    #  CONFIG_SPIRAM_RODATA: y
-    #  CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
-    #  CONFIG_COMPILER_OPTIMIZATION_PERF: y
-
 # Esphome
 esphome:
   name: ${name}
@@ -34,33 +15,26 @@ esphome:
     board_build.arduino.memory_type: qio_opi
     board_build.flash_mode: dio
     board_upload.maximum_ram_size: 524288
-
 # Over the Air Updates
 ota:
   platform: esphome
-
 # Enable Home Assistant API
 api:
-
 # Enable logging
 logger:
-
 # Video memory
 psram:
   mode: octal
   speed: 80MHz
-
 # IO Extender
 ch422g:
   - id: ch422g_hub
-
 # i2c connections
 i2c:
   sda: GPIO08
   scl: GPIO09
   scan: False
   id: bus_a
-
 # Touch screen
 touchscreen:
   platform: gt911
@@ -87,7 +61,6 @@ touchscreen:
           then:
             - lvgl.resume:
             - lvgl.widget.redraw:
-
 # Display
 display:
   - platform: rpi_dpi_rgb
