@@ -1,5 +1,10 @@
 # lvgl.yaml
 lvgl:
+  buffer_size: 75%  # Großzügig mit PSRAM
+  color_depth: 16
+  draw_rounding: 2
+  log_level: WARN
+  resume_on_input: true
   top_layer:
     widgets:
       - label:
