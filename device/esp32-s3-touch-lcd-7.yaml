@@ -44,7 +44,6 @@ touchscreen:
     ch422g: ch422g_hub
     number: 1
     mode: OUTPUT
-  report_interval: 0ms
 display:
   - platform: rpi_dpi_rgb
     id: my_display
