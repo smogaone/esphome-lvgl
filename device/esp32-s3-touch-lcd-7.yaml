@@ -88,12 +88,12 @@ display:
     enable_pin:
       ch422g: ch422g_hub
       number: 2  
-    hsync_back_porch: 8
-    hsync_front_porch: 8
-    hsync_pulse_width: 4
+    hsync_back_porch: 16
+    hsync_front_porch: 16  
+    hsync_pulse_width: 8
     vsync_back_porch: 16
     vsync_front_porch: 16
-    vsync_pulse_width: 4
+    vsync_pulse_width: 8
     data_pins:
       red:
         - 1         #r3
