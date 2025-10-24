@@ -5,6 +5,10 @@ lvgl:
   draw_rounding: 2
   log_level: WARN
   resume_on_input: true
+  displays:
+    - my_display
+  touchscreens:
+    - my_touch
   top_layer:
     widgets:
       - label:
