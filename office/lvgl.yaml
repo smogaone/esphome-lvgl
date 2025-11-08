@@ -1,6 +1,6 @@
 # lvgl.yaml
 lvgl:
-  buffer_size: 75%  # Großzügig mit PSRAM
+  buffer_size: 75%
   color_depth: 16
   draw_rounding: 2
   log_level: WARN
@@ -187,7 +187,7 @@ lvgl:
         - image:
             id: lvgl_weather_image_widget
             x: 28
-            y: 114  # 10 + 100 + 4px Abstand
+            y: 114
             width: 100
             height: 100
             src: icon_png_sunny
@@ -201,7 +201,7 @@ lvgl:
         - image:
             id: flur_temp_png_icon
             x: 28
-            y: 218  # 114 + 100 + 4px Abstand
+            y: 218
             width: 100
             height: 100
             src: icon_png_indoor_temp
@@ -215,7 +215,7 @@ lvgl:
         - image:
             id: flur_humidity_png_icon
             x: 28
-            y: 322  # 218 + 100 + 4px Abstand
+            y: 322
             width: 100
             height: 100
             src: icon_png_humidity
