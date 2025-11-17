@@ -162,7 +162,7 @@ script:
             bool result = false;
             json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
               if (root["apple_tv_status"].is<std::string>()) {
-                result = root["apple_tv_status"].as<std::string>() != "standby";
+                result = root["apple_tv_status"].as<std::string>() != "off";
               }
               return true;
             });
