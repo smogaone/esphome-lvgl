@@ -46,4 +46,4 @@ text_sensor:
   - platform: version
     name: Version
     icon: mdi:package-variant-closed
-    hide_timestamp: true
+    hide_timestamp: false
