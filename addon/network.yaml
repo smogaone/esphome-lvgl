@@ -11,7 +11,7 @@ sensor:
     name: "Uptime Sensor"
     id: uptime_sensor
     entity_category: diagnostic
-    internal: true
+    internal: false
 
 # Wifi Signal Strength
   - platform: wifi_signal
