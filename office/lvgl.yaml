@@ -1,14 +1,5 @@
 # lvgl.yaml
 lvgl:
-  buffer_size: 75%
-  color_depth: 16
-  draw_rounding: 2
-  log_level: WARN
-  resume_on_input: true
-  displays:
-    - my_display
-  touchscreens:
-    - my_touch
   top_layer:
     widgets:
       - label:
