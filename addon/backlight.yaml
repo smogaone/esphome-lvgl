@@ -1,0 +1,36 @@
+# Backlight
+output:
+  - platform: ledc
+    id: backlight_pwm_output
+    pin: GPIO16
+    frequency: 1220Hz
+    inverted: false
+    min_power: 24%
+    zero_means_zero: true
+
+light:
+  - platform: monochromatic
+    name: "Backlight"
+    id: display_backlight
+    output: backlight_pwm_output
+    restore_mode: RESTORE_DEFAULT_ON
+    default_transition_length: 0.5s
+    gamma_correct: 2.0
+
+binary_sensor:
+  - platform: homeassistant
+    id: presence
+    entity_id: binary_sensor.wz_presence
+    on_press:
+      - logger.log: "Presence detected. Turning backlight ON."
+      - light.turn_on:
+          id: display_backlight
+          transition_length: 0.5s
+      - lvgl.resume:
+    on_release:
+      - logger.log: "Presence lost. Turning backlight OFF."
+      - light.turn_off:
+          id: display_backlight
+          transition_length: 2s
+      - lvgl.pause:
+          show_snow: true
