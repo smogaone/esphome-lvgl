@@ -4,7 +4,7 @@ lvgl:
   display: my_display
   touchscreen: my_touch
   
-  # Styles definieren
+  # Styles
   styles:
     - id: roboto15_style
       text_font: roboto15_font
@@ -13,36 +13,57 @@ lvgl:
     - id: roboto36_style
       text_font: roboto36_font
       text_color: 0xFFFFFF
+      
+    - id: footer_button_style
+      radius: 8
+      bg_color: 0x2B6CB0
+      border_width: 0
+      
+    - id: control_button_style
+      radius: 12
+      bg_color: 0x4A5568
+      bg_color_checked: 0x2B6CB0
+      border_width: 2
+      border_color: 0x718096
 
   # Top Layer (immer sichtbar)
   top_layer:
     widgets:
       - label:
-          text: "-° / -°"
           id: temperatures
+          text: "-° / -°"
           styles: roboto15_style
           align: top_left
           x: 8
           y: 4
           
       - label:
-          text: "--:--"
           id: display_time
-          styles: roboto15_style
+          text: "--:--"
+          styles: roboto15_style  
           align: top_mid
           x: 0
           y: 4
           text_align: center
           
       - label:
-          text: ""
           id: wifi_icon_label
+          text: "📶"
           styles: roboto15_style
           text_font: icon_font_header
           align: top_right
           x: -8
           y: 4
+          
+      - label:
+          id: lbl_hastatus
+          text: "$wifi_off"
+          styles: roboto15_style
+          align: top_right
+          x: -40
+          y: 4
 
+      # Footer Navigation
       - obj:
           id: page_footer
           align: bottom_mid
@@ -80,7 +101,7 @@ lvgl:
                 height: 20px
                 widgets:
                   - label:
-                      text_font: icon_font_header
+                      text_font: icon_font_header  
                       text_color: 0xFFFFFF
                       text: "⌂"
                       align: center
@@ -100,11 +121,12 @@ lvgl:
                       align: center
                 on_click:
                   - lvgl.page.next:
-                      animation: MOVE_LEFT
+                      animation: MOVE_LEFT  
                       time: 300ms
 
   # Seiten definieren
   pages:
+    # Wetter Seite
     - id: weather_page
       width: 100%
       bg_color: 0
@@ -117,6 +139,7 @@ lvgl:
       bg_image_opa: cover
       bg_image_tiled: false
       widgets:
+        # Datum & Zeit
         - label:
             id: weekday_label
             align: top_right
@@ -124,12 +147,11 @@ lvgl:
             y: 10
             width: 350
             text_align: right
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: !lambda |-
               static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
               auto now = id(sntp_time).now();
-              return now.is_valid() ? weekdays[now.day_of_week - 1] : "Unbekannt"
+              return now.is_valid() ? weekdays[now.day_of_week - 1] : "Unbekannt";
               
         - label:
             id: date_label
@@ -138,8 +160,7 @@ lvgl:
             y: 50
             width: 350
             text_align: right
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: !lambda |-
               static const char* months[] = {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
               auto now = id(sntp_time).now();
@@ -148,7 +169,7 @@ lvgl:
                 snprintf(date_buf, sizeof(date_buf), "%02d. %s %d", now.day_of_month, months[now.month - 1], now.year);
                 return std::string(date_buf);
               }
-              return "--.--.----"
+              return "--.--.----";
               
         - label:
             id: time_label
@@ -157,8 +178,7 @@ lvgl:
             y: 90
             width: 350
             text_align: right
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: !lambda |-
               static char time_buf[6];
               auto now = id(sntp_time).now();
@@ -166,8 +186,9 @@ lvgl:
                 snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
                 return time_buf;
               }
-              return "--:--"
+              return "--:--";
 
+        # Außentemperatur
         - image:
             id: outdoor_temp_png_icon
             x: 28
@@ -180,10 +201,10 @@ lvgl:
             id: outdoor_temp_large_label
             x: 138
             y: 42
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: " "
-            
+
+        # Wetter
         - image:
             id: lvgl_weather_image_widget
             x: 28
@@ -196,10 +217,10 @@ lvgl:
             id: weather_description
             x: 138
             y: 146
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: " "
-            
+
+        # Flur Temperatur
         - image:
             id: flur_temp_png_icon
             x: 28
@@ -212,10 +233,10 @@ lvgl:
             id: flur_temp_value_label
             x: 138
             y: 250
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: " "
-            
+
+        # Flur Luftfeuchtigkeit
         - image:
             id: flur_humidity_png_icon
             x: 28
@@ -228,10 +249,10 @@ lvgl:
             id: flur_humidity_value_label
             x: 138
             y: 354
-            text_font: roboto36_font
-            text_color: 0xFFFFFF
+            styles: roboto36_style
             text: " "
 
+    # Hauptseite mit Steuerung
     - id: main_page
       width: 100%
       bg_color: 0
@@ -244,14 +265,17 @@ lvgl:
         type: grid
         grid_columns: [FR(1), FR(1), FR(1), FR(1), FR(1)]
         grid_rows: [CONTENT, CONTENT, CONTENT, CONTENT]
+        grid_align_main: start
+        grid_align_cross: start
       widgets:
+        # Zeile 1
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 0
             height: 100px
             checkable: true
             id: wz_lichtschalter_button
-            styles: control
+            styles: control_button_style
             widgets:
               - label:
                   text_font: icon_font
@@ -259,7 +283,7 @@ lvgl:
                   id: wz_lichtschalter_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: wz_lichtschalter_label
                   text: "Wohnzimmer"
@@ -274,7 +298,7 @@ lvgl:
             grid_cell_row_pos: 0
             height: 100px
             checkable: true
-            styles: control
+            styles: control_button_style
             id: esszimmertisch_button
             widgets:
               - label:
@@ -283,7 +307,7 @@ lvgl:
                   id: esszimmertisch_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: esszimmertisch_label
                   text: "Esszimmer Tisch"
@@ -299,7 +323,7 @@ lvgl:
             height: 100px
             checkable: true
             id: apple_tv_button
-            styles: control
+            styles: control_button_style
             widgets:
               - image:
                   id: apple_tv_icon
@@ -308,7 +332,7 @@ lvgl:
                   x: 5
                   y: 5
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: apple_tv_label
                   text: "Apple TV"
@@ -324,7 +348,7 @@ lvgl:
             height: 100px
             checkable: true
             id: wz_blinds_toggle_button
-            styles: control
+            styles: control_button_style
             widgets:
               - label:
                   text_font: icon_font
@@ -332,21 +356,28 @@ lvgl:
                   id: wz_blinds_toggle_icon
                   text: "🪟"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: wz_blinds_toggle_label
                   text: "Jalousien"
             on_click:
               - homeassistant.service:
-                  service: script.toggle_jalousien
+                  service: cover.toggle
+                  data:
+                    entity_id:
+                      - cover.wohnzimmer_links
+                      - cover.wohnzimmer_rechts
+                      - cover.esszimmer_links
+                      - cover.esszimmer_rechts
 
+        # Zeile 2
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
             id: wohnzimmer_stehlampe_button
             height: 100px
             checkable: true
-            styles: control
+            styles: control_button_style
             widgets:
               - label:
                   text_font: icon_font
@@ -354,7 +385,7 @@ lvgl:
                   id: wohnzimmer_stehlampe_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
                   text: "Stehlampe"
@@ -369,7 +400,7 @@ lvgl:
             grid_cell_row_pos: 1
             height: 100px
             checkable: true
-            styles: control
+            styles: control_button_style
             id: esszimmer_stehlampe_button
             widgets:
               - label:
@@ -378,7 +409,7 @@ lvgl:
                   id: esszimmer_stehlampe_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: esszimmer_stehlampe_label
                   text: "Stehlampe"
@@ -388,12 +419,13 @@ lvgl:
                   data:
                     entity_id: light.esszimmer_stehlampe
 
+        # Zeile 3
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
             height: 100px
             checkable: true
-            styles: control
+            styles: control_button_style
             id: wohnzimmer_deckenlampe_button
             widgets:
               - label:
@@ -402,7 +434,7 @@ lvgl:
                   id: wohnzimmer_deckenlampe_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: wohnzimmer_deckenlampe_label
                   text: "Deckenlampe"
@@ -417,7 +449,7 @@ lvgl:
             grid_cell_row_pos: 2
             height: 100px
             checkable: true
-            styles: control
+            styles: control_button_style
             id: esszimmer_kugellampe_button
             widgets:
               - label:
@@ -426,7 +458,7 @@ lvgl:
                   id: esszimmer_kugellampe_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: esszimmer_kugellampe_label
                   text: "Kugellampe"
@@ -436,13 +468,14 @@ lvgl:
                   data:
                     entity_id: light.esszimmer_kugellampe
 
+        # Zeile 4
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 3
             height: 100px
             checkable: true
             id: sideboard_button
-            styles: control
+            styles: control_button_style
             widgets:
               - label:
                   text_font: icon_font
@@ -450,7 +483,7 @@ lvgl:
                   id: sideboard_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: sideboard_label
                   text: "Sideboard"
@@ -465,7 +498,7 @@ lvgl:
             grid_cell_row_pos: 3
             height: 100px
             checkable: true
-            styles: control
+            styles: control_button_style
             id: nische_button
             widgets:
               - label:
@@ -474,7 +507,7 @@ lvgl:
                   id: nische_icon
                   text: "💡"
               - label:
-                  text_font: text_font
+                  text_font: roboto15_font
                   align: bottom_left
                   id: nische_label
                   text: "Nische"
