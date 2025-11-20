@@ -1,77 +1,45 @@
-# Designed for Waveshare  ESP32-S3-Touch-LCD-7
+# esp32-s3-touch-lcd-7.yaml
+# Hardware-spezifische Konfiguration für Waveshare ESP32-S3-Touch-LCD-7
+
 esp32:
   board: esp32-s3-devkitc-1
   variant: ESP32S3
-  flash_size: 8MB
+  flash_size: 16MB
+  cpu_frequency: 240MHz
   framework:
     type: esp-idf
-# Esphome
-esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
-  area: ${room}
-  platformio_options:
-    build_flags: "-DBOARD_HAS_PSRAM"
-    board_build.arduino.memory_type: qio_opi
-    board_build.flash_mode: dio
-    board_upload.maximum_ram_size: 524288
-# Over the Air Updates
-ota:
-  platform: esphome
-# Enable Home Assistant API
-api:
-# Enable logging
-logger:
-# Video memory
+    advanced:
+      main_loop_stack_size: 16384
+
+# PSRAM Konfiguration für Display
 psram:
   mode: octal
   speed: 80MHz
-# IO Extender
-ch422g:
-  - id: ch422g_hub
-# i2c connections
+  ignore_not_found: false
+
+# I2C Bus
 i2c:
   sda: GPIO08
   scl: GPIO09
-  scan: False
+  scan: false
   id: bus_a
-# Touch screen
-touchscreen:
-  platform: gt911
-  id: my_touch
-  interrupt_pin: GPIO4
-  reset_pin:
-    ch422g: ch422g_hub
-    number: 1
-    mode: OUTPUT
-  on_touch:
-    - lambda: |-
-        ESP_LOGI("Touch", "Touch detected at x=%d, y=%d", touch.x, touch.y);
-  on_update:
-    - lambda: |-
-          for (auto touch: touches)  {
-              if (touch.state <= 2) {
-                ESP_LOGI("Touch points:", "id=%d x=%d, y=%d x.raw=%d, y.raw=%d", touch.id, touch.x, touch.y, touch.x_raw, touch.y_raw);
-              }
-          }  
-  on_release:
-    then:
-      - if:
-          condition: lvgl.is_paused
-          then:
-            - lvgl.resume:
-            - lvgl.widget.redraw:
-# Display
+
+# IO Extender CH422G
+ch422g:
+  - id: ch422g_hub
+
+# 7" Touch Display Konfiguration
 display:
   - platform: rpi_dpi_rgb
     id: my_display
     update_interval: never
     auto_clear_enabled: false
     color_order: RGB
-    pclk_frequency: 16MHZ
+    pclk_frequency: 16MHz
     dimensions:
       width: 800
       height: 480
+    # Control Pins
     de_pin:
       number: 5
     hsync_pin:
@@ -82,35 +50,51 @@ display:
       ignore_strapping_warning: true
     pclk_pin: 7
     pclk_inverted: true
+    # Reset & Enable über CH422G
     reset_pin:
       ch422g: ch422g_hub
       number: 3
     enable_pin:
       ch422g: ch422g_hub
-      number: 2  
+      number: 2
+    # Timing Konfiguration
     hsync_back_porch: 8
     hsync_front_porch: 8
     hsync_pulse_width: 4
     vsync_back_porch: 16
     vsync_front_porch: 16
     vsync_pulse_width: 4
+    # Daten Pins
     data_pins:
       red:
-        - 1         #r3
-        - 2         #r4
-        - 42        #r5
-        - 41        #r6
-        - 40        #r7
+        - 1    # r3
+        - 2    # r4
+        - 42   # r5
+        - 41   # r6
+        - 40   # r7
       blue:
-        - 14        #b3
-        - 38        #b4
-        - 18        #b5
-        - 17        #b6
-        - 10        #b7
+        - 14   # b3
+        - 38   # b4
+        - 18   # b5
+        - 17   # b6
+        - 10   # b7
       green:
-        - 39        #g2
-        - 0         #g3
-        - 45        #g4
-        - 48        #g5
-        - 47        #g6
-        - 21        #g7
+        - 39   # g2
+        - 0    # g3
+        - 45   # g4
+        - 48   # g5
+        - 47   # g6
+        - 21   # g7
+
+# Touchscreen GT911
+touchscreen:
+  platform: gt911
+  id: my_touch
+  interrupt_pin: GPIO4
+  reset_pin:
+    ch422g: ch422g_hub
+    number: 1
+    mode: OUTPUT
+  on_touch:
+    - lambda: |-
+        ESP_LOGD("touch", "x=%d, y=%d, state=%d", touch.x, touch.y, touch.state)
