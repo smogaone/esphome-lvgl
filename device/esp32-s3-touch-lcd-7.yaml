@@ -8,7 +8,7 @@ esp32:
   framework:
     type: esp-idf
     advanced:
-      main_loop_stack_size: 16384
+      loop_stack_size: 16384
 
 # PSRAM Konfiguration für Display
 psram:
