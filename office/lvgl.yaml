@@ -1,5 +1,20 @@
 # lvgl.yaml
 lvgl:
+  id: lvgl_main
+  display: my_display
+  touchscreen: my_touch
+  
+  # Styles definieren
+  styles:
+    - id: roboto15_style
+      text_font: roboto15_font
+      text_color: 0xFFFFFF
+      
+    - id: roboto36_style
+      text_font: roboto36_font
+      text_color: 0xFFFFFF
+
+  # Top Layer (immer sichtbar)
   top_layer:
     widgets:
       - label:
@@ -9,7 +24,7 @@ lvgl:
           align: top_left
           x: 8
           y: 4
-          text_color: 16777215
+          
       - label:
           text: "--:--"
           id: display_time
@@ -18,7 +33,7 @@ lvgl:
           x: 0
           y: 4
           text_align: center
-          text_color: 16777215
+          
       - label:
           text: ""
           id: wifi_icon_label
@@ -27,7 +42,7 @@ lvgl:
           align: top_right
           x: -8
           y: 4
-          text_color: 16777215
+
       - obj:
           id: page_footer
           align: bottom_mid
@@ -47,53 +62,48 @@ lvgl:
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 8px
-                bg_color: $button_on_color
-                border_width: 0
                 widgets:
                   - label:
                       text_font: icon_font_header
-                      text_color: 16777215
-                      text: $arrow_left
+                      text_color: 0xFFFFFF
+                      text: "←"
                       align: center
                 on_click:
                   - lvgl.page.previous:
                       animation: MOVE_RIGHT
                       time: 300ms
+                      
             - button:
                 id: footer_home_button
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 8px
-                bg_color: $button_on_color
-                border_width: 0
                 widgets:
                   - label:
                       text_font: icon_font_header
-                      text_color: 16777215
-                      text: $home
+                      text_color: 0xFFFFFF
+                      text: "⌂"
                       align: center
                 on_click:
                   - lvgl.page.show: weather_page
+                  
             - button:
                 id: footer_next_button
                 styles: footer_button_style
                 width: 60px
                 height: 20px
-                radius: 8px
-                bg_color: $button_on_color
-                border_width: 0
                 widgets:
                   - label:
                       text_font: icon_font_header
-                      text_color: 16777215
-                      text: $arrow_right
+                      text_color: 0xFFFFFF
+                      text: "→"
                       align: center
                 on_click:
                   - lvgl.page.next:
                       animation: MOVE_LEFT
                       time: 300ms
+
+  # Seiten definieren
   pages:
     - id: weather_page
       width: 100%
@@ -115,15 +125,12 @@ lvgl:
             width: 350
             text_align: right
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: !lambda |-
               static const char* weekdays[] = {"Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"};
               auto now = id(sntp_time).now();
-              if (now.is_valid()) {
-                return weekdays[now.day_of_week - 1];
-              } else {
-                return "Unbekannt";
-              }
+              return now.is_valid() ? weekdays[now.day_of_week - 1] : "Unbekannt"
+              
         - label:
             id: date_label
             align: top_right
@@ -132,7 +139,7 @@ lvgl:
             width: 350
             text_align: right
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: !lambda |-
               static const char* months[] = {"Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"};
               auto now = id(sntp_time).now();
@@ -140,9 +147,9 @@ lvgl:
                 char date_buf[30];
                 snprintf(date_buf, sizeof(date_buf), "%02d. %s %d", now.day_of_month, months[now.month - 1], now.year);
                 return std::string(date_buf);
-              } else {
-                return "--.--.----";
               }
+              return "--.--.----"
+              
         - label:
             id: time_label
             align: top_right
@@ -151,16 +158,16 @@ lvgl:
             width: 350
             text_align: right
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: !lambda |-
               static char time_buf[6];
               auto now = id(sntp_time).now();
               if (now.is_valid()) {
                 snprintf(time_buf, sizeof(time_buf), "%02d:%02d", now.hour, now.minute);
                 return time_buf;
-              } else {
-                return "--:--";
               }
+              return "--:--"
+
         - image:
             id: outdoor_temp_png_icon
             x: 28
@@ -168,55 +175,63 @@ lvgl:
             width: 100
             height: 100
             src: icon_png_outdoor_temp
+            
         - label:
             id: outdoor_temp_large_label
             x: 138
             y: 42
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: " "
+            
         - image:
             id: lvgl_weather_image_widget
             x: 28
-            y: 114  # 10 + 100 + 4px Abstand
+            y: 114
             width: 100
             height: 100
             src: icon_png_sunny
+            
         - label:
             id: weather_description
             x: 138
             y: 146
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: " "
+            
         - image:
             id: flur_temp_png_icon
             x: 28
-            y: 218  # 114 + 100 + 4px Abstand
+            y: 218
             width: 100
             height: 100
             src: icon_png_indoor_temp
+            
         - label:
             id: flur_temp_value_label
             x: 138
             y: 250
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: " "
+            
         - image:
             id: flur_humidity_png_icon
             x: 28
-            y: 322  # 218 + 100 + 4px Abstand
+            y: 322
             width: 100
             height: 100
             src: icon_png_humidity
+            
         - label:
             id: flur_humidity_value_label
             x: 138
             y: 354
             text_font: roboto36_font
-            text_color: 16777215
+            text_color: 0xFFFFFF
             text: " "
+
     - id: main_page
       width: 100%
       bg_color: 0
@@ -239,12 +254,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: wz_lichtschalter_icon
-                  text: $ceiling_group_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: wz_lichtschalter_label
                   text: "Wohnzimmer"
@@ -253,6 +268,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wz_lichtschalter
+                    
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 0
@@ -262,12 +278,12 @@ lvgl:
             id: esszimmertisch_button
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: esszimmertisch_icon
-                  text: $ceiling_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: esszimmertisch_label
                   text: "Esszimmer Tisch"
@@ -276,6 +292,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.esszimmer_esstisch
+                    
         - button:
             grid_cell_column_pos: 2
             grid_cell_row_pos: 0
@@ -291,7 +308,7 @@ lvgl:
                   x: 5
                   y: 5
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: apple_tv_label
                   text: "Apple TV"
@@ -300,6 +317,7 @@ lvgl:
                   service: switch.toggle
                   data:
                     entity_id: switch.apple_tv_an
+                    
         - button:
             grid_cell_column_pos: 4
             grid_cell_row_pos: 0
@@ -309,105 +327,19 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: wz_blinds_toggle_icon
-                  text: $blinds_closed
+                  text: "🪟"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: wz_blinds_toggle_label
                   text: "Jalousien"
             on_click:
-              - if:
-                  condition:
-                    lambda: |-
-                      bool is_moving = false;
-                      json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
-                        if (root["cover_wz_links"].is<std::string>()) {
-                          std::string s = root["cover_wz_links"].as<std::string>();
-                          if (s == "opening" || s == "closing") { is_moving = true; }
-                        }
-                        return true;
-                      });
-                      return is_moving;
-                  then:
-                    - if:
-                        condition:
-                          lambda: |-
-                            bool is_opening = false;
-                            json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
-                              if (root["cover_wz_links"].is<std::string>() && root["cover_wz_links"].as<std::string>() == "opening") {
-                                is_opening = true;
-                              }
-                              return true;
-                            });
-                            return is_opening;
-                        then:
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.wohnzimmer_links }
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.wohnzimmer_rechts }
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.esszimmer_links }
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.esszimmer_rechts }
-                        else:
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.wohnzimmer_links, position: "83" }
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.wohnzimmer_rechts, position: "78" }
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.esszimmer_links, position: "68" }
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.esszimmer_rechts, position: "70" }
-                  else:
-                    - if:
-                        condition:
-                          lambda: |-
-                            bool is_closed = true;
-                            json::parse_json(id(ha_display_data_sensor).state, [&](JsonObject root) -> bool {
-                              if (!root["cover_wz_links"].is<std::string>() || root["cover_wz_links"].as<std::string>() != "closed") is_closed = false;
-                              if (!root["cover_wz_rechts"].is<std::string>() || root["cover_wz_rechts"].as<std::string>() != "closed") is_closed = false;
-                              if (!root["cover_ez_links"].is<std::string>() || root["cover_ez_links"].as<std::string>() != "closed") is_closed = false;
-                              if (!root["cover_ez_rechts"].is<std::string>() || root["cover_ez_rechts"].as<std::string>() != "closed") is_closed = false;
-                              return true;
-                            });
-                            return is_closed;
-                        then:
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.wohnzimmer_links, position: "83" }
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.wohnzimmer_rechts, position: "78" }
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.esszimmer_links, position: "68" }
-                          - homeassistant.service:
-                              service: cover.set_cover_position
-                              data: { entity_id: cover.esszimmer_rechts, position: "70" }
-                        else:
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.wohnzimmer_links }
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.wohnzimmer_rechts }
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.esszimmer_links }
-                          - homeassistant.service:
-                              service: cover.close_cover
-                              data: { entity_id: cover.esszimmer_rechts }
+              - homeassistant.service:
+                  service: script.toggle_jalousien
+
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 1
@@ -417,12 +349,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: wohnzimmer_stehlampe_icon
-                  text: $floor_lamp_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: wohnzimmer_stehlampe_label
                   text: "Stehlampe"
@@ -431,6 +363,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_stehlampe
+                    
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 1
@@ -440,12 +373,12 @@ lvgl:
             id: esszimmer_stehlampe_button
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: esszimmer_stehlampe_icon
-                  text: $floor_lamp_variant_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: esszimmer_stehlampe_label
                   text: "Stehlampe"
@@ -454,6 +387,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.esszimmer_stehlampe
+
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 2
@@ -463,12 +397,12 @@ lvgl:
             id: wohnzimmer_deckenlampe_button
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: wohnzimmer_deckenlampe_icon
-                  text: $ceiling_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: wohnzimmer_deckenlampe_label
                   text: "Deckenlampe"
@@ -477,6 +411,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.wohnzimmer_deckenlampe
+                    
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 2
@@ -486,12 +421,12 @@ lvgl:
             id: esszimmer_kugellampe_button
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: esszimmer_kugellampe_icon
-                  text: $kugel_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: esszimmer_kugellampe_label
                   text: "Kugellampe"
@@ -500,6 +435,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.esszimmer_kugellampe
+
         - button:
             grid_cell_column_pos: 0
             grid_cell_row_pos: 3
@@ -509,12 +445,12 @@ lvgl:
             styles: control
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: sideboard_icon
-                  text: $ledstripe_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: sideboard_label
                   text: "Sideboard"
@@ -523,6 +459,7 @@ lvgl:
                   service: light.toggle
                   data:
                     entity_id: light.shapes_8363
+                    
         - button:
             grid_cell_column_pos: 1
             grid_cell_row_pos: 3
@@ -532,12 +469,12 @@ lvgl:
             id: nische_button
             widgets:
               - label:
-                  text_font: $icon_font
+                  text_font: icon_font
                   align: top_left
                   id: nische_icon
-                  text: $ledstripe_off
+                  text: "💡"
               - label:
-                  text_font: $text_font
+                  text_font: text_font
                   align: bottom_left
                   id: nische_label
                   text: "Nische"
