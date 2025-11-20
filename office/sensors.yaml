@@ -1,45 +1,232 @@
-# theme/button.yaml
-substitutions:
-  icon_font: icon_font
-  icon_font_footer: icon_font_header
-  icon_font_header: icon_font_header
-  text_font: roboto17_font
-  button_on_color: "0xFF5D00"
-  button_text_color: "0xFFFFFF"
-  button_control_color: "0x313131"
-  button_webhook_color: "0x212121"
-  button_height_single: 100px
-  button_height_double: 214px
-  button_width_double: 312px
-  button_width: 150px
-  padding: 12px
-  radius: 8px
-  slider_background_color: "0x505050"
-  slider_active_color: "0x2D2D2D"
-  slider_knob_color: "0xE5E5E5"
-  footer_button_padding: 2px
+# sensors.yaml
+globals:
+  - id: innen_temp_wert
+    type: float
+    initial_value: '0.0'
+    restore_value: no
+    
+  - id: aussen_temp_wert
+    type: float
+    initial_value: '0.0'
+    restore_value: no
+    
+  - id: flur_temp_wert
+    type: float
+    initial_value: '0.0'
+    restore_value: no
+    
+  - id: flur_humidity_wert
+    type: float
+    initial_value: '0.0'
+    restore_value: no
 
-lvgl:
-  style_definitions:
-  - id: roboto15_style
-    text_font: roboto15_font
-  - id: webhook
-    bg_color: $button_webhook_color
-  - id: control
-    bg_color: $button_control_color
-  - id: footer_button_style
-    pad_all: $footer_button_padding
-  theme:
-    button:
-      text_font: $text_font
-      scroll_on_focus: false
-      radius: $radius
-      width: $button_width
-      height: $button_height_single
-      pad_all: $padding
-      shadow_width: 0
-      text_color: $button_text_color
-      bg_color: $button_control_color
-      checked:
-        bg_color: $button_on_color
-        text_color: $button_text_color
+sensor:
+  - platform: homeassistant
+    entity_id: sensor.environment_sensor_temperature_sensor
+    id: wz_temperature
+    internal: true
+    filters:
+      - heartbeat:
+          period: 10s
+          optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+            if (!isnan(x)) {
+              id(innen_temp_wert) = x;
+              id(update_temperatur_anzeige).execute();
+            }
+            
+  - platform: homeassistant
+    entity_id: sensor.aussentemperatur
+    id: outdoor_temperature
+    internal: true
+    filters:
+      - heartbeat:
+          period: 10s
+          optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+            if (!isnan(x)) {
+              id(aussen_temp_wert) = x;
+              id(update_temperatur_anzeige).execute();
+            }
+            
+  - platform: homeassistant
+    entity_id: sensor.flur_temperatur_temperature
+    id: flur_temperature_sensor
+    internal: true
+    filters:
+      - heartbeat:
+          period: 10s
+          optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+            if (!isnan(x)) {
+              id(flur_temp_wert) = x;
+              id(update_temperatur_anzeige).execute();
+            }
+            
+  - platform: homeassistant
+    entity_id: sensor.flur_temperatur_humidity
+    id: flur_humidity_sensor
+    internal: true
+    filters:
+      - heartbeat:
+          period: 10s
+          optimistic: true
+    on_value:
+      then:
+        - lambda: |-
+            if (!isnan(x)) {
+              id(flur_humidity_wert) = x;
+              id(update_temperatur_anzeige).execute();
+            }
+
+  - platform: wifi_signal
+    name: "Wifi Signal Strength Icon"
+    id: wifi_signal_sensor
+    update_interval: 15s
+    entity_category: diagnostic
+    internal: true
+    on_value:
+      then:
+        - lambda: |-
+            int rssi = id(wifi_signal_sensor).state;
+            const char* icon = "📶";
+            if (rssi > -50) icon = "📶";
+            else if (rssi > -60) icon = "📶";  
+            else if (rssi > -70) icon = "📶";
+            else icon = "📶";
+            id(wifi_icon_label).set_text(icon);
+
+text_sensor:
+  - platform: homeassistant
+    id: ha_display_data_sensor
+    entity_id: sensor.esphome_display_data
+    attribute: json_data
+    internal: true
+    on_value:
+      then:
+        - script.execute: update_ui_from_json
+
+script:
+  - id: update_temperatur_anzeige
+    mode: queued
+    max_runs: 2
+    then:
+      - lvgl.label.update:
+          id: temperatures
+          text:
+            format: "%d° / %d°"
+            args:
+              - '(int)round(id(innen_temp_wert))'
+              - '(int)round(id(aussen_temp_wert))'
+            if_nan: "-° / -°"
+            
+      - lvgl.label.update:
+          id: outdoor_temp_large_label
+          text:
+            format: "%.1f°C"
+            args: [id(aussen_temp_wert)]
+            if_nan: "--.-°C"
+            
+      - lvgl.label.update:
+          id: flur_temp_value_label
+          text:
+            format: "%.1f°C"
+            args: [id(flur_temp_wert)]
+            if_nan: "--.-°C"
+            
+      - lvgl.label.update:
+          id: flur_humidity_value_label
+          text:
+            format: "%.1f%%"
+            args: [id(flur_humidity_wert)]
+            if_nan: "--.-%%"
+
+  - id: update_ui_from_json
+    mode: queued
+    max_runs: 3
+    then:
+      - lambda: |-
+          if (id(ha_display_data_sensor).state.empty()) {
+            return;
+          }
+          
+          JsonObject root;
+          if (!json::parse_json(id(ha_display_data_sensor).state, root)) {
+            return;
+          }
+          
+          // Vereinfachte Button Updates
+          auto update_button = [&](const char* json_key, const char* button_id, const char* icon_id) {
+            if (root[json_key].is<std::string>()) {
+              bool state = root[json_key].as<std::string>() == "on";
+              id(lvgl).update_widget(button_id, {"checked", state});
+              id(lvgl).update_label(icon_id, {"text", state ? "💡" : "💡"});
+            }
+          };
+          
+          update_button("wz_lichtschalter", "wz_lichtschalter_button", "wz_lichtschalter_icon");
+          update_button("ez_tisch", "esszimmertisch_button", "esszimmertisch_icon");
+          update_button("wz_stehlampe", "wohnzimmer_stehlampe_button", "wohnzimmer_stehlampe_icon");
+          update_button("light_esszimmer_nische", "nische_button", "nische_icon");
+          update_button("light_shapes_8363", "sideboard_button", "sideboard_icon");
+          update_button("ez_stehlampe", "esszimmer_stehlampe_button", "esszimmer_stehlampe_icon");
+          update_button("wz_decke", "wohnzimmer_deckenlampe_button", "wohnzimmer_deckenlampe_icon");
+          update_button("esszimmer_kugellampe", "esszimmer_kugellampe_button", "esszimmer_kugellampe_icon");
+          
+          // Apple TV
+          if (root["apple_tv_status"].is<std::string>()) {
+            bool state = root["apple_tv_status"].as<std::string>() != "standby";
+            id(lvgl).update_widget("apple_tv_button", {"checked", state});
+            id(lvgl).update_image("apple_tv_icon", {"src", state ? "apple_tv_on" : "apple_tv_off"});
+          }
+          
+          // Wetter
+          if (root["wetter_zustand"].is<std::string>()) {
+            id(lvgl).update_label("weather_description", {"text", root["wetter_zustand"].as<std::string>().c_str()});
+          }
+          
+          // Wetter Icon
+          if (root["wetter_icon"].is<std::string>()) {
+            std::string icon = root["wetter_icon"].as<std::string>();
+            const char* weather_icon = "icon_png_sunny";
+            
+            if (icon.find("cloudy") != std::string::npos) weather_icon = "icon_png_cloudy";
+            else if (icon.find("rain") != std::string::npos) weather_icon = "icon_png_rainy";
+            else if (icon.find("snow") != std::string::npos) weather_icon = "icon_png_snowy";
+            
+            id(lvgl).update_image("lvgl_weather_image_widget", {"src", weather_icon});
+          }
+          
+          // Jalousien Status
+          if (root["cover_wz_links"].is<std::string>()) {
+            std::string state = root["cover_wz_links"].as<std::string>();
+            const char* icon = "🪟";
+            const char* text = "Jalousien";
+            
+            if (state == "open") {
+              icon = "🪟";
+              text = "Geöffnet";
+            } else if (state == "closed") {
+              icon = "🪟"; 
+              text = "Geschlossen";
+            } else if (state == "opening" || state == "closing") {
+              icon = "🪟";
+              text = state == "opening" ? "Öffnen..." : "Schließen...";
+            }
+            
+            id(lvgl).update_label("wz_blinds_toggle_icon", {"text", icon});
+            id(lvgl).update_label("wz_blinds_toggle_label", {"text", text});
+            id(lvgl).update_widget("wz_blinds_toggle_button", {"checked", state == "opening" || state == "closing" || state == "open"});
+          }
+
+# Periodische Updates
+interval:
+  - interval: 30s
+    then:
+      - script.execute: update_temperatur_anzeige
